@@ -47,10 +47,6 @@ public class ProtesterManager : MonoBehaviour
         {
             Show();
         }
-        else
-        {
-            Hide();
-        }
 
         float destructionDistance = 1f;
         if(Vector3.Distance(endOfProtest.position, transform.position) < destructionDistance)

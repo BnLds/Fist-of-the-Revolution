@@ -48,9 +48,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ba06e84a7a4b14186ad2cd417d27a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 5
   floorMask:
     serializedVersion: 2
     m_Bits: 64
+  meetingPointReachedDistance: 3
+  noiseMaxRange: 10
+  noiseMagnitude: 0.9
 --- !u!33 &7149198449243920839
 MeshFilter:
   m_ObjectHideFlags: 0

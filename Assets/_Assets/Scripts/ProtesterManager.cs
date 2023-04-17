@@ -8,6 +8,8 @@ public class ProtesterManager : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private LayerMask floorMask;
     [SerializeField] private float meetingPointReachedDistance = 2f;
+    [SerializeField] private float noiseMaxRange = 10f;
+    [SerializeField] private float noiseMagnitude = .1f;
 
     private MeshRenderer meshRenderer;
     private int currentFlowFieldIndex;
@@ -67,7 +69,9 @@ public class ProtesterManager : MonoBehaviour
         if(flowFieldsData.Count == 0) return;
 
         Node nodeBelow = flowFieldsData[currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
-        Vector3 moveDirection = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y);
+        Vector3 moveDirection = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
+        moveDirection = (moveDirection + MoveDirectionNoise() * noiseMagnitude).normalized;
+
         Rigidbody protesterRB = GetComponent<Rigidbody>();
         protesterRB.velocity = moveDirection * moveSpeed;
     }
@@ -81,4 +85,13 @@ public class ProtesterManager : MonoBehaviour
     {
         meshRenderer.enabled = false;
     }
+
+    private Vector3 MoveDirectionNoise()
+    {
+        float x = UnityEngine.Random.Range(0f, noiseMaxRange);
+        float y = UnityEngine.Random.Range(0f, noiseMaxRange);
+
+        return new Vector3(x, 0, y).normalized;
+    }
+
 }

@@ -12,6 +12,7 @@ public class ProtesterManager : MonoBehaviour
     private MeshRenderer meshRenderer;
     private int currentFlowFieldIndex;
     private List<FlowFieldData> flowFieldsData;
+    private Transform endOfProtest;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class ProtesterManager : MonoBehaviour
     {
         flowFieldsData = ProtestManager.Instance.GetFlowFields();
         currentFlowFieldIndex = flowFieldsData.IndexOf(flowFieldsData.First(flowfield => flowfield.index == 0));
+        endOfProtest = ProtestManager.Instance.GetEndOfProtest();
     }
 
     private void Update()
@@ -45,6 +47,12 @@ public class ProtesterManager : MonoBehaviour
         else
         {
             Hide();
+        }
+
+        float destructionDistance = 1f;
+        if(Vector3.Distance(endOfProtest.position, transform.position) < destructionDistance)
+        {
+            Destroy(gameObject);
         }
                 
         if(Vector3.Distance(flowFieldsData[currentFlowFieldIndex].target, transform.position) < meetingPointReachedDistance && currentFlowFieldIndex < flowFieldsData.Count - 1)

@@ -9,6 +9,7 @@ public class ProtestManager : MonoBehaviour
     public static ProtestManager Instance { get; private set; }
 
     [SerializeField] private List<Transform> protestMeetingPoints;
+    [SerializeField] private Transform endOfProtest;
 
     public event EventHandler OnFlowFieldsCreated;
 
@@ -46,6 +47,11 @@ public class ProtestManager : MonoBehaviour
     public List<FlowFieldData> GetFlowFields()
     {
         return flowFieldsProtest;
+    }
+
+    public Transform GetEndOfProtest()
+    {
+        return endOfProtest;
     }
 
 

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEditor;
 
 public class ProtesterManager : MonoBehaviour
 {
@@ -70,7 +71,7 @@ public class ProtesterManager : MonoBehaviour
 
         Node nodeBelow = flowFieldsData[currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
         Vector3 moveDirection = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
-        moveDirection = (moveDirection + MoveDirectionNoise() * noiseMagnitude).normalized;
+       //moveDirection = (moveDirection + MoveDirectionNoise() * noiseMagnitude).normalized;
 
         Rigidbody protesterRB = GetComponent<Rigidbody>();
         protesterRB.velocity = moveDirection * moveSpeed;
@@ -86,6 +87,7 @@ public class ProtesterManager : MonoBehaviour
         meshRenderer.enabled = false;
     }
 
+/*
     private Vector3 MoveDirectionNoise()
     {
         float x = UnityEngine.Random.Range(0f, noiseMaxRange);
@@ -93,5 +95,6 @@ public class ProtesterManager : MonoBehaviour
 
         return new Vector3(x, 0, y).normalized;
     }
+    */
 
 }

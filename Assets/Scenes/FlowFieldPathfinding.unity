@@ -333,6 +333,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (28)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -423,6 +428,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -515,6 +525,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -606,6 +621,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -696,6 +716,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -982,6 +1007,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (31)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -1073,6 +1103,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (47)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -1163,6 +1198,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (42)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -1285,6 +1325,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (45)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -1592,6 +1637,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -1877,6 +1927,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -1967,6 +2022,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (40)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -2557,6 +2617,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -2693,7 +2758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridWorldSize: {x: 50, y: 50}
-  nodeRadius: 0.5
+  nodeRadius: 0.3
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 128
@@ -2796,6 +2861,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (43)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3016,6 +3086,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (34)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3106,6 +3181,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3198,6 +3278,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3288,6 +3373,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (39)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3477,6 +3567,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (46)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3598,6 +3693,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (36)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3739,6 +3839,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (25)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3830,6 +3935,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (37)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -3920,6 +4030,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -4042,6 +4157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (26)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -4327,6 +4447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (33)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -4710,6 +4835,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -4800,6 +4930,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -4959,6 +5094,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -5212,6 +5352,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -5302,6 +5447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -5394,6 +5544,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (29)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -5484,6 +5639,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -5995,6 +6155,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (44)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -6117,6 +6282,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (32)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -6207,6 +6377,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -6395,6 +6570,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -6681,6 +6861,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (35)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -6771,6 +6956,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -6960,6 +7150,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -7050,6 +7245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (38)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -7142,6 +7342,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -7232,6 +7437,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -7518,6 +7728,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -7743,6 +7958,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (41)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -8452,6 +8672,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (24)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -8543,6 +8768,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Protester (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
@@ -8633,6 +8863,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Protester (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: b1849dd0aa246a143a1e3dc18fd92945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7149198449243920837, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}

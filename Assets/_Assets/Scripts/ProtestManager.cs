@@ -54,5 +54,4 @@ public class ProtestManager : MonoBehaviour
         return endOfProtest;
     }
 
-
 }

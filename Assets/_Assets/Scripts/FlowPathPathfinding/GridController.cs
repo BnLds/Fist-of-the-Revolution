@@ -56,17 +56,19 @@ public class GridController : MonoBehaviour
                 {
                     //Gizmos.color = node.walkable ? Color.green : Color.red;
                     
-                    float t = (float) node.bestCost / 75;
-                    Gizmos.color = Color.Lerp(Color.yellow, Color.magenta, t);
-                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
+                    //float t = (float) node.bestCost / 75;
+                    //Gizmos.color = Color.Lerp(Color.yellow, Color.magenta, t);
+                    //Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
                     
                     //Gizmos.DrawWireCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
-                    //Handles.Label(node.worldPosition, node.cost.ToString());
+                    Handles.Label(node.worldPosition, node.bestCost.ToString());
                 }
             }
         }
     }
     */
+    
+    
     
     
 }

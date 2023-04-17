@@ -2806,6 +2806,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 517307246}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &532342076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 532342077}
+  m_Layer: 0
+  m_Name: ProtestMeetingPoint (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &532342077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532342076}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 26.8, y: -1.0631065, z: 24.684616}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1824257067}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &546588742
 GameObject:
   m_ObjectHideFlags: 0
@@ -7627,6 +7658,7 @@ Transform:
   - {fileID: 825887575}
   - {fileID: 917331542}
   - {fileID: 1381212278}
+  - {fileID: 532342077}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7847,55 +7879,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590fa31dcb68f554688a0bf8d25e1cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  protesters:
-  - {fileID: 490621975}
-  - {fileID: 1154515129}
-  - {fileID: 1180035123}
-  - {fileID: 144713283}
-  - {fileID: 1727189705}
-  - {fileID: 1094902135}
-  - {fileID: 915260665}
-  - {fileID: 739787921}
-  - {fileID: 343309371}
-  - {fileID: 1114028997}
-  - {fileID: 2057048690}
-  - {fileID: 498383961}
-  - {fileID: 139186620}
-  - {fileID: 2046084773}
-  - {fileID: 1735975956}
-  - {fileID: 1787965579}
-  - {fileID: 1260310755}
-  - {fileID: 384900197}
-  - {fileID: 156276470}
-  - {fileID: 1481587792}
-  - {fileID: 1196645413}
-  - {fileID: 764826911}
-  - {fileID: 1437634525}
-  - {fileID: 1591225211}
-  - {fileID: 2045934508}
-  - {fileID: 849960699}
-  - {fileID: 960906418}
-  - {fileID: 1658370750}
-  - {fileID: 122260280}
-  - {fileID: 1252534683}
-  - {fileID: 175777777}
-  - {fileID: 249394471}
-  - {fileID: 1381236736}
-  - {fileID: 981425593}
-  - {fileID: 610539774}
-  - {fileID: 1577077330}
-  - {fileID: 831207930}
-  - {fileID: 870689806}
-  - {fileID: 1659047868}
-  - {fileID: 770199945}
-  - {fileID: 408115176}
-  - {fileID: 1855453187}
-  - {fileID: 259524482}
-  - {fileID: 517307247}
-  - {fileID: 1341601976}
-  - {fileID: 294518797}
-  - {fileID: 782758775}
-  - {fileID: 255576351}
   protestMeetingPoints:
   - {fileID: 286215123}
   - {fileID: 1292696529}
@@ -7903,8 +7886,7 @@ MonoBehaviour:
   - {fileID: 825887575}
   - {fileID: 917331542}
   - {fileID: 1381212278}
-  moveSpeed: 3
-  meetingPointReachedDistance: 2
+  - {fileID: 532342077}
 --- !u!4 &1879999008
 Transform:
   m_ObjectHideFlags: 0

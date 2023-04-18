@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObstacleAvoidanceBehaviour : SteeringBehaviour
 {
     [SerializeField] private float radius = 2f;
-    [SerializeField] private float agentColliderSize = .5f;
+    [SerializeField] private float agentColliderSize = .7f;
     [SerializeField] private bool showGizmo = true;
 
     //gizmo parameters

@@ -51,7 +51,8 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
             Gizmos.color = Color.red;
             for (int i = 0; i < dangersResultTemp.Length; i++)
             {
-                Gizmos.DrawRay(transform.position,  GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]) * dangersResultTemp[i]);
+                Vector3 direction = new Vector3(GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]).x, 0, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]).y);
+                Gizmos.DrawRay(transform.position,  direction * dangersResultTemp[i]);
             }
         }
         else

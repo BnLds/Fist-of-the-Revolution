@@ -75,7 +75,8 @@ public class SeekBehaviour : SteeringBehaviour
             Gizmos.color = Color.green;
             for (int i = 0; i < interestsTemp.Length; i++)
             {
-                Gizmos.DrawRay(transform.position, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]) * interestsTemp[i]);
+                Vector3 direction = new Vector3(GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]).x, 0, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]).y);
+                Gizmos.DrawRay(transform.position, direction * interestsTemp[i]);
             }
             if (reachedLastTarget == false)
             {

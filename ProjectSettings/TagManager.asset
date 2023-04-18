@@ -12,11 +12,11 @@ TagManager:
   - Water
   - UI
   - Floor
-  - Unwakable
+  - Unwalkable
   - Encumbered
   - 
-  - 
-  - 
+  - NPC
+  - player
   - 
   - 
   - 

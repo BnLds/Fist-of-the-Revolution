@@ -16,6 +16,12 @@ public class GridDirection
         return direction.Vector;
     }
 
+    public static Vector2 GetNormalizedDirectionVector(GridDirection direction)
+    {
+        Vector2 directionVector2 = (Vector2)direction.Vector;
+        return directionVector2.normalized;
+    }
+
     public static GridDirection GetDirectionFromVector2Int(Vector2Int vector)
     {
         return CardinalAndIntercardinalDirections.DefaultIfEmpty(None).FirstOrDefault(direction => direction == vector);

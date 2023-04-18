@@ -300,6 +300,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f6a1d4eaf74f8546b8f13dbecca85dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  steeringBehaviours:
+  - {fileID: 8676481532161510226}
+  - {fileID: 8641847114119605023}
   detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}

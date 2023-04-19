@@ -39,20 +39,23 @@ public class npcAI : MonoBehaviour
 
     private void Update()
     {
-        //NPC movement based on target availability and if chasing is enabled
-        if(aiData.currentTarget != null && isChasingEnabled)
+        if(isChasingEnabled)
         {
-            //chase the target if enabled
-            if(!isChasing)
+            //NPC movement based on target availability and if chasing is enabled
+            if(aiData.currentTarget != null)
             {
-                OnPointerInput?.Invoke(aiData.currentTarget.position);
-                isChasing = true;
-                StartCoroutine(ChaseAndCatch());
+                //chase the target if enabled
+                if(!isChasing)
+                {
+                    OnPointerInput?.Invoke(aiData.currentTarget.position);
+                    isChasing = true;
+                    StartCoroutine(ChaseAndCatch());
+                }
+            } 
+            else if(aiData.GetTargetsCount() > 0)
+            {
+                aiData.currentTarget = aiData.targets[0];
             }
-        } 
-        else if(aiData.GetTargetsCount() > 0)
-        {
-            aiData.currentTarget = aiData.targets[0];
         }
         //Moving the agent
         OnMovementInput?.Invoke(movementInput);

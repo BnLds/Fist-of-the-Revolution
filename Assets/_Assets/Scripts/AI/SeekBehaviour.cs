@@ -27,7 +27,7 @@ public class SeekBehaviour : SteeringBehaviour
             else
             {
                 reachedLastTarget = false;
-                aiData.currentTarget = aiData.targets.OrderBy(target => Vector2.Distance(transform.position, target.position)).FirstOrDefault();
+                aiData.currentTarget = aiData.targets.OrderBy(target => Vector3.Distance(transform.position, target.position)).FirstOrDefault();
             }
         }
 
@@ -38,7 +38,7 @@ public class SeekBehaviour : SteeringBehaviour
         }
 
         //first check if we have reached the target
-        if(Vector2.Distance(transform.position, targetPositionCached) < targetReachedThreshold)
+        if(Vector3.Distance(transform.position, targetPositionCached) < targetReachedThreshold)
         {
             reachedLastTarget = true;
             aiData.currentTarget = null;

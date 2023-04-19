@@ -78,6 +78,7 @@ public class npcAI : MonoBehaviour
             {
                 //Catch logic
                 movementInput = Vector3.zero;
+                Debug.Log("Attempting to catch the target");
                 OnCatchAttempt?.Invoke();
                 yield return new WaitForSeconds(catchAttemptDelay);
                 StartCoroutine(ChaseAndCatch());

@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Linq;
-
+using UnityEngine.Events;
 
 public class SeekBehaviour : SteeringBehaviour
 {
     [SerializeField] private float targetReachedThreshold = 0.7f;
     [SerializeField] private bool showGizmos = true;
+
+    public UnityEvent OnTargetReached;
 
     private bool reachedLastTarget = true;
 
@@ -40,8 +42,10 @@ public class SeekBehaviour : SteeringBehaviour
         //first check if we have reached the target
         if(Vector3.Distance(transform.position, targetPositionCached) < targetReachedThreshold)
         {
+            Debug.Log("Target reached");
             reachedLastTarget = true;
             aiData.currentTarget = null;
+            OnTargetReached?.Invoke();
             return (danger, interest);
         }
 

@@ -8,16 +8,24 @@ public class ProtesterManager : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float meetingPointReachedDistance = 2f;
-    [SerializeField] private float noiseMaxRange = 10f;
-    [SerializeField] private float noiseMagnitude = .1f;
+    [SerializeField] private bool activateSeekBehaviour;
+    [SerializeField] private npcAI npcai;
+    //[SerializeField] private float noiseMaxRange = 10f;
+    //[SerializeField] private float noiseMagnitude = .1f;
 
     private int currentFlowFieldIndex;
     private List<FlowFieldData> flowFieldsData;
     private Transform endOfProtest;
+    private Vector3 moveDirectionSteering;
 
+    private void Awake()
+    {
+        moveDirectionSteering = Vector3.zero;
+    }
     private void Start()
     {
         ProtestManager.Instance.OnFlowFieldsCreated += ProtestManager_OnFlowFieldsCreated;
+        npcai.OnMoveDirectionInput.AddListener(UpdateMoveDirectionSteering);
     }
 
     private void OnDisable()
@@ -52,11 +60,25 @@ public class ProtesterManager : MonoBehaviour
         if(flowFieldsData.Count == 0) return;
 
         Node nodeBelow = flowFieldsData[currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
-        Vector3 moveDirection = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
        //moveDirection = (moveDirection + MoveDirectionNoise() * noiseMagnitude).normalized;
 
         Rigidbody protesterRB = GetComponent<Rigidbody>();
-        protesterRB.velocity = moveDirection * moveSpeed;
+        Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
+
+        if(!activateSeekBehaviour)
+        {
+            protesterRB.velocity = moveDirectionFlowField * moveSpeed;
+        }
+        else
+        {
+
+            protesterRB.velocity = moveDirectionSteering * moveSpeed;
+        }
+    }
+
+    private void UpdateMoveDirectionSteering(Vector3 direction)
+    {
+        moveDirectionSteering = direction;
     }
 
     

@@ -427,8 +427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   meetingPointReachedDistance: 4
-  noiseMaxRange: 10
-  noiseMagnitude: 0.9
+  activateSeekBehaviour: 1
+  npcai: {fileID: 3752383236802386957}
 --- !u!114 &6075033511952251695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,7 +463,7 @@ MonoBehaviour:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
   aiData: {fileID: 6075033511952251695}
-  movementInput: {x: 0, y: 0, z: 0}
+  moveDirectionInput: {x: 0, y: 0, z: 0}
   movementDirectionSolver: {fileID: 4006038392267361051}
   isChasingEnabled: 0
   catchDistance: 1
@@ -473,7 +473,7 @@ MonoBehaviour:
   OnCatchAttempt:
     m_PersistentCalls:
       m_Calls: []
-  OnMovementInput:
+  OnMoveDirectionInput:
     m_PersistentCalls:
       m_Calls: []
   OnPointerInput:

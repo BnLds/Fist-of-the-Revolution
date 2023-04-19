@@ -11,7 +11,7 @@ public class npcAI : MonoBehaviour
     [SerializeField] private List<SteeringBehaviour> steeringBehaviours;
     [SerializeField] private List<Detector> detectors;
     [SerializeField] private AIData aiData;
-    [ReadOnly] [SerializeField]  private Vector3 movementInput = Vector3.zero;
+    [ReadOnly] [SerializeField]  private Vector3 moveDirectionInput = Vector3.zero;
     [SerializeField] private ContextSolver movementDirectionSolver;
     [SerializeField] private bool isChasingEnabled = false;
     [SerializeField] private float catchDistance = 1f;
@@ -19,8 +19,8 @@ public class npcAI : MonoBehaviour
     //performance parameters
     [SerializeField] private float detectionDelay = .05f, aiUpdateDelay = .06f;
 
-    public UnityEvent OnCatchAttempt;
-    public UnityEvent<Vector3> OnMovementInput, OnPointerInput;
+    public UnityEvent<Transform> OnCatchAttempt;
+    public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
 
     private bool isChasing = false;
 
@@ -58,7 +58,7 @@ public class npcAI : MonoBehaviour
             }
         }
         //Moving the agent
-        OnMovementInput?.Invoke(movementInput);
+        OnMoveDirectionInput?.Invoke(moveDirectionInput);
     }
 
     private IEnumerator ChaseAndCatch()
@@ -67,7 +67,7 @@ public class npcAI : MonoBehaviour
         {
             //Stopping logic
             Debug.Log("Stopping");
-            movementInput = Vector3.zero;
+            moveDirectionInput = Vector3.zero;
             isChasing = false;
             yield return null;
         }
@@ -77,16 +77,16 @@ public class npcAI : MonoBehaviour
             if(distance < catchDistance)
             {
                 //Catch logic
-                movementInput = Vector3.zero;
+                moveDirectionInput = Vector3.zero;
                 Debug.Log("Attempting to catch the target");
-                OnCatchAttempt?.Invoke();
+                OnCatchAttempt?.Invoke(aiData.currentTarget);
                 yield return new WaitForSeconds(catchAttemptDelay);
                 StartCoroutine(ChaseAndCatch());
             }
             else
             {
                 //chase logic
-                movementInput = movementDirectionSolver.GetDirectionToMove(steeringBehaviours, aiData);
+                moveDirectionInput = movementDirectionSolver.GetDirectionToMove(steeringBehaviours, aiData);
                 yield return new WaitForSeconds(aiUpdateDelay);
                 StartCoroutine(ChaseAndCatch());
             }

@@ -7,7 +7,7 @@ public class ContextSolver : MonoBehaviour
 
     //gizmo parameters
     private float[] interestGizmo;
-    private Vector2 resultDirection = Vector2.zero;
+    private Vector3 resultDirection = Vector3.zero;
     private float rayLength = 1f;
 
     private void Awake()
@@ -15,7 +15,7 @@ public class ContextSolver : MonoBehaviour
         interestGizmo = new float[8];
     }
 
-    public Vector2 GetDirectionToMove(List<SteeringBehaviour> behaviours, AIData aiData)
+    public Vector3 GetDirectionToMove(List<SteeringBehaviour> behaviours, AIData aiData)
     {
         float[] danger = new float[8];
         float[] interest = new float[8];
@@ -42,7 +42,7 @@ public class ContextSolver : MonoBehaviour
         }
         outputDirection.Normalize();
 
-        resultDirection = outputDirection;
+        resultDirection = new Vector3(outputDirection.x, 0, outputDirection.y);
 
         return resultDirection;
     }

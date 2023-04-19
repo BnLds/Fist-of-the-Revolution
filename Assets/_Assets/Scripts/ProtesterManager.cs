@@ -10,7 +10,6 @@ public class ProtesterManager : MonoBehaviour
     [SerializeField] private float meetingPointReachedDistance = 2f;
     [SerializeField] private float noiseMaxRange = 10f;
     [SerializeField] private float noiseMagnitude = .1f;
-    [SerializeField] private ProtesterVisual protesterVisual;
 
     private int currentFlowFieldIndex;
     private List<FlowFieldData> flowFieldsData;
@@ -56,7 +55,7 @@ public class ProtesterManager : MonoBehaviour
         Vector3 moveDirection = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
        //moveDirection = (moveDirection + MoveDirectionNoise() * noiseMagnitude).normalized;
 
-        Rigidbody protesterRB = protesterVisual.GetComponent<Rigidbody>();
+        Rigidbody protesterRB = GetComponent<Rigidbody>();
         protesterRB.velocity = moveDirection * moveSpeed;
     }
 

@@ -7,21 +7,14 @@ using UnityEditor;
 public class ProtesterManager : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private LayerMask floorMask;
     [SerializeField] private float meetingPointReachedDistance = 2f;
     [SerializeField] private float noiseMaxRange = 10f;
     [SerializeField] private float noiseMagnitude = .1f;
+    [SerializeField] private ProtesterVisual protesterVisual;
 
-    private MeshRenderer meshRenderer;
     private int currentFlowFieldIndex;
     private List<FlowFieldData> flowFieldsData;
     private Transform endOfProtest;
-
-    private void Awake()
-    {
-        meshRenderer = GetComponent<MeshRenderer>();
-        Hide();
-    }
 
     private void Start()
     {
@@ -42,12 +35,6 @@ public class ProtesterManager : MonoBehaviour
 
     private void Update()
     {
-        float floorDetectionDistance = 2f;
-        if(Physics.Raycast(transform.position, Vector3.down, floorDetectionDistance, floorMask))
-        {
-            Show();
-        }
-
         float destructionDistance = 1f;
         if(Vector3.Distance(endOfProtest.position, transform.position) < destructionDistance)
         {
@@ -69,19 +56,11 @@ public class ProtesterManager : MonoBehaviour
         Vector3 moveDirection = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
        //moveDirection = (moveDirection + MoveDirectionNoise() * noiseMagnitude).normalized;
 
-        Rigidbody protesterRB = GetComponent<Rigidbody>();
+        Rigidbody protesterRB = protesterVisual.GetComponent<Rigidbody>();
         protesterRB.velocity = moveDirection * moveSpeed;
     }
 
-    private void Show()
-    {
-        meshRenderer.enabled = true;
-    }
-
-    private void Hide()
-    {
-        meshRenderer.enabled = false;
-    }
+    
 
 /*
     private Vector3 MoveDirectionNoise()

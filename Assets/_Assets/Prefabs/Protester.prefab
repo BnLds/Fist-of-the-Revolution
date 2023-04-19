@@ -48,7 +48,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
-  showGizmos: 1
+  showGizmos: 0
 --- !u!1 &5227867819902992731
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,4 +433,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetReachedThreshold: 0.7
-  showGizmos: 1
+  showGizmos: 0

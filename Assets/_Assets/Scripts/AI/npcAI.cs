@@ -11,7 +11,7 @@ public class npcAI : MonoBehaviour
     [SerializeField] private List<SteeringBehaviour> steeringBehaviours;
     [SerializeField] private List<Detector> detectors;
     [SerializeField] private AIData aiData;
-    [SerializeField] private Vector3 movementInput = Vector3.zero;
+    [ReadOnly] [SerializeField]  private Vector3 movementInput = Vector3.zero;
     [SerializeField] private ContextSolver movementDirectionSolver;
     [SerializeField] private bool isChasingEnabled = false;
     [SerializeField] private float catchDistance = 1f;

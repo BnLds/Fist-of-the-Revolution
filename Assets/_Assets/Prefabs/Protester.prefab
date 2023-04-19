@@ -353,7 +353,22 @@ MonoBehaviour:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
   aiData: {fileID: 6075033511952251695}
+  movementInput: {x: 0, y: 0, z: 0}
+  movementDirectionSolver: {fileID: 4006038392267361051}
+  isChasingEnabled: 0
+  catchDistance: 1
+  catchAttemptDelay: 1
   detectionDelay: 0.05
+  aiUpdateDelay: 0.06
+  OnCatchAttempt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMovementInput:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerInput:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!33 &7149198449243920839
 MeshFilter:
   m_ObjectHideFlags: 0

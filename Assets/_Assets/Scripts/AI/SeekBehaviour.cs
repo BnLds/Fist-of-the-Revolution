@@ -85,7 +85,7 @@ public class SeekBehaviour : SteeringBehaviour
         Node nodeBelow = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
             
         //Update the move direction of the player based on its position on the grid
-        Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
+        Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y);
         moveDirectionFlowFieldTemp = moveDirectionFlowField;
         //if we havent reached the target, do the main logic of finding the interest directions
         Vector2 directionToTarget = new Vector2(moveDirectionFlowField.x, moveDirectionFlowField.z);

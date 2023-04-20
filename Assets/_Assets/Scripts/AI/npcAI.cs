@@ -50,6 +50,8 @@ public class npcAI : MonoBehaviour
         aiData.flowFieldsProtest = ProtestFlowFields.Instance.GetFlowFields();
         aiData.currentFlowFieldIndex = aiData.flowFieldsProtest.IndexOf(aiData.flowFieldsProtest.First(flowfield => flowfield.index == 0));
         aiData.endOfProtest = ProtestFlowFields.Instance.GetEndOfProtest();
+
+        if(currentState == ProtesterState.FollowProtest) StartCoroutine(FollowProtestPath());
     }
 
     private void PerformDetection()
@@ -71,7 +73,6 @@ public class npcAI : MonoBehaviour
                 {
                     aiData.currentFlowFieldIndex = aiData.flowFieldsProtest.IndexOf(aiData.flowFieldsProtest.First(flowfield => flowfield.index == aiData.currentFlowFieldIndex + 1));
                 }
-                StartCoroutine(FollowProtestPath());
                 break;
             }
             case ProtesterState.Chase:

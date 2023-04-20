@@ -49,7 +49,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1152
   showGizmos: 0
-  parent: {fileID: 7272661461591421413}
 --- !u!1 &1001593164066478922
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +99,6 @@ MonoBehaviour:
   floorMask:
     serializedVersion: 2
     m_Bits: 64
-  showVisualOutsideFloor: 0
 --- !u!33 &8756372246786316379
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -427,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcai: {fileID: 3752383236802386957}
-  moveSpeed: 3
+  moveSpeed: 6
 --- !u!114 &6075033511952251695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +468,7 @@ MonoBehaviour:
   isChasingEnabled: 1
   catchDistance: 1.5
   catchAttemptDelay: 1
-  meetingPointReachedDistance: 2
+  meetingPointReachedDistance: 4
   detectionDelay: 0.05
   aiUpdateDelay: 0.06
   currentState: 1

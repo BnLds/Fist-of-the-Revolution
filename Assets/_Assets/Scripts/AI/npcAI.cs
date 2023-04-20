@@ -8,6 +8,12 @@ public class npcAI : MonoBehaviour
 {
     private const string PERFORM_DETECTION = "PerformDetection";
 
+    public enum ProtesterState
+    {
+        Chase,
+        FollowProtest
+    }
+
     [SerializeField] private List<SteeringBehaviour> steeringBehaviours;
     [SerializeField] private List<Detector> detectors;
     [SerializeField] private AIData aiData;
@@ -25,6 +31,12 @@ public class npcAI : MonoBehaviour
     public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
 
     private bool isChasing = false;
+    private ProtesterState currentState;
+
+    private void Awake()
+    {
+        currentState = ProtesterState.FollowProtest;
+    }
 
     private void Start()
     {
@@ -54,56 +66,67 @@ public class npcAI : MonoBehaviour
 
     private void Update()
     {
-        //Check if protester reached the end of the protest
-        float destructionDistance = 1f;
-        if(Vector3.Distance(aiData.endOfProtest.position, transform.position) < destructionDistance)
+        switch(currentState)
         {
-            //Stopping logic
-            Debug.Log("Stopping");
-            moveDirectionInput = Vector3.zero;
-            OnProtestEndReached?.Invoke();
-        }
-
-        //use the next protest flowfield if the NPC reaches the current meeting point 
-        if(Vector3.Distance(aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].target, transform.position) < meetingPointReachedDistance && aiData.currentFlowFieldIndex < aiData.flowFieldsProtest.Count - 1)
-        {
-            aiData.currentFlowFieldIndex = aiData.flowFieldsProtest.IndexOf(aiData.flowFieldsProtest.First(flowfield => flowfield.index == aiData.currentFlowFieldIndex + 1));
-        }
-
-        
-        if(aiData.flowFieldsProtest.Count == 0)
-        {
-            //Stopping logic
-            Debug.Log("Stopping, no more protest meeting point");
-            moveDirectionInput = Vector3.zero;
-        }
-        else
-        {
-            //executes the main logic
-            //get NPC position on grid
-            Node nodeBelow = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
-    
-            //Update the move direction of the player based on its position on the grid
-            moveDirectionInput = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
-        }
-
-        //Target chasing behaviour
-        if(isChasingEnabled)
-        {
-            //NPC movement based on target availability and if chasing is enabled
-            if(aiData.currentTarget != null)
+            case ProtesterState.FollowProtest:
             {
-                //chase the target if enabled
-                if(!isChasing)
+                //Check if protester reached the end of the protest
+                float destructionDistance = 1f;
+                if(Vector3.Distance(aiData.endOfProtest.position, transform.position) < destructionDistance)
                 {
-                    OnPointerInput?.Invoke(aiData.currentTarget.position);
-                    isChasing = true;
-                    StartCoroutine(ChaseAndCatchTarget());
+                    //Stopping logic
+                    Debug.Log("Stopping");
+                    moveDirectionInput = Vector3.zero;
+                    OnProtestEndReached?.Invoke();
+                    break;
                 }
-            } 
-            else if(aiData.GetTargetsCount() > 0)
+
+                //use the next protest flowfield if the NPC reaches the current meeting point 
+                if(Vector3.Distance(aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].target, transform.position) < meetingPointReachedDistance && aiData.currentFlowFieldIndex < aiData.flowFieldsProtest.Count - 1)
+                {
+                    aiData.currentFlowFieldIndex = aiData.flowFieldsProtest.IndexOf(aiData.flowFieldsProtest.First(flowfield => flowfield.index == aiData.currentFlowFieldIndex + 1));
+                }
+                
+                if(aiData.flowFieldsProtest.Count == 0)
+                {
+                    //Stopping logic
+                    Debug.Log("Stopping, no more protest meeting point");
+                    moveDirectionInput = Vector3.zero;
+                }
+                else
+                {
+                    //executes the main logic
+                    //get NPC position on grid
+                    Node nodeBelow = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
+            
+                    //Update the move direction of the player based on its position on the grid
+                    Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
+                    moveDirectionInput = movementDirectionSolver.GetDirectionToMove(steeringBehaviours, aiData);
+                }
+                    break;
+            }
+            case ProtesterState.Chase:
             {
-                aiData.currentTarget = aiData.targets[0];
+                //Target chasing behaviour
+                if(isChasingEnabled)
+                {
+                    //NPC movement based on target availability and if chasing is enabled
+                    if(aiData.currentTarget != null)
+                    {
+                        //chase the target if enabled
+                        if(!isChasing)
+                        {
+                            OnPointerInput?.Invoke(aiData.currentTarget.position);
+                            isChasing = true;
+                            StartCoroutine(ChaseAndCatchTarget());
+                        }
+                    } 
+                    else if(aiData.GetTargetsCount() > 0)
+                    {
+                        aiData.currentTarget = aiData.targets[0];
+                    }
+                }
+                break;
             }
         }
         //Moving the agent
@@ -140,6 +163,10 @@ public class npcAI : MonoBehaviour
                 StartCoroutine(ChaseAndCatchTarget());
             }
         }
-        
+    }
+
+    public ProtesterState GetProtesterState()
+    {
+        return currentState;
     }
 }

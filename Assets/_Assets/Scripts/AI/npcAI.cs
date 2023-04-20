@@ -66,34 +66,12 @@ public class npcAI : MonoBehaviour
         {
             case ProtesterState.FollowProtest:
             {
-                //Check if protester reached the end of the protest
-                float destructionDistance = 1f;
-                if(Vector3.Distance(aiData.endOfProtest.position, transform.position) < destructionDistance)
-                {
-                    //Stopping logic
-                    Debug.Log("Stopping");
-                    moveDirectionInput = Vector3.zero;
-                    aiData.reachedEndOfProtest = true;
-                    OnProtestEndReached?.Invoke();
-                    break;
-                }
-
                 //use the next protest flowfield if the NPC reaches the current meeting point 
                 if(Vector3.Distance(aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].target, transform.position) < meetingPointReachedDistance && aiData.currentFlowFieldIndex < aiData.flowFieldsProtest.Count - 1)
                 {
                     aiData.currentFlowFieldIndex = aiData.flowFieldsProtest.IndexOf(aiData.flowFieldsProtest.First(flowfield => flowfield.index == aiData.currentFlowFieldIndex + 1));
                 }
-                
-                if(aiData.flowFieldsProtest.Count == 0)
-                {
-                    //Stopping logic
-                    Debug.Log("Stopping, no more protest meeting point");
-                    moveDirectionInput = Vector3.zero;
-                }
-                else
-                {
-                    moveDirectionInput = movementDirectionSolver.GetProtestDirection(steeringBehaviours, aiData);
-                }
+                StartCoroutine(FollowProtestPath());
                 break;
             }
             case ProtesterState.Chase:
@@ -154,6 +132,34 @@ public class npcAI : MonoBehaviour
                 StartCoroutine(ChaseAndCatchTarget());
             }
         }
+    }
+
+    private IEnumerator FollowProtestPath()
+    {
+        //Check if protester reached the end of the protest
+        float destructionDistance = 1f;
+        if(Vector3.Distance(aiData.endOfProtest.position, transform.position) < destructionDistance)
+        {
+            //Stopping logic
+            Debug.Log("Stopping");
+            moveDirectionInput = Vector3.zero;
+            aiData.reachedEndOfProtest = true;
+            OnProtestEndReached?.Invoke();
+            yield return null;
+        }
+
+        if(aiData.flowFieldsProtest.Count == 0)
+        {
+            //Stopping logic
+            Debug.Log("Stopping, no more protest meeting point");
+            moveDirectionInput = Vector3.zero;
+        }
+        else
+        {
+            moveDirectionInput = movementDirectionSolver.GetProtestDirection(steeringBehaviours, aiData);
+        }
+        yield return new WaitForSeconds(aiUpdateDelay);
+        StartCoroutine(FollowProtestPath());
     }
 
     public ProtesterState GetProtesterState()

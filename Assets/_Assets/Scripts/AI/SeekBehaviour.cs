@@ -14,6 +14,7 @@ public class SeekBehaviour : SteeringBehaviour
     //gizmo parameters
     private Vector3 targetPositionCached;
     private float[] interestsTemp;
+    private Vector3 moveDirectionFlowFieldTemp;
 
     public override (float[] danger, float[] interest) GetSteeringToTargets(float[] danger, float[] interest, AIData aiData)
     {
@@ -75,6 +76,7 @@ public class SeekBehaviour : SteeringBehaviour
         //if we don't have a target stop seeking
         if(aiData.reachedEndOfProtest || aiData.flowFieldsProtest.Count == 0)
         {
+            Debug.Log("Stopped seeking");
             return (danger, interest);
         }
 
@@ -84,9 +86,9 @@ public class SeekBehaviour : SteeringBehaviour
             
         //Update the move direction of the player based on its position on the grid
         Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
-
+        moveDirectionFlowFieldTemp = moveDirectionFlowField;
         //if we havent reached the target, do the main logic of finding the interest directions
-        Vector2 directionToTarget = new Vector2((moveDirectionFlowField - transform.position).x, (moveDirectionFlowField - transform.position).z);
+        Vector2 directionToTarget = new Vector2(moveDirectionFlowField.x, moveDirectionFlowField.z);
         for (int i = 0; i < interest.Length; i++)
         {
             float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));

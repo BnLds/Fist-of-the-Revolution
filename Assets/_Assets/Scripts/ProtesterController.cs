@@ -1,8 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using UnityEditor;
 
 public class ProtesterController : MonoBehaviour
 {

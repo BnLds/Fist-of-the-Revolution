@@ -25,18 +25,13 @@ public class npcAI : MonoBehaviour
     [SerializeField] private float meetingPointReachedDistance = 2f;
     //performance parameters
     [SerializeField] private float detectionDelay = .05f, aiUpdateDelay = .06f;
+    [SerializeField] private ProtesterState currentState = ProtesterState.FollowProtest;
 
     public UnityEvent<Transform> OnCatchAttempt;
     public UnityEvent OnProtestEndReached;
     public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
 
     private bool isChasing = false;
-    private ProtesterState currentState;
-
-    private void Awake()
-    {
-        currentState = ProtesterState.FollowProtest;
-    }
 
     private void Start()
     {
@@ -77,6 +72,7 @@ public class npcAI : MonoBehaviour
                     //Stopping logic
                     Debug.Log("Stopping");
                     moveDirectionInput = Vector3.zero;
+                    aiData.reachedEndOfProtest = true;
                     OnProtestEndReached?.Invoke();
                     break;
                 }
@@ -95,15 +91,9 @@ public class npcAI : MonoBehaviour
                 }
                 else
                 {
-                    //executes the main logic
-                    //get NPC position on grid
-                    Node nodeBelow = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
-            
-                    //Update the move direction of the player based on its position on the grid
-                    Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
-                    moveDirectionInput = movementDirectionSolver.GetDirectionToMove(steeringBehaviours, aiData);
+                    moveDirectionInput = movementDirectionSolver.GetProtestDirection(steeringBehaviours, aiData);
                 }
-                    break;
+                break;
             }
             case ProtesterState.Chase:
             {
@@ -158,7 +148,7 @@ public class npcAI : MonoBehaviour
             else
             {
                 //chase logic
-                moveDirectionInput = movementDirectionSolver.GetDirectionToMove(steeringBehaviours, aiData);
+                moveDirectionInput = movementDirectionSolver.GetChaseDirection(steeringBehaviours, aiData);
                 yield return new WaitForSeconds(aiUpdateDelay);
                 StartCoroutine(ChaseAndCatchTarget());
             }

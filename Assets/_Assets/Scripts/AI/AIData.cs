@@ -12,6 +12,7 @@ public class AIData : MonoBehaviour
     public List<FlowFieldData> flowFieldsProtest;
     public int currentFlowFieldIndex;
     public Transform endOfProtest;
+    public bool reachedEndOfProtest = false;
 
     public int GetTargetsCount() => targets == null ? 0 : targets.Count;
 }

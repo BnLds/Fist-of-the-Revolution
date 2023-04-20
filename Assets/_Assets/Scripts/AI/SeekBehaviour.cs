@@ -55,7 +55,7 @@ public class SeekBehaviour : SteeringBehaviour
         {
             float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
 
-            //accept only directions at less tahn 90degrees to the target direction
+            //accept only directions at less than 90 degrees to the target direction
             if(result>0)
             {
                 float interestValue = result;
@@ -70,13 +70,40 @@ public class SeekBehaviour : SteeringBehaviour
     }
 
 
-    public (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, AIData aiData)
+    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, AIData aiData)
     {
+        //if we don't have a target stop seeking
+        if(aiData.reachedEndOfProtest || aiData.flowFieldsProtest.Count == 0)
+        {
+            return (danger, interest);
+        }
 
+        //executes the main logic
+        //get NPC position on grid
+        Node nodeBelow = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
+            
+        //Update the move direction of the player based on its position on the grid
+        Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y).normalized;
+
+        //if we havent reached the target, do the main logic of finding the interest directions
+        Vector2 directionToTarget = new Vector2((moveDirectionFlowField - transform.position).x, (moveDirectionFlowField - transform.position).z);
+        for (int i = 0; i < interest.Length; i++)
+        {
+            float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
+
+            //accept only directions at less than 90 degrees to the target direction
+            if(result>0)
+            {
+                float interestValue = result;
+                if(interestValue > interest[i])
+                {
+                    interest[i] = interestValue;
+                }
+            }
+        }
+        interestsTemp = interest;
+        return (danger, interest);
     }
-
-
-
 
     private void OnDrawGizmos()
     {

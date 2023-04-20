@@ -47,7 +47,7 @@ MonoBehaviour:
   detectionRadius: 2
   layerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1152
   showGizmos: 0
 --- !u!1 &1001593164066478922
 GameObject:
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef66af1dfb2315146a49661aa062cb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDetectionRange: 15
+  targetDetectionRange: 20
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 2176
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 2
   agentColliderSize: 0.7
-  showGizmo: 1
+  showGizmo: 0
 --- !u!1 &6649522485515808518
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,10 +425,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ba06e84a7a4b14186ad2cd417d27a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  meetingPointReachedDistance: 4
-  activateSeekBehaviour: 1
   npcai: {fileID: 3752383236802386957}
+  moveSpeed: 3
 --- !u!114 &6075033511952251695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,6 +442,9 @@ MonoBehaviour:
   targets: []
   obstacles: []
   currentTarget: {fileID: 0}
+  currentFlowFieldIndex: 0
+  endOfProtest: {fileID: 0}
+  reachedEndOfProtest: 0
 --- !u!114 &3752383236802386957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,12 +466,17 @@ MonoBehaviour:
   aiData: {fileID: 6075033511952251695}
   moveDirectionInput: {x: 0, y: 0, z: 0}
   movementDirectionSolver: {fileID: 4006038392267361051}
-  isChasingEnabled: 0
-  catchDistance: 1
+  isChasingEnabled: 1
+  catchDistance: 1.5
   catchAttemptDelay: 1
+  meetingPointReachedDistance: 2
   detectionDelay: 0.05
   aiUpdateDelay: 0.06
+  currentState: 1
   OnCatchAttempt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnProtestEndReached:
     m_PersistentCalls:
       m_Calls: []
   OnMoveDirectionInput:
@@ -539,5 +545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece8f25ce268c78408eb96682968ccc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetReachedThreshold: 0.7
+  targetReachedThreshold: 3
   showGizmos: 0
+  OnTargetReached:
+    m_PersistentCalls:
+      m_Calls: []

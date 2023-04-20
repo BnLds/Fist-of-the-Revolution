@@ -1,17 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Events;
 
-
-
-public class ProtestManager : MonoBehaviour
+public class ProtestFlowFields : MonoBehaviour
 {
-    public static ProtestManager Instance { get; private set; }
+    public static ProtestFlowFields Instance { get; private set; }
 
     [SerializeField] private List<Transform> protestMeetingPoints;
     [SerializeField] private Transform endOfProtest;
 
-    public event EventHandler OnFlowFieldsCreated;
+    public UnityEvent OnFlowFieldsCreated;
 
     private List<FlowFieldData> flowFieldsProtest;
 
@@ -41,7 +40,7 @@ public class ProtestManager : MonoBehaviour
             flowFieldsProtest.Add(new FlowFieldData(i, "MeetingPoint: " + i, protestMeetingPoints[i].position, GridController.Instance.GenerateFlowField(protestMeetingPoints[i])));
         }
 
-        OnFlowFieldsCreated?.Invoke(this, EventArgs.Empty);
+        OnFlowFieldsCreated?.Invoke();
     }
 
     public List<FlowFieldData> GetFlowFields()

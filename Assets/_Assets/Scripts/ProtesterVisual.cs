@@ -3,7 +3,6 @@ using UnityEngine;
 public class ProtesterVisual : MonoBehaviour
 {
     [SerializeField] private LayerMask floorMask;
-    [SerializeField] private bool showVisualOutsideFloor = false;
 
     private MeshRenderer meshRenderer;
 
@@ -15,9 +14,13 @@ public class ProtesterVisual : MonoBehaviour
     private void Update()
     {
         float floorDetectionDistance = 2f;
-        if(!Physics.Raycast(transform.position, Vector3.down, floorDetectionDistance, floorMask) && !showVisualOutsideFloor)
+        if(!Physics.Raycast(transform.position, Vector3.down, floorDetectionDistance, floorMask))
         {
             Hide();
+        }
+        else
+        {
+            Show();
         }
     }
     

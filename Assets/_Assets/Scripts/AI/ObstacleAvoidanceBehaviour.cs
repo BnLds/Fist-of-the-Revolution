@@ -9,7 +9,7 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
     //gizmo parameters
     private float[] dangersResultTemp = null;
 
-    public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData)
+    public override (float[] danger, float[] interest) GetSteeringToTargets(float[] danger, float[] interest, AIData aiData)
     {
         foreach (Collider obstacleCollider in aiData.obstacles)
         {

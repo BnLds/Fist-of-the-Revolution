@@ -15,7 +15,7 @@ public class SeekBehaviour : SteeringBehaviour
     private Vector3 targetPositionCached;
     private float[] interestsTemp;
 
-    public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData)
+    public override (float[] danger, float[] interest) GetSteeringToTargets(float[] danger, float[] interest, AIData aiData)
     {
         //if we don't have a target stop seeking
         //else set a new target
@@ -68,6 +68,15 @@ public class SeekBehaviour : SteeringBehaviour
         interestsTemp = interest;
         return (danger, interest);
     }
+
+
+    public (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, AIData aiData)
+    {
+
+    }
+
+
+
 
     private void OnDrawGizmos()
     {

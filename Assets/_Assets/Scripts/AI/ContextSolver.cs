@@ -23,7 +23,7 @@ public class ContextSolver : MonoBehaviour
         //loop through each behaviour
         foreach (SteeringBehaviour behaviour in behaviours)
         {
-            (danger, interest) = behaviour.GetSteering(danger, interest, aiData);
+            (danger, interest) = behaviour.GetSteeringToTargets(danger, interest, aiData);
         }
 
         //substract danger values from interest array

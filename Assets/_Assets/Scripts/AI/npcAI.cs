@@ -25,13 +25,8 @@ public class npcAI : MonoBehaviour
     public UnityEvent OnProtestEndReached;
     public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
 
-    private Rigidbody protesterRB;
     private bool isChasing = false;
 
-    private void Awake()
-    {
-        protesterRB = GetComponent<Rigidbody>();
-    }
     private void Start()
     {
         ProtestFlowFields.Instance.OnFlowFieldsCreated.AddListener(ProtestManager_OnFlowFieldsCreated);

@@ -49,6 +49,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1152
   showGizmos: 0
+  parent: {fileID: 7272661461591421413}
 --- !u!1 &1001593164066478922
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +474,7 @@ MonoBehaviour:
   detectionDelay: 0.05
   aiUpdateDelay: 0.06
   currentState: 1
+  showFlowFieldGizmo: 0
   OnCatchAttempt:
     m_PersistentCalls:
       m_Calls: []

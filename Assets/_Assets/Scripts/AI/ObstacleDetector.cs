@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObstacleDetector : Detector
@@ -6,12 +7,20 @@ public class ObstacleDetector : Detector
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private bool showGizmos = true;
 
-    private Collider[] colliders;
+    private List<Collider> colliders;
 
     public override void Detect(AIData aiData)
     {
-        colliders = Physics.OverlapSphere(transform.position, detectionRadius, layerMask);
-        aiData.obstacles = colliders;
+        colliders = new List<Collider>();
+        foreach(Collider collider in Physics.OverlapSphere(transform.position, detectionRadius, layerMask))
+        {
+            //make sure the instance doesn't detect itself as collider
+            if (collider.transform.parent != aiData.transform)
+            {
+                colliders.Add(collider);
+            }
+        }
+        aiData.obstacles = colliders.ToArray();
     }
 
     private void OnDrawGizmos()

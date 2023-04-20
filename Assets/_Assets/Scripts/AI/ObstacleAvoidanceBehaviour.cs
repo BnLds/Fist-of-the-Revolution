@@ -13,6 +13,8 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
     {
         foreach (Collider obstacleCollider in aiData.obstacles)
         {
+            if(obstacleCollider == null) return (danger, interest);
+
             Vector3 vector3ToObstacle = obstacleCollider.ClosestPoint(transform.position) - transform.position;
             Vector2 vector2ToObstacle = new Vector2(vector3ToObstacle.x, vector3ToObstacle.z);
             float distanceToObstacle = vector2ToObstacle.magnitude;
@@ -44,6 +46,8 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
     {
         foreach (Collider obstacleCollider in aiData.obstacles)
         {
+            if(obstacleCollider == null) return (danger, interest);
+            
             Vector3 vector3ToObstacle = obstacleCollider.ClosestPoint(transform.position) - transform.position;
             Vector2 vector2ToObstacle = new Vector2(vector3ToObstacle.x, vector3ToObstacle.z);
             float distanceToObstacle = vector2ToObstacle.magnitude;

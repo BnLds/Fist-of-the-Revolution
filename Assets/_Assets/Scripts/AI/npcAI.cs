@@ -26,6 +26,7 @@ public class npcAI : MonoBehaviour
     //performance parameters
     [SerializeField] private float detectionDelay = .05f, aiUpdateDelay = .06f;
     [SerializeField] private ProtesterState currentState = ProtesterState.FollowProtest;
+    [SerializeField] private bool showFlowFieldGizmo = false;
 
     public UnityEvent<Transform> OnCatchAttempt;
     public UnityEvent OnProtestEndReached;
@@ -158,5 +159,37 @@ public class npcAI : MonoBehaviour
     public ProtesterState GetProtesterState()
     {
         return currentState;
+    }
+
+
+    //draw current FlowField info
+    private void OnDrawGizmos()
+    {
+        if(Application.isPlaying && showFlowFieldGizmo)
+        {
+            float gridWorldSizeX = 50f;
+            float gridWorldSizeY = 50f;
+
+            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSizeX, 1, gridWorldSizeY));
+            if(aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField != null)
+            {
+                FlowField currentFlowField = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField;
+                if(currentFlowField.grid != null)
+                {
+                    foreach(Node node in currentFlowField.grid)
+                    {
+                        //Gizmos.color = node.walkable ? Color.green : Color.red;
+
+                        //float t = (float) node.bestCost / 75;
+                        //Gizmos.color = Color.Lerp(Color.yellow, Color.magenta, t);
+                        //Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
+
+                        //Gizmos.DrawWireCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
+                        UnityEditor.Handles.Label(node.worldPosition, node.bestCost.ToString());
+                    }
+                }
+            }
+        }
+        
     }
 }

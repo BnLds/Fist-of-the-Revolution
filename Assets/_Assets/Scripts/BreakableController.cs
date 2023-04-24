@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BreakableController : MonoBehaviour
 {
 
     [SerializeField] private int health = 3;
     [SerializeField] private int watchValue = 1;
+
+    public UnityEvent<int, Transform> OnDestroyedBreakable;
 
     public void Damage()
     {
@@ -13,6 +16,12 @@ public class BreakableController : MonoBehaviour
 
     private void Update()
     {
-        if(health == 0) Destroy(gameObject);
+        if(health == 0) Destroy();
+    }
+
+    private void Destroy()
+    {
+        OnDestroyedBreakable?.Invoke(watchValue, transform);
+        Destroy(gameObject);
     }
 }

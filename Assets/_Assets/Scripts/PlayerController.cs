@@ -32,12 +32,4 @@ public class PlayerController : MonoBehaviour
             collider.GetComponent<BreakableController>().Damage();
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        if(Application.isPlaying)
-        {
-            Gizmos.DrawSphere(transform.position, 2f);
-        }
-    }
 }

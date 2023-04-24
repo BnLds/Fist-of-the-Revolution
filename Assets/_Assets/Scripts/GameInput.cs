@@ -1,8 +1,14 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
     public static GameInput Instance { get; private set; }
+
+    public UnityEvent OnInteract;
+
     private PlayerInputActions playerInputActions;
 
     private void Awake()
@@ -18,6 +24,13 @@ public class GameInput : MonoBehaviour
 
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
+
+        playerInputActions.Player.Interact.performed += OnInteractPerformed;
+    }
+
+    private void OnInteractPerformed(InputAction.CallbackContext obj)
+    {
+        OnInteract?.Invoke();
     }
 
     public Vector2 GetMovementVectorNormalized()
@@ -27,4 +40,7 @@ public class GameInput : MonoBehaviour
 
         return inputVector;
     }
+
+
+    
 }

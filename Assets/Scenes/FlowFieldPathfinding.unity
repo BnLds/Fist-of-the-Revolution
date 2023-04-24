@@ -9370,6 +9370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c4f45faac8499c4eb300a2add048b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1075481536
 Transform:
   m_ObjectHideFlags: 0
@@ -17394,5 +17397,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Breakable
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2704349106824002100, guid: f030efbd6ad15544cb48c45efb4ddaab, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f030efbd6ad15544cb48c45efb4ddaab, type: 3}

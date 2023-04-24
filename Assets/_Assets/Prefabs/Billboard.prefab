@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2656478183121591154}
   - component: {fileID: 2656478183121591155}
   m_Layer: 9
-  m_Name: Breakable
+  m_Name: Billboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f849a7d420e1648870775c31defa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  breakableSO: {fileID: 11400000, guid: a1ef108ef1bb92d4dacc7ed02c974bc9, type: 2}
+  OnDestroyedBreakable:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!33 &2656478183121591153
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -9,10 +9,15 @@ public class PlayerController : MonoBehaviour
     public UnityEvent OnDamageBreakable;
 
     private Rigidbody playerRigidbody;
+    [SerializeField] private int playerDamage = 1;
 
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
         GameInput.Instance.OnInteract.AddListener(PerformInteractAction);
     }
 
@@ -29,7 +34,7 @@ public class PlayerController : MonoBehaviour
         Collider[] breakableColliders = Physics.OverlapSphere(transform.position, detectionRadius, breakableMask);
         foreach(Collider collider in breakableColliders)
         {
-            collider.GetComponent<BreakableController>().Damage();
+            collider.GetComponent<BreakableController>().Damage(playerDamage);
         }
     }
 }

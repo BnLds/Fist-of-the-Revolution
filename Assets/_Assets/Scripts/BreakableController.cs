@@ -3,25 +3,49 @@ using UnityEngine.Events;
 
 public class BreakableController : MonoBehaviour
 {
+    [SerializeField] private BreakableSO breakableSO;
 
-    [SerializeField] private int health = 3;
-    [SerializeField] private int watchValue = 1;
+    private int maxHealth;
+    private int health;
+    private int watchValue;
+    private int maxReward;
+    private int remainingRewardValue;
+    private bool isOnWatch;
 
-    public UnityEvent<int, Transform> OnDestroyedBreakable;
+    public UnityEvent<int, BreakableController> OnDestroyedBreakable;
+    public UnityEvent<int, Transform> OnDamagedBreakable;
 
-    public void Damage()
+    public UnityEvent<int, Transform> StartWatch;
+
+    private void Awake()
     {
-        if(health > 0) health -= 1;
+        maxHealth = breakableSO.health;
+        health = maxHealth;
+        watchValue = breakableSO.watchValue;
+        maxReward = breakableSO.reward;
+        remainingRewardValue = maxReward;
+        isOnWatch = false;
     }
 
-    private void Update()
+    public void Damage(int damageValue)
     {
-        if(health == 0) Destroy();
-    }
+        if(health - damageValue > 0)
+        {
+            health -= damageValue;
+            int rewardGranted = Mathf.CeilToInt(maxReward * damageValue / maxHealth);
+            remainingRewardValue -= rewardGranted;
+            OnDamagedBreakable?.Invoke(rewardGranted, transform);
 
-    private void Destroy()
-    {
-        OnDestroyedBreakable?.Invoke(watchValue, transform);
-        Destroy(gameObject);
+            if(!isOnWatch)
+            {
+                isOnWatch = true;
+                StartWatch?.Invoke(watchValue, transform);
+            }   
+        } 
+        else
+        {
+            OnDestroyedBreakable?.Invoke(remainingRewardValue, this);
+            Destroy(gameObject);
+        }
     }
 }

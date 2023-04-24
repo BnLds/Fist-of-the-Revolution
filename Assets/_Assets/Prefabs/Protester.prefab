@@ -47,7 +47,7 @@ MonoBehaviour:
   detectionRadius: 2
   layerMask:
     serializedVersion: 2
-    m_Bits: 1152
+    m_Bits: 3200
   showGizmos: 0
 --- !u!1 &1001593164066478922
 GameObject:
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcai: {fileID: 3752383236802386957}
-  moveSpeed: 6
+  moveSpeed: 3
 --- !u!114 &6075033511952251695
 MonoBehaviour:
   m_ObjectHideFlags: 0

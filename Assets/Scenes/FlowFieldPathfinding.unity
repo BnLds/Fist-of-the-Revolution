@@ -6556,6 +6556,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2481392565971890025, guid: dfef43bdbe7a1e14b880809e79dbd432,
+        type: 3}
+      propertyPath: avoidCollisionMask.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 8092548695155217262, guid: dfef43bdbe7a1e14b880809e79dbd432,
         type: 3}
       propertyPath: m_Name

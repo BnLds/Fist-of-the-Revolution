@@ -5,15 +5,18 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private LayerMask breakableMask;
+    [SerializeField] private LayerMask avoidCollisionMask;
 
     public UnityEvent OnDamageBreakable;
 
     private Rigidbody playerRigidbody;
+    private Collider playerCollider;
     [SerializeField] private int playerDamage = 1;
 
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
     }
 
     private void Start()
@@ -35,6 +38,14 @@ public class PlayerController : MonoBehaviour
         foreach(Collider collider in breakableColliders)
         {
             collider.GetComponent<BreakableController>().Damage(playerDamage);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(1 << collision.collider.gameObject.layer == avoidCollisionMask.value)
+        {
+            Physics.IgnoreCollision(collision.collider, playerCollider);
         }
     }
 }

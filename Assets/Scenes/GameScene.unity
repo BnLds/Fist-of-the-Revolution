@@ -1402,7 +1402,7 @@ RectTransform:
   m_Children:
   - {fileID: 593776740}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5326,6 +5326,81 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 623614824}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &624605905
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1461573840}
+    m_Modifications:
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.405164
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0262356
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 30.91349
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149198449243920836, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: m_Name
+      value: Policeman
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba80c5b9d758a6b40bf56832417a8a4b, type: 3}
+--- !u!4 &624605906 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 624605905}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &628753651
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6101,6 +6176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakablesCollectionManager: {fileID: 1448524911}
   policeWatchUI: {fileID: 801112786}
+  watchThresholds: 000000000100000003000000070000000c00000014000000
 --- !u!4 &719679207
 Transform:
   m_ObjectHideFlags: 0
@@ -6114,7 +6190,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &720076503 stripped
 Transform:
@@ -6556,11 +6632,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2481392565971890025, guid: dfef43bdbe7a1e14b880809e79dbd432,
-        type: 3}
-      propertyPath: avoidCollisionMask.m_Bits
-      value: 1024
-      objectReference: {fileID: 0}
     - target: {fileID: 8092548695155217262, guid: dfef43bdbe7a1e14b880809e79dbd432,
         type: 3}
       propertyPath: m_Name
@@ -10222,7 +10293,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1077683076 stripped
 Transform:
@@ -13165,7 +13236,7 @@ Transform:
   - {fileID: 1502065447}
   - {fileID: 1364848071}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1448524911
 MonoBehaviour:
@@ -13333,6 +13404,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
+--- !u!1 &1461573839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461573840}
+  m_Layer: 0
+  m_Name: PoliceSquadronManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1461573840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461573839}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.625164, y: 2.5262356, z: -23.07349}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 624605906}
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1464442345 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7149198449243920832, guid: b1849dd0aa246a143a1e3dc18fd92945,

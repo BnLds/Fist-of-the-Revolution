@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-public class npcAI : MonoBehaviour
+public class ProtesterAI : MonoBehaviour
 {
     private const string PERFORM_DETECTION = "PerformDetection";
 

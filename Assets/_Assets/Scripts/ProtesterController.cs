@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProtesterController : MonoBehaviour
 {
-    [SerializeField] private npcAI npcai;
+    [SerializeField] private ProtesterAI protesterAI;
     [SerializeField] private float moveSpeed = 5f;
     
     private Vector3 moveDirection;
@@ -15,8 +15,8 @@ public class ProtesterController : MonoBehaviour
     }
     private void Start()
     {
-        npcai.OnMoveDirectionInput.AddListener(npcai_OnMoveDirectionInput);
-        npcai.OnProtestEndReached.AddListener(npcAI_OnProtestEndReached);
+        protesterAI.OnMoveDirectionInput.AddListener(npcai_OnMoveDirectionInput);
+        protesterAI.OnProtestEndReached.AddListener(npcAI_OnProtestEndReached);
     }
 
     private void npcAI_OnProtestEndReached()

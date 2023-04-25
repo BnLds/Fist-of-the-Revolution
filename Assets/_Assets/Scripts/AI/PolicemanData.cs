@@ -5,5 +5,5 @@ public class PolicemanData : AIData
 {
     public List<Transform> watchedObjectsInReactionRange;
     public FlowField currentFlowField = null;
-    public Transform currentWatchObject;
+    public Vector3 currentWatchObjectPosition;
 }

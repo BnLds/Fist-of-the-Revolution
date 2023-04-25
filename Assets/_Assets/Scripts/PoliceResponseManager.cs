@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PoliceResponseManager : MonoBehaviour
 {
@@ -59,6 +60,8 @@ public class PoliceResponseManager : MonoBehaviour
 
     private void Breakable_OnDestroyedBreakable(int remainingWatchValue, BreakableController sender)
     {
+        PoliceResponseData.watchPoints.Remove(sender.transform);
+
         //remove listeners
         sender.OnDestroyedBreakable.RemoveAllListeners();
         sender.StartWatch.RemoveAllListeners();

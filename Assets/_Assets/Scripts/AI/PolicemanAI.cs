@@ -41,7 +41,6 @@ public class PolicemanAI : MonoBehaviour
     private bool isChasing = false;
     private bool isWalking = false;
 
-
     private void Start()
     {
         InvokeRepeating(PERFORM_DETECTION, 0f, detectionDelay);
@@ -85,7 +84,7 @@ public class PolicemanAI : MonoBehaviour
                 {
                     //Get closest watched object
                     Transform reactionPoint = policemanData.watchedObjectsInReactionRange.OrderBy(target => Utility.Distance2DBetweenVector3(transform.position, target.position)).FirstOrDefault();
-                    policemanData.currentWatchObject = reactionPoint;
+                    policemanData.currentWatchObjectPosition = new Vector3(reactionPoint.position.x, reactionPoint.position.y, reactionPoint.position.z);
                     //Generate flowfield to reaction point
                     //policemanData.currentFlowField = PoliceFlowfieldsGenerator.Instance.CreateNewFlowField(reactionPoint);
                     policemanData.currentFlowField = policeFlowfieldsGenerator.CreateNewFlowField(reactionPoint);
@@ -98,19 +97,11 @@ public class PolicemanAI : MonoBehaviour
             }
             case PoliceState.MoveToWatchedPoint:
             {
-                //Move to the current watched point as a reaction to an attack
-                if (policemanData.currentWatchObject != null)
-                {
-                    if (!isWalking)
+                if (!isWalking)
                     {
                         isWalking = true;
                         StartCoroutine(GoToWatchPoint());
                     }
-                }
-
-
-
-
                 break;
             }
             case PoliceState.Protect:
@@ -118,6 +109,10 @@ public class PolicemanAI : MonoBehaviour
                 //stay within a certain area of a watched object
                 //chase any character damaging the object
 
+                if(policemanData.currentTarget == null)
+                {
+                        currentState = PoliceState.LookForTarget;
+                    }
 
                 break;
             }
@@ -202,11 +197,10 @@ public class PolicemanAI : MonoBehaviour
     {
         //Check if policeman reached the area to watch
         float reactionPointReachedRange = 2f;
-        if(policemanData.currentWatchObject != null && Utility.Distance2DBetweenVector3(policemanData.currentWatchObject.position, transform.position) < reactionPointReachedRange)
+        if(Utility.Distance2DBetweenVector3(policemanData.currentWatchObjectPosition, transform.position) < reactionPointReachedRange)
         {
             //Stopping logic
             moveDirectionInput = Vector3.zero;
-            policemanData.currentWatchObject = null;
             policemanData.currentFlowField = null;
             isWalking = false;
             currentState = PoliceState.Protect;
@@ -214,21 +208,12 @@ public class PolicemanAI : MonoBehaviour
             yield return null;
         }
 
-        if(policemanData.currentFlowField == null || policemanData.currentWatchObject == null)
-        {
-            //Stopping logic
-            Debug.Log("Stopping, no more protest meeting point");
-            isWalking = false;
-            moveDirectionInput = Vector3.zero;
-            yield return null;
-        }
-        else
+        if(policemanData.currentFlowField != null)
         {
             moveDirectionInput = movementDirectionSolver.GetPoliceReactionDirection(steeringBehaviours, policemanData);
             yield return new WaitForSeconds(aiUpdateDelay);
             StartCoroutine(GoToWatchPoint());
         }
-        
     }
 
     public PoliceState GetPoliceState()

@@ -384,7 +384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7149198449243920832}
   - component: {fileID: 8989727023053325963}
-  - component: {fileID: 6075033511952251695}
+  - component: {fileID: 727319368865638778}
   - component: {fileID: 3752383236802386957}
   - component: {fileID: 6212171684923365943}
   m_Layer: 10
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   protesterAI: {fileID: 3752383236802386957}
   moveSpeed: 3
---- !u!114 &6075033511952251695
+--- !u!114 &727319368865638778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -435,7 +435,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7149198449243920836}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5af02f5c346c9e45b4a0d8300dc1fa4, type: 3}
+  m_Script: {fileID: 11500000, guid: 37afdc28ca3a02348bead755120e6199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
@@ -462,10 +462,9 @@ MonoBehaviour:
   detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
-  aiData: {fileID: 6075033511952251695}
+  protesterData: {fileID: 727319368865638778}
   moveDirectionInput: {x: 0, y: 0, z: 0}
   movementDirectionSolver: {fileID: 4006038392267361051}
-  isChasingEnabled: 1
   catchDistance: 1.5
   catchAttemptDelay: 1
   meetingPointReachedDistance: 4

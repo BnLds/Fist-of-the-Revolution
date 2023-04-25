@@ -42,9 +42,9 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
         return (danger, interest);
     }
 
-    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, AIData aiData)
+    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, ProtesterData protesterData)
     {
-        foreach (Collider obstacleCollider in aiData.obstacles)
+        foreach (Collider obstacleCollider in protesterData.obstacles)
         {
             if(obstacleCollider == null) return (danger, interest);
             

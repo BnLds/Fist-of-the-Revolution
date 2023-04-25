@@ -15,11 +15,11 @@ public class ProtesterController : MonoBehaviour
     }
     private void Start()
     {
-        protesterAI.OnMoveDirectionInput.AddListener(npcai_OnMoveDirectionInput);
-        protesterAI.OnProtestEndReached.AddListener(npcAI_OnProtestEndReached);
+        protesterAI.OnMoveDirectionInput.AddListener(protesterAI_OnMoveDirectionInput);
+        protesterAI.OnProtestEndReached.AddListener(protesterAI_OnProtestEndReached);
     }
 
-    private void npcAI_OnProtestEndReached()
+    private void protesterAI_OnProtestEndReached()
     {
         Destroy(gameObject);
     }
@@ -29,7 +29,7 @@ public class ProtesterController : MonoBehaviour
         protesterRB.velocity = moveDirection * moveSpeed;
     }
 
-    private void npcai_OnMoveDirectionInput(Vector3 direction)
+    private void protesterAI_OnMoveDirectionInput(Vector3 direction)
     {
         moveDirection = direction;
     }

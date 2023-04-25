@@ -52,6 +52,13 @@ MonoBehaviour:
   breakableMask:
     serializedVersion: 2
     m_Bits: 512
+  avoidCollisionMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  OnDamageBreakable:
+    m_PersistentCalls:
+      m_Calls: []
+  playerDamage: 1
 --- !u!33 &8092548695155217258
 MeshFilter:
   m_ObjectHideFlags: 0

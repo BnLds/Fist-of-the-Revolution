@@ -47,7 +47,7 @@ public class ContextSolver : MonoBehaviour
         return resultDirection;
     }
 
-    public Vector3 GetProtestDirection(List<SteeringBehaviour> behaviours, AIData aiData)
+    public Vector3 GetProtestDirection(List<SteeringBehaviour> behaviours, ProtesterData protesterData)
     {
         float[] danger = new float[8];
         float[] interest = new float[8];
@@ -55,7 +55,7 @@ public class ContextSolver : MonoBehaviour
         //loop through each behaviour
         foreach (SteeringBehaviour behaviour in behaviours)
         {
-            (danger, interest) = behaviour.GetSteeringFlowFields(danger, interest, aiData);
+            (danger, interest) = behaviour.GetSteeringFlowFields(danger, interest, protesterData);
         }
 
         //substract danger values from interest array

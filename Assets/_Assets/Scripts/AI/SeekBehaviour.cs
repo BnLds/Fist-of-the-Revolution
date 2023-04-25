@@ -71,10 +71,10 @@ public class SeekBehaviour : SteeringBehaviour
     }
 
 
-    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, AIData aiData)
+    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, ProtesterData protesterData)
     {
         //if we don't have a target stop seeking
-        if(aiData.reachedEndOfProtest || aiData.flowFieldsProtest.Count == 0)
+        if(protesterData.reachedEndOfProtest || protesterData.flowFieldsProtest.Count == 0)
         {
             Debug.Log("Stopped seeking");
             return (danger, interest);
@@ -82,7 +82,7 @@ public class SeekBehaviour : SteeringBehaviour
 
         //executes the main logic
         //get NPC position on grid
-        Node nodeBelow = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
+        Node nodeBelow = protesterData.flowFieldsProtest[protesterData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
             
         //Update the move direction of the player based on its position on the grid
         Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y);

@@ -16,10 +16,9 @@ public class ProtesterAI : MonoBehaviour
 
     [SerializeField] private List<SteeringBehaviour> steeringBehaviours;
     [SerializeField] private List<Detector> detectors;
-    [SerializeField] private AIData aiData;
+    [SerializeField] private ProtesterData protesterData;
     [ReadOnly] [SerializeField]  private Vector3 moveDirectionInput = Vector3.zero;
     [SerializeField] private ContextSolver movementDirectionSolver;
-    [SerializeField] private bool isChasingEnabled = false;
     [SerializeField] private float catchDistance = 1f;
     [SerializeField] private float catchAttemptDelay = 1f;
     [SerializeField] private float meetingPointReachedDistance = 2f;
@@ -47,9 +46,9 @@ public class ProtesterAI : MonoBehaviour
 
     private void ProtestManager_OnFlowFieldsCreated()
     {
-        aiData.flowFieldsProtest = ProtestFlowFields.Instance.GetFlowFields();
-        aiData.currentFlowFieldIndex = aiData.flowFieldsProtest.IndexOf(aiData.flowFieldsProtest.First(flowfield => flowfield.index == 0));
-        aiData.endOfProtest = ProtestFlowFields.Instance.GetEndOfProtest();
+        protesterData.flowFieldsProtest = ProtestFlowFields.Instance.GetFlowFields();
+        protesterData.currentFlowFieldIndex = protesterData.flowFieldsProtest.IndexOf(protesterData.flowFieldsProtest.First(flowfield => flowfield.index == 0));
+        protesterData.endOfProtest = ProtestFlowFields.Instance.GetEndOfProtest();
 
         if(currentState == ProtesterState.FollowProtest) StartCoroutine(FollowProtestPath());
     }
@@ -58,7 +57,7 @@ public class ProtesterAI : MonoBehaviour
     {
         foreach(Detector detector in detectors)
         {
-            detector.Detect(aiData);
+            detector.Detect(protesterData);
         }
     }
 
@@ -69,32 +68,28 @@ public class ProtesterAI : MonoBehaviour
             case ProtesterState.FollowProtest:
             {
                 //use the next protest flowfield if the NPC reaches the current meeting point 
-                if(Vector3.Distance(aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].target, transform.position) < meetingPointReachedDistance && aiData.currentFlowFieldIndex < aiData.flowFieldsProtest.Count - 1)
+                if(Vector3.Distance(protesterData.flowFieldsProtest[protesterData.currentFlowFieldIndex].target, transform.position) < meetingPointReachedDistance && protesterData.currentFlowFieldIndex < protesterData.flowFieldsProtest.Count - 1)
                 {
-                    aiData.currentFlowFieldIndex = aiData.flowFieldsProtest.IndexOf(aiData.flowFieldsProtest.First(flowfield => flowfield.index == aiData.currentFlowFieldIndex + 1));
+                    protesterData.currentFlowFieldIndex = protesterData.flowFieldsProtest.IndexOf(protesterData.flowFieldsProtest.First(flowfield => flowfield.index == protesterData.currentFlowFieldIndex + 1));
                 }
                 break;
             }
             case ProtesterState.Chase:
             {
-                //Target chasing behaviour
-                if(isChasingEnabled)
+                //NPC movement based on target availability and if chasing is enabled
+                if(protesterData.currentTarget != null)
                 {
-                    //NPC movement based on target availability and if chasing is enabled
-                    if(aiData.currentTarget != null)
+                    //chase the target if enabled
+                    if(!isChasing)
                     {
-                        //chase the target if enabled
-                        if(!isChasing)
-                        {
-                            OnPointerInput?.Invoke(aiData.currentTarget.position);
-                            isChasing = true;
-                            StartCoroutine(ChaseAndCatchTarget());
-                        }
-                    } 
-                    else if(aiData.GetTargetsCount() > 0)
-                    {
-                        aiData.currentTarget = aiData.targets[0];
+                        OnPointerInput?.Invoke(protesterData.currentTarget.position);
+                        isChasing = true;
+                        StartCoroutine(ChaseAndCatchTarget());
                     }
+                } 
+                else if(protesterData.GetTargetsCount() > 0)
+                {
+                    protesterData.currentTarget = protesterData.targets[0];
                 }
                 break;
             }
@@ -105,7 +100,7 @@ public class ProtesterAI : MonoBehaviour
 
     private IEnumerator ChaseAndCatchTarget()
     {
-        if(aiData.currentTarget == null)
+        if(protesterData.currentTarget == null)
         {
             //Stopping logic
             Debug.Log("Stopping");
@@ -115,20 +110,20 @@ public class ProtesterAI : MonoBehaviour
         }
         else
         {
-            float distance = Vector3.Distance(aiData.currentTarget.position, transform.position);
+            float distance = Vector3.Distance(protesterData.currentTarget.position, transform.position);
             if(distance < catchDistance)
             {
                 //Catch logic
                 moveDirectionInput = Vector3.zero;
                 Debug.Log("Attempting to catch the target");
-                OnCatchAttempt?.Invoke(aiData.currentTarget);
+                OnCatchAttempt?.Invoke(protesterData.currentTarget);
                 yield return new WaitForSeconds(catchAttemptDelay);
                 StartCoroutine(ChaseAndCatchTarget());
             }
             else
             {
                 //chase logic
-                moveDirectionInput = movementDirectionSolver.GetChaseDirection(steeringBehaviours, aiData);
+                moveDirectionInput = movementDirectionSolver.GetChaseDirection(steeringBehaviours, protesterData);
                 yield return new WaitForSeconds(aiUpdateDelay);
                 StartCoroutine(ChaseAndCatchTarget());
             }
@@ -139,17 +134,17 @@ public class ProtesterAI : MonoBehaviour
     {
         //Check if protester reached the end of the protest
         float destructionDistance = 1f;
-        if(Vector3.Distance(aiData.endOfProtest.position, transform.position) < destructionDistance)
+        if(Vector3.Distance(protesterData.endOfProtest.position, transform.position) < destructionDistance)
         {
             //Stopping logic
             Debug.Log("Stopping");
             moveDirectionInput = Vector3.zero;
-            aiData.reachedEndOfProtest = true;
+            protesterData.reachedEndOfProtest = true;
             OnProtestEndReached?.Invoke();
             yield return null;
         }
 
-        if(aiData.flowFieldsProtest.Count == 0)
+        if(protesterData.flowFieldsProtest.Count == 0)
         {
             //Stopping logic
             Debug.Log("Stopping, no more protest meeting point");
@@ -157,7 +152,7 @@ public class ProtesterAI : MonoBehaviour
         }
         else
         {
-            moveDirectionInput = movementDirectionSolver.GetProtestDirection(steeringBehaviours, aiData);
+            moveDirectionInput = movementDirectionSolver.GetProtestDirection(steeringBehaviours, protesterData);
         }
         yield return new WaitForSeconds(aiUpdateDelay);
         StartCoroutine(FollowProtestPath());
@@ -178,9 +173,9 @@ public class ProtesterAI : MonoBehaviour
             float gridWorldSizeY = 50f;
 
             Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSizeX, 1, gridWorldSizeY));
-            if(aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField != null)
+            if(protesterData.flowFieldsProtest[protesterData.currentFlowFieldIndex].flowField != null)
             {
-                FlowField currentFlowField = aiData.flowFieldsProtest[aiData.currentFlowFieldIndex].flowField;
+                FlowField currentFlowField = protesterData.flowFieldsProtest[protesterData.currentFlowFieldIndex].flowField;
                 if(currentFlowField.grid != null)
                 {
                     foreach(Node node in currentFlowField.grid)

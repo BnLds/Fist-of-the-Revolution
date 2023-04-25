@@ -6,16 +6,15 @@ public class PoliceResponseManager : MonoBehaviour
 {
     [SerializeField] private BreakablesCollectionManager breakablesCollectionManager;
     [SerializeField] PoliceWatchUI policeWatchUI;
+    [SerializeField] private int [] watchThresholds = new int[6] {0, 1, 3, 7, 12, 20};
 
     private List<BreakableController> breakablesWatched;
     private int currentWatchValue;
-    private int[] watchThresholds;
     private int currentWatchThresholdIndex;
 
     private void Awake()
     {
         currentWatchValue = 0;
-        watchThresholds = new int[6] {0, 1, 3, 7, 12, 20};
         currentWatchThresholdIndex = 0;
     }
 

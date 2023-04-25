@@ -398,7 +398,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7149198449243920836}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.46, y: 1, z: 5.63}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
@@ -435,20 +435,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3fd6aa4fb86e54288673105bb8d928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  policeFlowfieldsGenerator: {fileID: 0}
   steeringBehaviours:
   - {fileID: 8676481532161510226}
   - {fileID: 8641847114119605023}
   detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
-  policeData: {fileID: 7723722718084810004}
+  policemanData: {fileID: 7723722718084810004}
   moveDirectionInput: {x: 0, y: 0, z: 0}
   movementDirectionSolver: {fileID: 4006038392267361051}
   catchDistance: 1
   catchAttemptDelay: 1
+  watchReactionRange: 10
   detectionDelay: 0.05
   aiUpdateDelay: 0.06
-  currentState: 0
+  currentState: 1
   showGizmo: 0
   OnCatchAttempt:
     m_PersistentCalls:
@@ -474,6 +476,8 @@ MonoBehaviour:
   targets: []
   obstacles: []
   currentTarget: {fileID: 0}
+  watchedObjectsInReactionRange: []
+  currentWatchObject: {fileID: 0}
 --- !u!54 &6212171684923365943
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -79,6 +79,38 @@ public class ContextSolver : MonoBehaviour
         return resultDirection;
     }
 
+    public Vector3 GetPoliceReactionDirection(List<SteeringBehaviour> behaviours, PolicemanData policemanData)
+    {
+        float[] danger = new float[8];
+        float[] interest = new float[8];
+
+        //loop through each behaviour
+        foreach (SteeringBehaviour behaviour in behaviours)
+        {
+            (danger, interest) = behaviour.GetSteeringPoliceReaction(danger, interest, policemanData);
+        }
+
+        //substract danger values from interest array
+        for (int i = 0; i < interest.Length; i++)
+        {
+            interest[i] = Mathf.Clamp01(interest[i] - danger[i]);
+        }
+
+        interestGizmo = interest;
+
+        //get the average direction
+        Vector2 outputDirection = Vector2.zero;
+        for (int i = 0; i < interest.Length; i++)
+        {
+            outputDirection += GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]) * interest[i];
+        }
+        outputDirection.Normalize();
+
+        resultDirection = new Vector3(outputDirection.x, 0, outputDirection.y);
+
+        return resultDirection;
+    }
+
     private void OnDrawGizmos()
     {
         if(Application.isPlaying && showGizmos)

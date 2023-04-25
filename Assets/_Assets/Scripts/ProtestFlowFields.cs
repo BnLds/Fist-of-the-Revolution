@@ -11,7 +11,7 @@ public class ProtestFlowFields : MonoBehaviour
 
     public UnityEvent OnFlowFieldsCreated;
 
-    private List<FlowFieldData> flowFieldsProtest;
+    private List<ProtestFlowFieldData> flowFieldsProtest;
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class ProtestFlowFields : MonoBehaviour
             Instance = this;
         }
 
-        flowFieldsProtest = new List<FlowFieldData>();
+        flowFieldsProtest = new List<ProtestFlowFieldData>();
     }
 
     private void Start()
@@ -36,13 +36,13 @@ public class ProtestFlowFields : MonoBehaviour
     {
         for (int i = 0; i < protestMeetingPoints.Count; i++)
         {
-            flowFieldsProtest.Add(new FlowFieldData(i, "MeetingPoint: " + i, protestMeetingPoints[i].position, GridController.Instance.GenerateFlowField(protestMeetingPoints[i])));
+            flowFieldsProtest.Add(new ProtestFlowFieldData(i, "MeetingPoint: " + i, protestMeetingPoints[i].position, GridController.Instance.GenerateFlowField(protestMeetingPoints[i])));
         }
 
         OnFlowFieldsCreated?.Invoke();
     }
 
-    public List<FlowFieldData> GetFlowFields()
+    public List<ProtestFlowFieldData> GetFlowFields()
     {
         return flowFieldsProtest;
     }

@@ -4,9 +4,9 @@ using UnityEngine;
 public class AIData : MonoBehaviour
 {
     //target seeking behaviour data 
-    public List<Transform> targets = null;
-    public Collider[] obstacles = null;
-    public Transform currentTarget;
+    public List<Transform> Targets = null;
+    public Collider[] Obstacles = null;
+    public Transform CurrentTarget;
 
-    public int GetTargetsCount() => targets == null ? 0 : targets.Count;
+    public int GetTargetsCount() => Targets == null ? 0 : Targets.Count;
 }

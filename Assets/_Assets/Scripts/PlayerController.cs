@@ -3,20 +3,20 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private LayerMask breakableMask;
-    [SerializeField] private LayerMask avoidCollisionMask;
+    [SerializeField] private float _moveSpeed = 3f;
+    [SerializeField] private LayerMask _breakableMask;
+    [SerializeField] private LayerMask _avoidCollisionMask;
 
     public UnityEvent OnDamageBreakable;
 
-    private Rigidbody playerRigidbody;
-    private Collider playerCollider;
-    [SerializeField] private int playerDamage = 1;
+    private Rigidbody _playerRigidbody;
+    private Collider _playerCollider;
+    [SerializeField] private int _playerDamage = 1;
 
     private void Awake()
     {
-        playerRigidbody = GetComponent<Rigidbody>();
-        playerCollider = GetComponent<CapsuleCollider>();
+        _playerRigidbody = GetComponent<Rigidbody>();
+        _playerCollider = GetComponent<CapsuleCollider>();
     }
 
     private void Start()
@@ -28,24 +28,24 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveInput = new Vector3(GameInput.Instance.GetMovementVectorNormalized().x, 0,GameInput.Instance.GetMovementVectorNormalized().y);
 
-        playerRigidbody.velocity = moveInput * moveSpeed;
+        _playerRigidbody.velocity = moveInput * _moveSpeed;
     }
 
     private void PerformInteractAction()
     {
         float detectionRadius = 2f;
-        Collider[] breakableColliders = Physics.OverlapSphere(transform.position, detectionRadius, breakableMask);
+        Collider[] breakableColliders = Physics.OverlapSphere(transform.position, detectionRadius, _breakableMask);
         foreach(Collider collider in breakableColliders)
         {
-            collider.GetComponent<BreakableController>().Damage(playerDamage);
+            collider.GetComponent<BreakableController>().Damage(_playerDamage);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(1 << collision.collider.gameObject.layer == avoidCollisionMask.value)
+        if(1 << collision.collider.gameObject.layer == _avoidCollisionMask.value)
         {
-            Physics.IgnoreCollision(collision.collider, playerCollider);
+            Physics.IgnoreCollision(collision.collider, _playerCollider);
         }
     }
 }

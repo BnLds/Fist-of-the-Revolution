@@ -19,31 +19,30 @@ public class PolicemanAI : MonoBehaviour
         MoveToWatchedPoint
     }
 
-    [SerializeField] private PoliceFlowfieldsGenerator policeFlowfieldsGenerator;
-
-    [SerializeField] private List<SteeringBehaviour> steeringBehaviours;
-    [SerializeField] private List<Detector> detectors;
-    [SerializeField] private PolicemanData policemanData;
-    [ReadOnly] [SerializeField]  private Vector3 moveDirectionInput = Vector3.zero;
-    [SerializeField] private ContextSolver movementDirectionSolver;
-    [SerializeField] private float catchDistance = 1f;
-    [SerializeField] private float catchAttemptDelay = 1f;
-    [SerializeField] private float watchReactionRange = 10f;
+    [SerializeField] private List<SteeringBehaviour> _steeringBehaviours;
+    [SerializeField] private List<Detector> _detectors;
+    [SerializeField] private PolicemanData _policemanData;
+    [ReadOnly] [SerializeField]  private Vector3 _moveDirectionInput = Vector3.zero;
+    [SerializeField] private ContextSolver _movementDirectionSolver;
+    [SerializeField] private float _catchDistance = 1f;
+    [SerializeField] private float _catchAttemptDelay = 1f;
+    [SerializeField] private float _watchReactionRange = 10f;
 
     //performance parameters
-    [SerializeField] private float detectionDelay = .05f, aiUpdateDelay = .06f;
-    [SerializeField] private PoliceState currentState = PoliceState.Chase;
-    [SerializeField] private bool showGizmo = false;
+    [SerializeField] private float _detectionDelay = .05f;
+    [SerializeField]private float _aiUpdateDelay = .06f;
+    [SerializeField] private PoliceState _currentState = PoliceState.Chase;
+    [SerializeField] private bool _showGizmo = false;
 
     public UnityEvent<Transform> OnCatchAttempt;
     public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
 
-    private bool isChasing = false;
-    private bool isWalking = false;
+    private bool _isChasing = false;
+    private bool _isWalking = false;
 
     private void Start()
     {
-        InvokeRepeating(PERFORM_DETECTION, 0f, detectionDelay);
+        InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
     }
 
     private void OnDisable()
@@ -53,18 +52,18 @@ public class PolicemanAI : MonoBehaviour
 
     private void PerformDetection()
     {
-        foreach(Detector detector in detectors)
+        foreach(Detector detector in _detectors)
         {
-            detector.Detect(policemanData);
+            detector.Detect(_policemanData);
         }
 
-        if(PoliceResponseData.watchPoints != null && PoliceResponseData.watchPoints.Count != 0)
+        if(PoliceResponseData.WatchPoints != null && PoliceResponseData.WatchPoints.Count != 0)
         {
-            foreach(Transform watchPoint in PoliceResponseData.watchPoints)
+            foreach(Transform watchPoint in PoliceResponseData.WatchPoints)
             {
-                if(Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= watchReactionRange)
+                if(Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= _watchReactionRange)
                 {
-                    policemanData.watchedObjectsInReactionRange.Add(watchPoint);
+                    _policemanData.WatchedObjectsInReactionRange.Add(watchPoint);
                 }
             }
         }
@@ -73,23 +72,23 @@ public class PolicemanAI : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentState);
+        Debug.Log(_currentState);
 
-        switch(currentState)
+        switch(_currentState)
         {
             case PoliceState.Idle:
             {
                 //if within reaction range of watched objects, go to protect the closest object
-                if(policemanData.watchedObjectsInReactionRange.Count != 0)
+                if(_policemanData.WatchedObjectsInReactionRange.Count != 0)
                 {
                     //Get closest watched object
-                    Transform reactionPoint = policemanData.watchedObjectsInReactionRange.OrderBy(target => Utility.Distance2DBetweenVector3(transform.position, target.position)).FirstOrDefault();
-                    policemanData.currentWatchObjectPosition = new Vector3(reactionPoint.position.x, reactionPoint.position.y, reactionPoint.position.z);
+                    Transform reactionPoint = _policemanData.WatchedObjectsInReactionRange.OrderBy(target => Utility.Distance2DBetweenVector3(transform.position, target.position)).FirstOrDefault();
+                    _policemanData.CurrentWatchObjectPosition = new Vector3(reactionPoint.position.x, reactionPoint.position.y, reactionPoint.position.z);
                     //Generate flowfield to reaction point
                     //policemanData.currentFlowField = PoliceFlowfieldsGenerator.Instance.CreateNewFlowField(reactionPoint);
-                    policemanData.currentFlowField = policeFlowfieldsGenerator.CreateNewFlowField(reactionPoint);
+                    _policemanData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint);
 
-                    currentState = PoliceState.MoveToWatchedPoint;
+                    _currentState = PoliceState.MoveToWatchedPoint;
                 }
 
 
@@ -97,9 +96,9 @@ public class PolicemanAI : MonoBehaviour
             }
             case PoliceState.MoveToWatchedPoint:
             {
-                if (!isWalking)
+                if (!_isWalking)
                     {
-                        isWalking = true;
+                        _isWalking = true;
                         StartCoroutine(GoToWatchPoint());
                     }
                 break;
@@ -109,9 +108,9 @@ public class PolicemanAI : MonoBehaviour
                 //stay within a certain area of a watched object
                 //chase any character damaging the object
 
-                if(policemanData.currentTarget == null)
+                if(_policemanData.CurrentTarget == null)
                 {
-                        currentState = PoliceState.LookForTarget;
+                        _currentState = PoliceState.LookForTarget;
                     }
 
                 break;
@@ -120,19 +119,19 @@ public class PolicemanAI : MonoBehaviour
             {
                 //chase a specific target
                 //NPC movement based on target availability and if chasing is enabled
-                if(policemanData.currentTarget != null)
+                if(_policemanData.CurrentTarget != null)
                 {
                     //chase the target if enabled
-                    if(!isChasing)
+                    if(!_isChasing)
                     {
-                        OnPointerInput?.Invoke(policemanData.currentTarget.position);
-                        isChasing = true;
+                        OnPointerInput?.Invoke(_policemanData.CurrentTarget.position);
+                        _isChasing = true;
                         StartCoroutine(ChaseAndCatchTarget());
                     }
                 } 
-                else if(policemanData.GetTargetsCount() > 0)
+                else if(_policemanData.GetTargetsCount() > 0)
                 {
-                    policemanData.currentTarget = policemanData.targets[0];
+                    _policemanData.CurrentTarget = _policemanData.Targets[0];
                 }
 
                 break;
@@ -158,36 +157,36 @@ public class PolicemanAI : MonoBehaviour
             }
         }
         //Moving the agent
-        OnMoveDirectionInput?.Invoke(moveDirectionInput);
+        OnMoveDirectionInput?.Invoke(_moveDirectionInput);
     }
 
     private IEnumerator ChaseAndCatchTarget()
     {
-        if(policemanData.currentTarget == null)
+        if(_policemanData.CurrentTarget == null)
         {
             //Stopping logic
             Debug.Log("Stopping");
-            moveDirectionInput = Vector3.zero;
-            isChasing = false;
+            _moveDirectionInput = Vector3.zero;
+            _isChasing = false;
             yield return null;
         }
         else
         {
-            float distance = Vector3.Distance(policemanData.currentTarget.position, transform.position);
-            if(distance < catchDistance)
+            float distance = Vector3.Distance(_policemanData.CurrentTarget.position, transform.position);
+            if(distance < _catchDistance)
             {
                 //Catch logic
-                moveDirectionInput = Vector3.zero;
+                _moveDirectionInput = Vector3.zero;
                 Debug.Log("Attempting to catch the target");
-                OnCatchAttempt?.Invoke(policemanData.currentTarget);
-                yield return new WaitForSeconds(catchAttemptDelay);
+                OnCatchAttempt?.Invoke(_policemanData.CurrentTarget);
+                yield return new WaitForSeconds(_catchAttemptDelay);
                 StartCoroutine(ChaseAndCatchTarget());
             }
             else
             {
                 //chase logic
-                moveDirectionInput = movementDirectionSolver.GetContextDirection(steeringBehaviours, policemanData);
-                yield return new WaitForSeconds(aiUpdateDelay);
+                _moveDirectionInput = _movementDirectionSolver.GetContextDirection(_steeringBehaviours, _policemanData);
+                yield return new WaitForSeconds(_aiUpdateDelay);
                 StartCoroutine(ChaseAndCatchTarget());
             }
         }
@@ -197,34 +196,34 @@ public class PolicemanAI : MonoBehaviour
     {
         //Check if policeman reached the area to watch
         float reactionPointReachedRange = 2f;
-        if(Utility.Distance2DBetweenVector3(policemanData.currentWatchObjectPosition, transform.position) < reactionPointReachedRange)
+        if(Utility.Distance2DBetweenVector3(_policemanData.CurrentWatchObjectPosition, transform.position) < reactionPointReachedRange)
         {
             //Stopping logic
-            moveDirectionInput = Vector3.zero;
-            policemanData.currentFlowField = null;
-            isWalking = false;
-            currentState = PoliceState.Protect;
+            _moveDirectionInput = Vector3.zero;
+            _policemanData.CurrentFlowField = null;
+            _isWalking = false;
+            _currentState = PoliceState.Protect;
 
             yield return null;
         }
 
-        if(policemanData.currentFlowField != null)
+        if(_policemanData.CurrentFlowField != null)
         {
-            moveDirectionInput = movementDirectionSolver.GetContextDirection(steeringBehaviours, policemanData);
-            yield return new WaitForSeconds(aiUpdateDelay);
+            _moveDirectionInput = _movementDirectionSolver.GetContextDirection(_steeringBehaviours, _policemanData);
+            yield return new WaitForSeconds(_aiUpdateDelay);
             StartCoroutine(GoToWatchPoint());
         }
     }
 
     public PoliceState GetPoliceState()
     {
-        return currentState;
+        return _currentState;
     }
 
 
     private void OnDrawGizmos()
     {
-        if(Application.isPlaying && showGizmo)
+        if(Application.isPlaying && _showGizmo)
         {
                 
         }

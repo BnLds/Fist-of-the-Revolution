@@ -5,12 +5,12 @@ public class GridController : MonoBehaviour
 {
     public static GridController Instance { get; private set; }
 
-    [SerializeField] private Vector2 gridWorldSize;
-    [SerializeField] private float nodeRadius = .5f;
-    [SerializeField] private LayerMask unwalkableMask;
-    [SerializeField] private LayerMask encumberedMask;
+    [SerializeField] private Vector2 _gridWorldSize;
+    [SerializeField] private float _nodeRadius = .5f;
+    [SerializeField] private LayerMask _unwalkableMask;
+    [SerializeField] private LayerMask _encumberedMask;
 
-    private FlowField currentFlowField;
+    private FlowField _currentFlowField;
 
     private void Awake()
     {
@@ -27,20 +27,20 @@ public class GridController : MonoBehaviour
    
     private void InitializeFlowField()
     {
-        currentFlowField = new FlowField(nodeRadius, gridWorldSize, unwalkableMask, encumberedMask);
-        currentFlowField.CreateGrid(transform.position);
+        _currentFlowField = new FlowField(_nodeRadius, _gridWorldSize, _unwalkableMask, _encumberedMask);
+        _currentFlowField.CreateGrid(transform.position);
     }
 
     public FlowField GenerateFlowField(Transform targetTransform)
     {
         InitializeFlowField();
-        currentFlowField.CreateCostField();
-        Node targetGridPosition = currentFlowField.GetNodeFromWorldPoint(targetTransform.position);
-        currentFlowField.CreateIntegrationField(targetGridPosition);
+        _currentFlowField.CreateCostField();
+        Node targetGridPosition = _currentFlowField.GetNodeFromWorldPoint(targetTransform.position);
+        _currentFlowField.CreateIntegrationField(targetGridPosition);
 
-        currentFlowField.CreateFlowField();
+        _currentFlowField.CreateFlowField();
 
-        return currentFlowField;
+        return _currentFlowField;
     }
 
 

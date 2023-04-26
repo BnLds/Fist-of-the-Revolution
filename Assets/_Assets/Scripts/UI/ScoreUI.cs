@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class ScoreUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private BreakablesCollectionManager breakablesCollectionManager;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private BreakablesCollectionManager _breakablesCollectionManager;
 
-    private int scoreDisplayed;
+    private int _scoreDisplayed;
 
     private void Awake()
     {
-        breakablesCollectionManager.OnScoreChange.AddListener(UpdateScore);
+        _breakablesCollectionManager.OnScoreChange.AddListener(UpdateScore);
 
-        scoreDisplayed = 0;
+        _scoreDisplayed = 0;
         UpdateUI();
     }
 
     private void UpdateScore(int scoreChange)
     {
-        scoreDisplayed += scoreChange;
+        _scoreDisplayed += scoreChange;
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        scoreText.text = "Score: " + scoreDisplayed.ToString();
+        _scoreText.text = "Score: " + _scoreDisplayed.ToString();
     }
 }

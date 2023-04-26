@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d60fcb1e35a2240a5addec12fd97d3, type: 3}
   m_Name: Bank
   m_EditorClassIdentifier: 
-  health: 10
-  watchValue: 8
-  reward: 15
+  Health: 5
+  WatchValue: 10
+  Reward: 10

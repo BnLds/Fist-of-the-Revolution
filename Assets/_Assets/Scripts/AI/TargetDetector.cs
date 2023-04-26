@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class TargetDetector : Detector
 {
-    [SerializeField] private float targetDetectionRange = 5f;
-    [SerializeField] private LayerMask obstaclesLayerMask, targetsLayerMask;
-    [SerializeField] private bool showGizmos = false;
+    [SerializeField] private float _targetDetectionRange = 5f;
+    [SerializeField] private LayerMask _obstaclesLayerMask, _targetsLayerMask;
+    [SerializeField] private bool _showGizmos = false;
 
-    private List<Transform> colliders;
+    private List<Transform> _colliders;
 
     public override void Detect(AIData aiData)
     {
         //find out if targets are near
-        Collider[] targetColliders = Physics.OverlapSphere(transform.position, targetDetectionRange, targetsLayerMask);
+        Collider[] targetColliders = Physics.OverlapSphere(transform.position, _targetDetectionRange, _targetsLayerMask);
 
         if(targetColliders.Length != 0)
         {
@@ -20,37 +20,37 @@ public class TargetDetector : Detector
             Vector3 direction = (targetColliders[0].transform.position - transform.position).normalized;
 
             //targets are also on the obstaclesLayerMask
-            bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, targetDetectionRange, obstaclesLayerMask);
+            bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, _targetDetectionRange, _obstaclesLayerMask);
 
             //Make sure the collider we see is on the targetLayer.
-            if(canSeePlayer && 1<<hitInfo.collider.gameObject.layer == targetsLayerMask.value)
+            if(canSeePlayer && 1<<hitInfo.collider.gameObject.layer == _targetsLayerMask.value)
             {
 
                 //Debug.DrawRay(transform.position, direction * targetDetectionRange, Color.blue);
-                colliders = new List<Transform>() { targetColliders[0].transform };
+                _colliders = new List<Transform>() { targetColliders[0].transform };
             }
             else
             {
-                colliders = null;
+                _colliders = null;
             }
         }
         else
         {
-            colliders = null;
+            _colliders = null;
         }
 
-        aiData.targets = colliders;
+        aiData.Targets = _colliders;
     }
 
     private void OnDrawGizmos()
     {
-        if(!showGizmos) return;
+        if(!_showGizmos) return;
 
-        Gizmos.DrawWireSphere(transform.position, targetDetectionRange);
+        Gizmos.DrawWireSphere(transform.position, _targetDetectionRange);
 
-        if(colliders == null) return;
+        if(_colliders == null) return;
 
-        foreach(Transform collider in colliders)
+        foreach(Transform collider in _colliders)
         {
             Gizmos.DrawIcon(collider.position + Vector3.up*2, "32");
         }

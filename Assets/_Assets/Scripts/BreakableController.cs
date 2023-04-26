@@ -3,14 +3,14 @@ using UnityEngine.Events;
 
 public class BreakableController : MonoBehaviour
 {
-    [SerializeField] private BreakableSO breakableSO;
+    [SerializeField] private BreakableSO _breakableSO;
 
-    private int maxHealth;
-    private int health;
-    private int watchValue;
-    private int maxReward;
-    private int remainingRewardValue;
-    private bool isOnWatch;
+    private int _maxHealth;
+    private int _health;
+    private int _watchValue;
+    private int _maxReward;
+    private int _remainingRewardValue;
+    private bool _isOnWatch;
 
     public UnityEvent<int, BreakableController> OnDestroyedBreakable;
     public UnityEvent<int, Transform> OnDamagedBreakable;
@@ -19,32 +19,32 @@ public class BreakableController : MonoBehaviour
 
     private void Awake()
     {
-        maxHealth = breakableSO.health;
-        health = maxHealth;
-        watchValue = breakableSO.watchValue;
-        maxReward = breakableSO.reward;
-        remainingRewardValue = maxReward;
-        isOnWatch = false;
+        _maxHealth = _breakableSO.Health;
+        _health = _maxHealth;
+        _watchValue = _breakableSO.WatchValue;
+        _maxReward = _breakableSO.Reward;
+        _remainingRewardValue = _maxReward;
+        _isOnWatch = false;
     }
 
     public void Damage(int damageValue)
     {
-        if(health - damageValue > 0)
+        if(_health - damageValue > 0)
         {
-            health -= damageValue;
-            int rewardGranted = Mathf.CeilToInt(maxReward * damageValue / maxHealth);
-            remainingRewardValue -= rewardGranted;
+            _health -= damageValue;
+            int rewardGranted = Mathf.CeilToInt(_maxReward * damageValue / _maxHealth);
+            _remainingRewardValue -= rewardGranted;
             OnDamagedBreakable?.Invoke(rewardGranted, transform);
 
-            if(!isOnWatch)
+            if(!_isOnWatch)
             {
-                isOnWatch = true;
-                StartWatch?.Invoke(watchValue, transform);
+                _isOnWatch = true;
+                StartWatch?.Invoke(_watchValue, transform);
             }   
         } 
         else
         {
-            OnDestroyedBreakable?.Invoke(remainingRewardValue, this);
+            OnDestroyedBreakable?.Invoke(_remainingRewardValue, this);
             Destroy(gameObject);
         }
     }

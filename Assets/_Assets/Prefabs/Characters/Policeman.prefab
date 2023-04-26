@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbc313a6fffbed40ae55e5b48c3d67e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 2
-  layerMask:
+  _detectionRadius: 2
+  _layerMask:
     serializedVersion: 2
-    m_Bits: 3200
-  showGizmos: 0
+    m_Bits: 1152
+  _showGizmos: 1
 --- !u!1 &1001593164066478922
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +58,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7739216026274944628}
-  - component: {fileID: 5923019657009102027}
   - component: {fileID: 8756372246786316379}
   - component: {fileID: 1784478841898551319}
   - component: {fileID: 423561137945770695}
@@ -84,18 +83,6 @@ Transform:
   m_Father: {fileID: 7149198449243920832}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5923019657009102027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1001593164066478922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e45394f942d6814fbcb3f704d234877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &8756372246786316379
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -237,14 +224,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef66af1dfb2315146a49661aa062cb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDetectionRange: 20
-  obstaclesLayerMask:
+  _targetDetectionRange: 5
+  _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 2176
-  targetsLayerMask:
+  _targetsLayerMask:
     serializedVersion: 2
     m_Bits: 2048
-  showGizmos: 1
+  _showGizmos: 0
 --- !u!1 &6608261059095314829
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,9 +276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0512d932ae8ca4d8debc8f855be81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2
-  agentColliderSize: 0.7
-  showGizmo: 0
+  _radius: 2
+  _agentColliderSize: 0.7
+  _showGizmo: 1
 --- !u!1 &6649522485515808518
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd9f2a464b923240b796a51b91f1599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showGizmos: 1
+  _showGizmos: 1
 --- !u!1 &6732334724613019848
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,8 +408,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772d1d1e3314f2741a5f49c4c2456d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  policemanAI: {fileID: 5291358391560267339}
-  moveSpeed: 3
+  _policemanAI: {fileID: 5291358391560267339}
+  _moveSpeed: 3
 --- !u!114 &5291358391560267339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,23 +422,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3fd6aa4fb86e54288673105bb8d928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  policeFlowfieldsGenerator: {fileID: 0}
-  steeringBehaviours:
+  _steeringBehaviours:
   - {fileID: 8676481532161510226}
   - {fileID: 8641847114119605023}
-  detectors:
+  _detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
-  policemanData: {fileID: 7723722718084810004}
-  moveDirectionInput: {x: 0, y: 0, z: 0}
-  movementDirectionSolver: {fileID: 4006038392267361051}
-  catchDistance: 1
-  catchAttemptDelay: 1
-  watchReactionRange: 10
-  detectionDelay: 0.05
-  aiUpdateDelay: 0.06
-  currentState: 1
-  showGizmo: 0
+  _policemanData: {fileID: 7723722718084810004}
+  _moveDirectionInput: {x: 0, y: 0, z: 0}
+  _movementDirectionSolver: {fileID: 4006038392267361051}
+  _catchDistance: 1
+  _catchAttemptDelay: 1
+  _watchReactionRange: 10
+  _detectionDelay: 0.05
+  _aiUpdateDelay: 0.06
+  _currentState: 1
+  _showGizmo: 0
   OnCatchAttempt:
     m_PersistentCalls:
       m_Calls: []
@@ -473,11 +459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a47c4af5c789f14290603ebe32b794b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets: []
-  obstacles: []
-  currentTarget: {fileID: 0}
-  watchedObjectsInReactionRange: []
-  currentWatchObject: {fileID: 0}
+  Targets: []
+  Obstacles: []
+  CurrentTarget: {fileID: 0}
+  WatchedObjectsInReactionRange: []
+  CurrentWatchObjectPosition: {x: 0, y: 0, z: 0}
 --- !u!54 &6212171684923365943
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -538,8 +524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece8f25ce268c78408eb96682968ccc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetReachedThreshold: 0.7
-  showGizmos: 0
+  _targetReachedThreshold: 0.7
+  _showGizmos: 1
   OnTargetReached:
     m_PersistentCalls:
       m_Calls: []

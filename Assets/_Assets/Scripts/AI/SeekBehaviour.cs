@@ -4,54 +4,54 @@ using UnityEngine.Events;
 
 public class SeekBehaviour : SteeringBehaviour
 {
-    [SerializeField] private float targetReachedThreshold = 0.7f;
-    [SerializeField] private bool showGizmos = true;
+    [SerializeField] private float _targetReachedThreshold = 0.7f;
+    [SerializeField] private bool _showGizmos = true;
 
     public UnityEvent OnTargetReached;
 
-    private bool reachedLastTarget = true;
+    private bool _reachedLastTarget = true;
 
     //gizmo parameters
-    private Vector3 targetPositionCached;
-    private float[] interestsTemp;
-    private Vector3 moveDirectionFlowFieldTemp;
+    private Vector3 _targetPositionCached;
+    private float[] _interestsTemp;
+    private Vector3 _moveDirectionFlowFieldTemp;
 
     public override (float[] danger, float[] interest) GetSteeringToTargets(float[] danger, float[] interest, AIData aiData)
     {
         //if we don't have a target stop seeking
         //else set a new target
-        if(reachedLastTarget)
+        if(_reachedLastTarget)
         {
-            if(aiData.targets == null || aiData.targets.Count <= 0)
+            if(aiData.Targets == null || aiData.Targets.Count <= 0)
             {
-                aiData.currentTarget = null;
+                aiData.CurrentTarget = null;
                 return (danger, interest);
             }
             else
             {
-                reachedLastTarget = false;
-                aiData.currentTarget = aiData.targets.OrderBy(target => Vector3.Distance(transform.position, target.position)).FirstOrDefault();
+                _reachedLastTarget = false;
+                aiData.CurrentTarget = aiData.Targets.OrderBy(target => Vector3.Distance(transform.position, target.position)).FirstOrDefault();
             }
         }
 
         //cache the last position only if we still see the target (if the targets collection is not empty)
-        if(aiData.currentTarget != null && aiData.targets != null && aiData.targets.Contains(aiData.currentTarget))
+        if(aiData.CurrentTarget != null && aiData.Targets != null && aiData.Targets.Contains(aiData.CurrentTarget))
         {
-            targetPositionCached = aiData.currentTarget.position;
+            _targetPositionCached = aiData.CurrentTarget.position;
         }
 
         //first check if we have reached the target
-        if(Vector3.Distance(transform.position, targetPositionCached) < targetReachedThreshold)
+        if(Vector3.Distance(transform.position, _targetPositionCached) < _targetReachedThreshold)
         {
             Debug.Log("Target reached");
-            reachedLastTarget = true;
-            aiData.currentTarget = null;
+            _reachedLastTarget = true;
+            aiData.CurrentTarget = null;
             OnTargetReached?.Invoke();
             return (danger, interest);
         }
 
         //if we havent reached the target, do the main logic of finding the interest directions
-        Vector2 directionToTarget = new Vector2((targetPositionCached - transform.position).x, (targetPositionCached - transform.position).z);
+        Vector2 directionToTarget = new Vector2((_targetPositionCached - transform.position).x, (_targetPositionCached - transform.position).z);
         for (int i = 0; i < interest.Length; i++)
         {
             float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
@@ -66,7 +66,7 @@ public class SeekBehaviour : SteeringBehaviour
                 }
             }
         }
-        interestsTemp = interest;
+        _interestsTemp = interest;
         return (danger, interest);
     }
 
@@ -78,7 +78,7 @@ public class SeekBehaviour : SteeringBehaviour
         if(aiData is ProtesterData protesterData)
         {
             //if we don't have a target stop seeking
-            if(protesterData.reachedEndOfProtest || protesterData.flowFieldsProtest.Count == 0)
+            if(protesterData.ReachedEndOfProtest || protesterData.FlowFieldsProtest.Count == 0)
             {
                 Debug.Log("Stopped seeking");
                 return (danger, interest);
@@ -86,19 +86,19 @@ public class SeekBehaviour : SteeringBehaviour
 
             //executes the main logic
             //get NPC position on grid
-            nodeBelow = protesterData.flowFieldsProtest[protesterData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
+            nodeBelow = protesterData.FlowFieldsProtest[protesterData.CurrentFlowFieldIndex].FlowField.GetNodeFromWorldPoint(transform.position);
         }
         else if(aiData is PolicemanData policemanData)
         {
             //if we don't have a target stop seeking
-            if(policemanData.currentFlowField == null)
+            if(policemanData.CurrentFlowField == null)
             {
                 return (danger, interest);
             }
 
             //executes the main logic
             //get NPC position on grid
-            nodeBelow = policemanData.currentFlowField.GetNodeFromWorldPoint(transform.position);    
+            nodeBelow = policemanData.CurrentFlowField.GetNodeFromWorldPoint(transform.position);    
         }
         else
         {
@@ -107,8 +107,8 @@ public class SeekBehaviour : SteeringBehaviour
         }
         
         //Update the move direction of the player based on its position on the grid
-        Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y);
-        moveDirectionFlowFieldTemp = moveDirectionFlowField;
+        Vector3 moveDirectionFlowField = new Vector3(nodeBelow.BestDirection.Vector.x, 0, nodeBelow.BestDirection.Vector.y);
+        _moveDirectionFlowFieldTemp = moveDirectionFlowField;
         //if we havent reached the target, do the main logic of finding the interest directions
         Vector2 directionToTarget = new Vector2(moveDirectionFlowField.x, moveDirectionFlowField.z);
         for (int i = 0; i < interest.Length; i++)
@@ -125,27 +125,27 @@ public class SeekBehaviour : SteeringBehaviour
                 }
             }
         }
-        interestsTemp = interest;
+        _interestsTemp = interest;
         return (danger, interest);
     }
 
     private void OnDrawGizmos()
     {
-        if(!showGizmos) return;
-        Gizmos.DrawSphere(targetPositionCached, .2f);
+        if(!_showGizmos) return;
+        Gizmos.DrawSphere(_targetPositionCached, .2f);
 
-        if(Application.isPlaying && interestsTemp != null)
+        if(Application.isPlaying && _interestsTemp != null)
         {
             Gizmos.color = Color.green;
-            for (int i = 0; i < interestsTemp.Length; i++)
+            for (int i = 0; i < _interestsTemp.Length; i++)
             {
                 Vector3 direction = new Vector3(GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]).x, 0, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]).y);
-                Gizmos.DrawRay(transform.position, direction * interestsTemp[i]);
+                Gizmos.DrawRay(transform.position, direction * _interestsTemp[i]);
             }
-            if (reachedLastTarget == false)
+            if (_reachedLastTarget == false)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawSphere(targetPositionCached, .1f);
+                Gizmos.DrawSphere(_targetPositionCached, .1f);
             }
         }
     }

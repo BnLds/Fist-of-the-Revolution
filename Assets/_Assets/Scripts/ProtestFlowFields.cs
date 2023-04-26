@@ -6,12 +6,12 @@ public class ProtestFlowFields : MonoBehaviour
 {
     public static ProtestFlowFields Instance { get; private set; }
 
-    [SerializeField] private List<Transform> protestMeetingPoints;
-    [SerializeField] private Transform endOfProtest;
+    [SerializeField] private List<Transform> _protestMeetingPoints;
+    [SerializeField] private Transform _endOfProtest;
 
     public UnityEvent OnFlowFieldsCreated;
 
-    private List<ProtestFlowFieldData> flowFieldsProtest;
+    private List<ProtestFlowFieldData> _flowFieldsProtest;
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class ProtestFlowFields : MonoBehaviour
             Instance = this;
         }
 
-        flowFieldsProtest = new List<ProtestFlowFieldData>();
+        _flowFieldsProtest = new List<ProtestFlowFieldData>();
     }
 
     private void Start()
@@ -34,9 +34,9 @@ public class ProtestFlowFields : MonoBehaviour
 
     private void CreateProtestFlowFields()
     {
-        for (int i = 0; i < protestMeetingPoints.Count; i++)
+        for (int i = 0; i < _protestMeetingPoints.Count; i++)
         {
-            flowFieldsProtest.Add(new ProtestFlowFieldData(i, "MeetingPoint: " + i, protestMeetingPoints[i].position, GridController.Instance.GenerateFlowField(protestMeetingPoints[i])));
+            _flowFieldsProtest.Add(new ProtestFlowFieldData(i, "MeetingPoint: " + i, _protestMeetingPoints[i].position, GridController.Instance.GenerateFlowField(_protestMeetingPoints[i])));
         }
 
         OnFlowFieldsCreated?.Invoke();
@@ -44,12 +44,12 @@ public class ProtestFlowFields : MonoBehaviour
 
     public List<ProtestFlowFieldData> GetFlowFields()
     {
-        return flowFieldsProtest;
+        return _flowFieldsProtest;
     }
 
     public Transform GetEndOfProtest()
     {
-        return endOfProtest;
+        return _endOfProtest;
     }
 
 }

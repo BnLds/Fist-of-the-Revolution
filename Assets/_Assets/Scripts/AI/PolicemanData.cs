@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PolicemanData : AIData
 {
-    public List<Transform> watchedObjectsInReactionRange;
-    public FlowField currentFlowField = null;
-    public Vector3 currentWatchObjectPosition;
+    public List<Transform> WatchedObjectsInReactionRange;
+    public FlowField CurrentFlowField = null;
+    public Vector3 CurrentWatchObjectPosition;
 }

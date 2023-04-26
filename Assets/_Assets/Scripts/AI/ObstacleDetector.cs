@@ -3,32 +3,32 @@ using UnityEngine;
 
 public class ObstacleDetector : Detector
 {
-    [SerializeField] private float detectionRadius = 2f;
-    [SerializeField] private LayerMask layerMask;
-    [SerializeField] private bool showGizmos = true;
+    [SerializeField] private float _detectionRadius = 2f;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private bool _showGizmos = true;
 
-    private List<Collider> colliders;
+    private List<Collider> _colliders;
 
     public override void Detect(AIData aiData)
     {
-        colliders = new List<Collider>();
-        foreach(Collider collider in Physics.OverlapSphere(transform.position, detectionRadius, layerMask))
+        _colliders = new List<Collider>();
+        foreach(Collider collider in Physics.OverlapSphere(transform.position, _detectionRadius, _layerMask))
         {
             //make sure the instance doesn't detect itself as collider
             if (collider.transform.parent != aiData.transform)
             {
-                colliders.Add(collider);
+                _colliders.Add(collider);
             }
         }
-        aiData.obstacles = colliders.ToArray();
+        aiData.Obstacles = _colliders.ToArray();
     }
 
     private void OnDrawGizmos()
     {
-        if(!showGizmos) return;
-        if(Application.isPlaying && colliders != null)
+        if(!_showGizmos) return;
+        if(Application.isPlaying && _colliders != null)
         {
-            foreach(Collider obstacleCollider in colliders)
+            foreach(Collider obstacleCollider in _colliders)
             {
                 Gizmos.DrawIcon(obstacleCollider.transform.position + Vector3.up*2, "33");
             }

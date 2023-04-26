@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class ProtesterController : MonoBehaviour
 {
-    [SerializeField] private ProtesterAI protesterAI;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private ProtesterAI _protesterAI;
+    [SerializeField] private float _moveSpeed = 5f;
     
-    private Vector3 moveDirection;
-    private Rigidbody protesterRB;
+    private Vector3 _moveDirection;
+    private Rigidbody _protesterRB;
 
     private void Awake()
     {
-        moveDirection = Vector3.zero;
-        protesterRB = GetComponent<Rigidbody>();
+        _moveDirection = Vector3.zero;
+        _protesterRB = GetComponent<Rigidbody>();
     }
     private void Start()
     {
-        protesterAI.OnMoveDirectionInput.AddListener(protesterAI_OnMoveDirectionInput);
-        protesterAI.OnProtestEndReached.AddListener(protesterAI_OnProtestEndReached);
+        _protesterAI.OnMoveDirectionInput.AddListener(protesterAI_OnMoveDirectionInput);
+        _protesterAI.OnProtestEndReached.AddListener(protesterAI_OnProtestEndReached);
     }
 
     private void protesterAI_OnProtestEndReached()
@@ -26,11 +26,11 @@ public class ProtesterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        protesterRB.velocity = moveDirection * moveSpeed;
+        _protesterRB.velocity = _moveDirection * _moveSpeed;
     }
 
     private void protesterAI_OnMoveDirectionInput(Vector3 direction)
     {
-        moveDirection = direction;
+        _moveDirection = direction;
     }
 }

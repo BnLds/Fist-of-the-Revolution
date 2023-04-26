@@ -47,8 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f849a7d420e1648870775c31defa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakableSO: {fileID: 11400000, guid: a1ef108ef1bb92d4dacc7ed02c974bc9, type: 2}
+  _breakableSO: {fileID: 11400000, guid: a1ef108ef1bb92d4dacc7ed02c974bc9, type: 2}
   OnDestroyedBreakable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamagedBreakable:
+    m_PersistentCalls:
+      m_Calls: []
+  StartWatch:
     m_PersistentCalls:
       m_Calls: []
 --- !u!33 &2656478183121591153

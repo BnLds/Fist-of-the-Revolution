@@ -5,9 +5,9 @@ public static class PoliceResponseData
 {
     public static void ResetStaticData()
     {
-        watchPoints = null;
+        WatchPoints = null;
     }
 
-    public static List<Transform> watchPoints;
+    public static List<Transform> WatchPoints;
 
 }

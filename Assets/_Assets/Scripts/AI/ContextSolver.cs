@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class ContextSolver : MonoBehaviour
 {
-    [SerializeField] private bool showGizmos = true;
+    [SerializeField] private bool _showGizmos = true;
 
     //gizmo parameters
-    private float[] interestGizmo;
-    private Vector3 resultDirection = Vector3.zero;
-    private float rayLength = 1f;
+    private float[] _interestGizmo;
+    private Vector3 _resultDirection = Vector3.zero;
+    private float _rayLength = 1f;
 
     private void Awake()
     {
-        interestGizmo = new float[8];
+        _interestGizmo = new float[8];
     }
 
     public Vector3 GetContextDirection(List<SteeringBehaviour> behaviours, AIData aiData)
@@ -43,7 +43,7 @@ public class ContextSolver : MonoBehaviour
             interest[i] = Mathf.Clamp01(interest[i] - danger[i]);
         }
 
-        interestGizmo = interest;
+        _interestGizmo = interest;
 
         //get the average direction
         Vector2 outputDirection = Vector2.zero;
@@ -53,17 +53,17 @@ public class ContextSolver : MonoBehaviour
         }
         outputDirection.Normalize();
 
-        resultDirection = new Vector3(outputDirection.x, 0, outputDirection.y);
+        _resultDirection = new Vector3(outputDirection.x, 0, outputDirection.y);
 
-        return resultDirection;
+        return _resultDirection;
     }
 
     private void OnDrawGizmos()
     {
-        if(Application.isPlaying && showGizmos)
+        if(Application.isPlaying && _showGizmos)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, resultDirection * rayLength);
+            Gizmos.DrawRay(transform.position, _resultDirection * _rayLength);
         }
     }
 }

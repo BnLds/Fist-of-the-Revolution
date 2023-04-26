@@ -5,62 +5,62 @@ public class FlowField
 {
     private const int ENCUMBERED_COST = 5;
 
-    public Node[,] grid { get; private set; }
-    public Vector2 gridWorldSize { get; private set; }
-    public float nodeRadius { get; private set; }
-    public LayerMask unwalkableMask { get; private set; }
-    public LayerMask encumberedMask { get; private set; }
+    public Node[,] Grid { get; private set; }
+    public Vector2 GridWorldSize { get; private set; }
+    public float NodeRadius { get; private set; }
+    public LayerMask UnwalkableMask { get; private set; }
+    public LayerMask EncumberedMask { get; private set; }
 
 
-    private float nodeDiameter;
-    private int gridSizeX, gridSizeY;
-    private Vector3 worldBottomLeftCorner;
-    private Vector3 worldGridPosition;
-    private Node destinationNode;
+    private float _nodeDiameter;
+    private int _gridSizeX, _gridSizeY;
+    private Vector3 _worldBottomLeftCorner;
+    private Vector3 _worldGridPosition;
+    private Node _destinationNode;
 
 
     public FlowField(float _nodeRadius, Vector2 _gridWorldSize, LayerMask _unwalkableMask, LayerMask _encumburedMask)
     {
-        nodeRadius = _nodeRadius;
-        gridWorldSize = _gridWorldSize;
-        unwalkableMask = _unwalkableMask;
-        encumberedMask = _encumburedMask;
-        nodeDiameter = _nodeRadius * 2;
-        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+        NodeRadius = _nodeRadius;
+        GridWorldSize = _gridWorldSize;
+        UnwalkableMask = _unwalkableMask;
+        EncumberedMask = _encumburedMask;
+        _nodeDiameter = _nodeRadius * 2;
+        _gridSizeX = Mathf.RoundToInt(GridWorldSize.x / _nodeDiameter);
+        _gridSizeY = Mathf.RoundToInt(GridWorldSize.y / _nodeDiameter);
     }
 
     public void CreateGrid(Vector3 position)
     {
-        grid = new Node[gridSizeX, gridSizeY];
-        worldGridPosition = position;
-        worldBottomLeftCorner = position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
-        for (int x = 0; x < gridSizeX; x++)
+        Grid = new Node[_gridSizeX, _gridSizeY];
+        _worldGridPosition = position;
+        _worldBottomLeftCorner = position - Vector3.right * GridWorldSize.x / 2 - Vector3.forward * GridWorldSize.y / 2;
+        for (int x = 0; x < _gridSizeX; x++)
         {
-            for (int y = 0; y < gridSizeY; y++)
+            for (int y = 0; y < _gridSizeY; y++)
             {
-                Vector3 worldPoint = worldBottomLeftCorner + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
-                bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint, new Vector2Int(x,y));
+                Vector3 worldPoint = _worldBottomLeftCorner + Vector3.right * (x * _nodeDiameter + NodeRadius) + Vector3.forward * (y * _nodeDiameter + NodeRadius);
+                bool walkable = !(Physics.CheckSphere(worldPoint, NodeRadius, UnwalkableMask));
+                Grid[x, y] = new Node(walkable, worldPoint, new Vector2Int(x,y));
             }
         }
     }
 
     public void CreateCostField()
     {
-        for (int x = 0; x < gridSizeX; x++)
+        for (int x = 0; x < _gridSizeX; x++)
         {
-            for (int y = 0; y < gridSizeY; y++)
+            for (int y = 0; y < _gridSizeY; y++)
             {
                 bool hasIncreasedCost = false;
-                Vector3 worldPoint = worldBottomLeftCorner + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
-                if(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask))
+                Vector3 worldPoint = _worldBottomLeftCorner + Vector3.right * (x * _nodeDiameter + NodeRadius) + Vector3.forward * (y * _nodeDiameter + NodeRadius);
+                if(Physics.CheckSphere(worldPoint, NodeRadius, UnwalkableMask))
                 {
-                    grid[x, y].cost = byte.MaxValue;
+                    Grid[x, y].Cost = byte.MaxValue;
                 }
-                else if(Physics.CheckSphere(worldPoint, nodeRadius, encumberedMask) && !hasIncreasedCost)
+                else if(Physics.CheckSphere(worldPoint, NodeRadius, EncumberedMask) && !hasIncreasedCost)
                 {
-                    grid[x, y].IncreaseCost(ENCUMBERED_COST);
+                    Grid[x, y].IncreaseCost(ENCUMBERED_COST);
                     hasIncreasedCost = true;
                 }
             }
@@ -70,35 +70,35 @@ public class FlowField
 
     public Node GetNodeFromWorldPoint(Vector3 worldPosition)
     {
-        float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-        float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
+        float percentX = (worldPosition.x + GridWorldSize.x / 2) / GridWorldSize.x;
+        float percentY = (worldPosition.z + GridWorldSize.y / 2) / GridWorldSize.y;
 
-        int x = Mathf.FloorToInt(Mathf.Clamp(gridSizeX * percentX, 0, gridSizeX - 1)); // need to substract 1 from gridSizeX as x and y node coordinates are 0 based in the grid array 
-        int y = Mathf.FloorToInt(Mathf.Clamp(gridSizeY * percentY, 0, gridSizeY - 1));
+        int x = Mathf.FloorToInt(Mathf.Clamp(_gridSizeX * percentX, 0, _gridSizeX - 1)); // need to substract 1 from gridSizeX as x and y node coordinates are 0 based in the grid array 
+        int y = Mathf.FloorToInt(Mathf.Clamp(_gridSizeY * percentY, 0, _gridSizeY - 1));
 
-        return (grid[x, y]);
+        return (Grid[x, y]);
     }
 
     public void CreateIntegrationField(Node _destinationNode)
     {
-        destinationNode = _destinationNode;
+        this._destinationNode = _destinationNode;
 
-        destinationNode.cost = 0;
-        destinationNode.bestCost = 0;
+        this._destinationNode.Cost = 0;
+        this._destinationNode.BestCost = 0;
 
         Queue<Node> nodesToCheck = new Queue<Node>();
-        nodesToCheck.Enqueue(destinationNode);
+        nodesToCheck.Enqueue(this._destinationNode);
 
         while(nodesToCheck.Count > 0)
         {
             Node currentNode = nodesToCheck.Dequeue();
-            List<Node> currentNeighbours = GetNeighbourNodes(currentNode.gridIndex, GridDirection.CardinalDirections);
+            List<Node> currentNeighbours = GetNeighbourNodes(currentNode.GridIndex, GridDirection.CardinalDirections);
             foreach(Node currentNeighbour in currentNeighbours)
             {
-                if(currentNeighbour.cost == byte.MaxValue) continue;
-                if(currentNeighbour.cost + currentNode.bestCost < currentNeighbour.bestCost)
+                if(currentNeighbour.Cost == byte.MaxValue) continue;
+                if(currentNeighbour.Cost + currentNode.BestCost < currentNeighbour.BestCost)
                 {
-                    currentNeighbour.bestCost = (ushort)(currentNeighbour.cost + currentNode.bestCost);
+                    currentNeighbour.BestCost = (ushort)(currentNeighbour.Cost + currentNode.BestCost);
                     nodesToCheck.Enqueue(currentNeighbour);
                 }
             }
@@ -107,18 +107,18 @@ public class FlowField
 
     public void CreateFlowField()
     {
-        foreach(Node currentNode in grid)
+        foreach(Node currentNode in Grid)
         {
-            List<Node> currentNeighbours = GetNeighbourNodes(currentNode.gridIndex, GridDirection.allDirections);
+            List<Node> currentNeighbours = GetNeighbourNodes(currentNode.GridIndex, GridDirection.allDirections);
 
-            int bestCost = currentNode.bestCost;
+            int bestCost = currentNode.BestCost;
 
             foreach(Node currentNeighbour in currentNeighbours)
             {
-                if(currentNeighbour.bestCost < bestCost)
+                if(currentNeighbour.BestCost < bestCost)
                 {
-                    bestCost = currentNeighbour.bestCost;
-                    currentNode.bestDirection = GridDirection.GetDirectionFromVector2Int(currentNeighbour.gridIndex - currentNode.gridIndex);
+                    bestCost = currentNeighbour.BestCost;
+                    currentNode.BestDirection = GridDirection.GetDirectionFromVector2Int(currentNeighbour.GridIndex - currentNode.GridIndex);
                 }
             }
         }
@@ -141,13 +141,13 @@ public class FlowField
     private Node GetCellAtRelativePosition(Vector2Int originalPosition, Vector2Int relativePosition)
     {
         Vector2Int finalPosition = originalPosition + relativePosition;
-        if(finalPosition.x < 0 || finalPosition.x >= gridSizeX || finalPosition.y < 0 || finalPosition.y >= gridSizeY)
+        if(finalPosition.x < 0 || finalPosition.x >= _gridSizeX || finalPosition.y < 0 || finalPosition.y >= _gridSizeY)
         {
             return null;
         }
         else
         {
-            return grid[finalPosition.x, finalPosition.y];
+            return Grid[finalPosition.x, finalPosition.y];
         }
     }
 }

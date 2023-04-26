@@ -2,16 +2,16 @@ using UnityEngine;
 
 public struct ProtestFlowFieldData
 {
-    public int index;
-    public string name;
-    public Vector3 target;
-    public FlowField flowField;
+    public int Index;
+    public string Name;
+    public Vector3 Target;
+    public FlowField FlowField;
 
-    public ProtestFlowFieldData(int _index, string _name, Vector3 _target, FlowField _grid)
+    public ProtestFlowFieldData(int index, string name, Vector3 target, FlowField grid)
     {
-        index = _index;
-        name = _name;
-        target = _target;
-        flowField = _grid;
+        Index = index;
+        Name = name;
+        Target = target;
+        FlowField = grid;
     }
 }

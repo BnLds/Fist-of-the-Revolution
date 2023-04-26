@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class ProtesterVisual : MonoBehaviour
 {
-    [SerializeField] private LayerMask floorMask;
+    [SerializeField] private LayerMask _floorMask;
 
-    private MeshRenderer meshRenderer;
+    private MeshRenderer _meshRenderer;
 
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
     private void Update()
     {
         float floorDetectionDistance = 2f;
-        if(!Physics.Raycast(transform.position, Vector3.down, floorDetectionDistance, floorMask))
+        if(!Physics.Raycast(transform.position, Vector3.down, floorDetectionDistance, _floorMask))
         {
             Hide();
         }
@@ -27,11 +27,11 @@ public class ProtesterVisual : MonoBehaviour
 
     public void Show()
     {
-        meshRenderer.enabled = true;
+        _meshRenderer.enabled = true;
     }
 
     public void Hide()
     {
-        meshRenderer.enabled = false;
+        _meshRenderer.enabled = false;
     }
 }

@@ -408,7 +408,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43230207}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2326,7 +2326,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286215122}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4347,12 +4347,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93860b7c487d2b84bb7843fe32bbe5c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWorldSize: {x: 50, y: 50}
-  nodeRadius: 0.8
-  unwalkableMask:
+  _gridWorldSize: {x: 50, y: 50}
+  _nodeRadius: 0.6
+  _unwalkableMask:
     serializedVersion: 2
     m_Bits: 128
-  encumberedMask:
+  _encumberedMask:
     serializedVersion: 2
     m_Bits: 256
 --- !u!4 &515993396
@@ -4505,7 +4505,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 532342076}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5333,11 +5333,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1461573840}
     m_Modifications:
-    - target: {fileID: 5291358391560267339, guid: ba80c5b9d758a6b40bf56832417a8a4b,
-        type: 3}
-      propertyPath: policeFlowfieldsGenerator
-      value: 
-      objectReference: {fileID: 2085529792}
     - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
         type: 3}
       propertyPath: m_RootOrder
@@ -6771,8 +6766,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9478b6214721ff4faad6ae6e8a42fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 860672736}
-  breakablesCollectionManager: {fileID: 1448524911}
+  _scoreText: {fileID: 860672736}
+  _breakablesCollectionManager: {fileID: 1448524911}
 --- !u!1001 &790049527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7004,11 +6999,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3292f342d1dc79142a7d08df10340b19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stars:
-  - {fileID: 1849291357}
+  _stars:
+  - {fileID: 1849291355}
   - {fileID: 1493883597}
   - {fileID: 1832110487}
-  - {fileID: 1154209963}
+  - {fileID: 962405984}
   - {fileID: 1892557838}
 --- !u!1001 &802976834
 PrefabInstance:
@@ -7271,7 +7266,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825887574}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7791,7 +7786,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 917331541}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8764,6 +8759,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 962405982}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &962405984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 436269171203667834, guid: c9f35b0678ce5374883a17dc7827dde7,
+    type: 3}
+  m_PrefabInstance: {fileID: 962405982}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7def4f7e15c004c4db292312488dc2be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &969053670 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7149198449243920832, guid: b1849dd0aa246a143a1e3dc18fd92945,
@@ -10648,18 +10655,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1849dd0aa246a143a1e3dc18fd92945, type: 3}
---- !u!114 &1154209963 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 436269171203667834, guid: c9f35b0678ce5374883a17dc7827dde7,
-    type: 3}
-  m_PrefabInstance: {fileID: 962405982}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7def4f7e15c004c4db292312488dc2be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1164198062
 GameObject:
   m_ObjectHideFlags: 0
@@ -12047,7 +12042,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292696528}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12695,7 +12690,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381212277}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13293,7 +13288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852ba28cccda7b04ab43c99143b49306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakablesList:
+  _breakablesList:
   - {fileID: 1550851685}
   - {fileID: 2111273052}
   - {fileID: 747629218}
@@ -13492,9 +13487,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713914367717372469e803348c6907e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakablesCollectionManager: {fileID: 1448524911}
-  policeWatchUI: {fileID: 801112786}
-  watchThresholds: 000000000100000003000000070000000c00000014000000
+  _breakablesCollectionManager: {fileID: 1448524911}
+  _policeWatchUI: {fileID: 801112786}
+  _watchThresholds: 000000000100000003000000070000000c00000014000000
 --- !u!4 &1464442345 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7149198449243920832, guid: b1849dd0aa246a143a1e3dc18fd92945,
@@ -13946,7 +13941,6 @@ Transform:
   - {fileID: 515993396}
   - {fileID: 1879999008}
   - {fileID: 1824257067}
-  - {fileID: 2085529793}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16657,7 +16651,7 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 436269169830626599}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1849291357 stripped
+--- !u!114 &1849291355 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 436269171203667834, guid: c9f35b0678ce5374883a17dc7827dde7,
     type: 3}
@@ -16951,7 +16945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590fa31dcb68f554688a0bf8d25e1cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  protestMeetingPoints:
+  _protestMeetingPoints:
   - {fileID: 286215123}
   - {fileID: 1292696529}
   - {fileID: 43230208}
@@ -16959,7 +16953,7 @@ MonoBehaviour:
   - {fileID: 917331542}
   - {fileID: 1381212278}
   - {fileID: 532342077}
-  endOfProtest: {fileID: 532342077}
+  _endOfProtest: {fileID: 532342077}
   OnFlowFieldsCreated:
     m_PersistentCalls:
       m_Calls: []
@@ -18873,50 +18867,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 920999090}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2085529791
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2085529793}
-  - component: {fileID: 2085529792}
-  m_Layer: 0
-  m_Name: PoliceFlowFieldsGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2085529792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2085529791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81d4efe11e5dcda409736e3f2d559680, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &2085529793
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2085529791}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1502970885}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2085833585
 PrefabInstance:
   m_ObjectHideFlags: 0

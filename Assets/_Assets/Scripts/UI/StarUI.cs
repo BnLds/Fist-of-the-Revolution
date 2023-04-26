@@ -9,10 +9,10 @@ public class StarUI : MonoBehaviour
         FullStar
     }
 
-    [SerializeField] private Sprite emptyStar;
-    [SerializeField] private Sprite fullStar;
+    [SerializeField] private Sprite _emptyStar;
+    [SerializeField] private Sprite _fullStar;
 
-    private int layoutIndex;
+    private int _layoutIndex;
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class StarUI : MonoBehaviour
 
     private void Start()
     {
-        layoutIndex = transform.GetSiblingIndex();
+        _layoutIndex = transform.GetSiblingIndex();
     }
 
     private void SetSprite(StarStatus starStatus)
@@ -30,13 +30,13 @@ public class StarUI : MonoBehaviour
         {
             case(StarStatus.EmptyStar):
             {
-                GetComponent<Image>().sprite = emptyStar;
+                GetComponent<Image>().sprite = _emptyStar;
                 break;
             }
 
             case(StarStatus.FullStar):
             {
-                GetComponent<Image>().sprite = fullStar;
+                GetComponent<Image>().sprite = _fullStar;
                 break;
             }
         }
@@ -44,7 +44,7 @@ public class StarUI : MonoBehaviour
 
     public void UpdateSprite(int watchValue)
     {
-        if(layoutIndex < watchValue)
+        if(_layoutIndex < watchValue)
         {
             SetSprite(StarStatus.FullStar);
         }

@@ -89,5 +89,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7def4f7e15c004c4db292312488dc2be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyStar: {fileID: 21300000, guid: a7c274017ff97fb48b4cd2166d1e7702, type: 3}
-  fullStar: {fileID: 21300000, guid: 6a10b75141e097f4c9cb144bbf6a6170, type: 3}
+  _emptyStar: {fileID: 21300000, guid: a7c274017ff97fb48b4cd2166d1e7702, type: 3}
+  _fullStar: {fileID: 21300000, guid: 6a10b75141e097f4c9cb144bbf6a6170, type: 3}

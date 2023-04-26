@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class SeekBehaviour : SteeringBehaviour
 {
     [SerializeField] private float _targetReachedThreshold = 0.7f;
-    [SerializeField] private bool _showGizmos = true;
+    [SerializeField] private bool _showGizmos = false;
 
     public UnityEvent OnTargetReached;
 

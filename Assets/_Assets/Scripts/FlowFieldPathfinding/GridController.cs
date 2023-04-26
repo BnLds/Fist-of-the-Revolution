@@ -5,8 +5,8 @@ public class GridController : MonoBehaviour
 {
     public static GridController Instance { get; private set; }
 
-    [SerializeField] private Vector2 _gridWorldSize;
-    [SerializeField] private float _nodeRadius = .5f;
+    [SerializeField] private Vector2 _gridWorldSize = new Vector2(50,50);
+    [SerializeField] private float _nodeRadius = .6f;
     [SerializeField] private LayerMask _unwalkableMask;
     [SerializeField] private LayerMask _encumberedMask;
 

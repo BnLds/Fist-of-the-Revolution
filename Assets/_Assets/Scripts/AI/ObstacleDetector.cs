@@ -5,7 +5,7 @@ public class ObstacleDetector : Detector
 {
     [SerializeField] private float _detectionRadius = 2f;
     [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private bool _showGizmos = true;
+    [SerializeField] private bool _showGizmos = false;
 
     private List<Collider> _colliders;
 

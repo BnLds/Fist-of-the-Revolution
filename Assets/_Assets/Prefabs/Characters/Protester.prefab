@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef66af1dfb2315146a49661aa062cb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetDetectionRange: 5
+  _targetDetectionRange: 20
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 2176
@@ -465,9 +465,9 @@ MonoBehaviour:
   _protesterData: {fileID: 727319368865638778}
   _moveDirectionInput: {x: 0, y: 0, z: 0}
   _movementDirectionSolver: {fileID: 4006038392267361051}
-  _catchDistance: 1
+  _catchDistance: 1.5
   _catchAttemptDelay: 1
-  _meetingPointReachedDistance: 2
+  _meetingPointReachedDistance: 4
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _currentState: 1
@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece8f25ce268c78408eb96682968ccc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetReachedThreshold: 0.7
+  _targetReachedThreshold: 3
   _showGizmos: 0
   OnTargetReached:
     m_PersistentCalls:

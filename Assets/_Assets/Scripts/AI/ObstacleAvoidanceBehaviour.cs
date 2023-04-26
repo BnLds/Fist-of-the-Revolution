@@ -4,7 +4,7 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
 {
     [SerializeField] private float _radius = 2f;
     [SerializeField] private float _agentColliderSize = .7f;
-    [SerializeField] private bool _showGizmo = true;
+    [SerializeField] private bool _showGizmo = false;
 
     //gizmo parameters
     private float[] _dangersResultTemp = null;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TargetDetector : Detector
 {
-    [SerializeField] private float _targetDetectionRange = 5f;
+    [SerializeField] private float _targetDetectionRange = 20f;
     [SerializeField] private LayerMask _obstaclesLayerMask, _targetsLayerMask;
     [SerializeField] private bool _showGizmos = false;
 

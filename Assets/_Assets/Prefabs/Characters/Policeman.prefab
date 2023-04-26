@@ -48,7 +48,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 1152
-  _showGizmos: 1
+  _showGizmos: 0
 --- !u!1 &1001593164066478922
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef66af1dfb2315146a49661aa062cb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetDetectionRange: 5
+  _targetDetectionRange: 20
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 2176
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _radius: 2
   _agentColliderSize: 0.7
-  _showGizmo: 1
+  _showGizmo: 0
 --- !u!1 &6649522485515808518
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd9f2a464b923240b796a51b91f1599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showGizmos: 1
+  _showGizmos: 0
 --- !u!1 &6732334724613019848
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetReachedThreshold: 0.7
-  _showGizmos: 1
+  _showGizmos: 0
   OnTargetReached:
     m_PersistentCalls:
       m_Calls: []

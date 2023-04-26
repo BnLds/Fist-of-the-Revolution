@@ -3,7 +3,7 @@ using UnityEngine;
 public class ProtesterController : MonoBehaviour
 {
     [SerializeField] private ProtesterAI _protesterAI;
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _moveSpeed = 3f;
     
     private Vector3 _moveDirection;
     private Rigidbody _protesterRB;

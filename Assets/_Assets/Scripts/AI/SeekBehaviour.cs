@@ -71,19 +71,41 @@ public class SeekBehaviour : SteeringBehaviour
     }
 
 
-    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, ProtesterData protesterData)
+    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, AIData aiData)
     {
-        //if we don't have a target stop seeking
-        if(protesterData.reachedEndOfProtest || protesterData.flowFieldsProtest.Count == 0)
+        Node nodeBelow;
+        //using declaration and type pattern to check the type of AIData
+        if(aiData is ProtesterData protesterData)
         {
-            Debug.Log("Stopped seeking");
-            return (danger, interest);
-        }
+            //if we don't have a target stop seeking
+            if(protesterData.reachedEndOfProtest || protesterData.flowFieldsProtest.Count == 0)
+            {
+                Debug.Log("Stopped seeking");
+                return (danger, interest);
+            }
 
-        //executes the main logic
-        //get NPC position on grid
-        Node nodeBelow = protesterData.flowFieldsProtest[protesterData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
-            
+            //executes the main logic
+            //get NPC position on grid
+            nodeBelow = protesterData.flowFieldsProtest[protesterData.currentFlowFieldIndex].flowField.GetNodeFromWorldPoint(transform.position);
+        }
+        else if(aiData is PolicemanData policemanData)
+        {
+            //if we don't have a target stop seeking
+            if(policemanData.currentFlowField == null)
+            {
+                return (danger, interest);
+            }
+
+            //executes the main logic
+            //get NPC position on grid
+            nodeBelow = policemanData.currentFlowField.GetNodeFromWorldPoint(transform.position);    
+        }
+        else
+        {
+            nodeBelow = null;
+            Debug.LogWarning("GetSteeringFlowFields method failed due to invalid AIData subtype used");
+        }
+        
         //Update the move direction of the player based on its position on the grid
         Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y);
         moveDirectionFlowFieldTemp = moveDirectionFlowField;
@@ -92,40 +114,6 @@ public class SeekBehaviour : SteeringBehaviour
         for (int i = 0; i < interest.Length; i++)
         {
             float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
-
-            //accept only directions at less than 90 degrees to the target direction
-            if(result>0)
-            {
-                float interestValue = result;
-                if(interestValue > interest[i])
-                {
-                    interest[i] = interestValue;
-                }
-            }
-        }
-        interestsTemp = interest;
-        return (danger, interest);
-    }
-
-    public override (float[] danger, float[] interest) GetSteeringPoliceReaction(float[] danger, float[] interest, PolicemanData policemanData)
-    {
-        //if we don't have a target stop seeking
-        if(policemanData.currentFlowField == null)
-        {
-            return (danger, interest);
-        }
-
-        //executes the main logic
-        //get NPC position on grid
-        Node nodeBelow = policemanData.currentFlowField.GetNodeFromWorldPoint(transform.position);
-            
-        //Update the move direction of the player based on its position on the grid
-        Vector3 moveDirectionFlowField = new Vector3(nodeBelow.bestDirection.Vector.x, 0, nodeBelow.bestDirection.Vector.y);
-        moveDirectionFlowFieldTemp = moveDirectionFlowField;
-        //if we havent reached the target, do the main logic of finding the interest directions
-        for (int i = 0; i < interest.Length; i++)
-        {
-            float result = Vector2.Dot(Utility.ConvertVector3ToVector2(moveDirectionFlowField).normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
 
             //accept only directions at less than 90 degrees to the target direction
             if(result>0)

@@ -186,7 +186,7 @@ public class PolicemanAI : MonoBehaviour
             else
             {
                 //chase logic
-                moveDirectionInput = movementDirectionSolver.GetChaseDirection(steeringBehaviours, policemanData);
+                moveDirectionInput = movementDirectionSolver.GetContextDirection(steeringBehaviours, policemanData);
                 yield return new WaitForSeconds(aiUpdateDelay);
                 StartCoroutine(ChaseAndCatchTarget());
             }
@@ -210,7 +210,7 @@ public class PolicemanAI : MonoBehaviour
 
         if(policemanData.currentFlowField != null)
         {
-            moveDirectionInput = movementDirectionSolver.GetPoliceReactionDirection(steeringBehaviours, policemanData);
+            moveDirectionInput = movementDirectionSolver.GetContextDirection(steeringBehaviours, policemanData);
             yield return new WaitForSeconds(aiUpdateDelay);
             StartCoroutine(GoToWatchPoint());
         }

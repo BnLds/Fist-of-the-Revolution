@@ -42,9 +42,9 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
         return (danger, interest);
     }
 
-    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, ProtesterData protesterData)
+    public override (float[] danger, float[] interest) GetSteeringFlowFields(float[] danger, float[] interest, AIData aiData)
     {
-        foreach (Collider obstacleCollider in protesterData.obstacles)
+        foreach (Collider obstacleCollider in aiData.obstacles)
         {
             if(obstacleCollider == null) return (danger, interest);
             
@@ -74,41 +74,6 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
         dangersResultTemp = danger;
         return (danger, interest);
     }
-
-    public override (float[] danger, float[] interest) GetSteeringPoliceReaction(float[] danger, float[] interest, PolicemanData policemanData)
-    {
-        foreach (Collider obstacleCollider in policemanData.obstacles)
-        {
-            if(obstacleCollider == null) return (danger, interest);
-            
-            Vector3 vector3ToObstacle = obstacleCollider.ClosestPoint(transform.position) - transform.position;
-            Vector2 vector2ToObstacle = new Vector2(vector3ToObstacle.x, vector3ToObstacle.z);
-            float distanceToObstacle = vector2ToObstacle.magnitude;
-
-            //calculate weight based on the distance NPC <-> Obstacle
-            float weight = distanceToObstacle <= agentColliderSize ? 1 : (radius - distanceToObstacle) / radius;
-
-            Vector2 directionToObstacle2D = vector2ToObstacle.normalized;
-
-            //add obstacle parameters to the danger array
-            for (int i = 0; i < GridDirection.CardinalAndIntercardinalDirections.Count; i++)
-            {
-                float result = Vector2.Dot(directionToObstacle2D, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
-
-                float dangerValue = result * weight;
-
-                //override value only if it is higher than the current one stored in the danger array
-                if(dangerValue > danger[i])
-                {
-                    danger[i] = dangerValue;
-                }
-            }
-        }
-        dangersResultTemp = danger;
-        return (danger, interest);
-    }
-
-
 
     private void OnDrawGizmos()
     {

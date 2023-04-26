@@ -123,7 +123,7 @@ public class ProtesterAI : MonoBehaviour
             else
             {
                 //chase logic
-                moveDirectionInput = movementDirectionSolver.GetChaseDirection(steeringBehaviours, protesterData);
+                moveDirectionInput = movementDirectionSolver.GetContextDirection(steeringBehaviours, protesterData);
                 yield return new WaitForSeconds(aiUpdateDelay);
                 StartCoroutine(ChaseAndCatchTarget());
             }
@@ -152,7 +152,7 @@ public class ProtesterAI : MonoBehaviour
         }
         else
         {
-            moveDirectionInput = movementDirectionSolver.GetProtestDirection(steeringBehaviours, protesterData);
+            moveDirectionInput = movementDirectionSolver.GetContextDirection(steeringBehaviours, protesterData);
         }
         yield return new WaitForSeconds(aiUpdateDelay);
         StartCoroutine(FollowProtestPath());

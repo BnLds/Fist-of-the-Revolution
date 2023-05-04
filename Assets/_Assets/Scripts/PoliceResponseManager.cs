@@ -11,6 +11,8 @@ public class PoliceResponseManager : MonoBehaviour
     [SerializeField] private PoliceWatchUI _policeWatchUI;
     [SerializeField] private int[] _watchThresholds = new int[6] {0, 1, 3, 7, 12, 20};
 
+    public UnityEvent WatchTrigger;
+
     private List<BreakableController> _breakablesWatched;
     private int _currentWatchValue;
     private int _currentWatchThresholdIndex;
@@ -46,6 +48,7 @@ public class PoliceResponseManager : MonoBehaviour
     {
         //add damaged object to list of watched items
         PoliceResponseData.WatchPoints.Add(sender);
+        WatchTrigger?.Invoke();
 
         //increase watch value as soon as object is damaged
         _currentWatchValue += watchValue;

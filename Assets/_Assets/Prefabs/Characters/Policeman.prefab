@@ -368,8 +368,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7149198449243920832}
   - component: {fileID: 925848642259586912}
-  - component: {fileID: 5291358391560267339}
   - component: {fileID: 7723722718084810004}
+  - component: {fileID: 6316234633344160984}
+  - component: {fileID: 5291358391560267339}
   - component: {fileID: 6212171684923365943}
   m_Layer: 12
   m_Name: Policeman
@@ -409,7 +410,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _policemanAI: {fileID: 5291358391560267339}
+  _policeUnitSM: {fileID: 6316234633344160984}
   _moveSpeed: 3
+--- !u!114 &7723722718084810004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149198449243920836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a47c4af5c789f14290603ebe32b794b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Targets: []
+  Obstacles: []
+  CurrentTarget: {fileID: 0}
+  WatchedObjectsInReactionRange: []
+  CurrentWatchObjectPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &6316234633344160984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149198449243920836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928752b6ee3a1ca4084460be1c0ff0c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detectors:
+  - {fileID: 2598975837946078362}
+  - {fileID: 1259991071503837587}
+  _steeringBehaviours:
+  - {fileID: 8676481532161510226}
+  - {fileID: 8641847114119605023}
+  _movementDirectionSolver: {fileID: 4006038392267361051}
+  PoliceUnitData: {fileID: 7723722718084810004}
+  _watchReactionRange: 10
+  _detectionDelay: 0.5
+  MoveDirectionInput: {x: 0, y: 0, z: 0}
 --- !u!114 &5291358391560267339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,23 +489,6 @@ MonoBehaviour:
   OnPointerInput:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7723722718084810004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7149198449243920836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a47c4af5c789f14290603ebe32b794b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Targets: []
-  Obstacles: []
-  CurrentTarget: {fileID: 0}
-  WatchedObjectsInReactionRange: []
-  CurrentWatchObjectPosition: {x: 0, y: 0, z: 0}
 --- !u!54 &6212171684923365943
 Rigidbody:
   m_ObjectHideFlags: 0

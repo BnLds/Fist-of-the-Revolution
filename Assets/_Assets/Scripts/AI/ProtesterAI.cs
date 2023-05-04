@@ -27,9 +27,9 @@ public class ProtesterAI : MonoBehaviour
     [SerializeField] private ProtesterState _currentState = ProtesterState.FollowProtest;
     [SerializeField] private bool _showFlowFieldGizmo = false;
 
-    public UnityEvent<Transform> OnCatchAttempt;
-    public UnityEvent OnProtestEndReached;
-    public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
+    [HideInInspector] public UnityEvent<Transform> OnCatchAttempt;
+    [HideInInspector] public UnityEvent OnProtestEndReached;
+    [HideInInspector] public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
 
     private bool _isChasing = false;
 

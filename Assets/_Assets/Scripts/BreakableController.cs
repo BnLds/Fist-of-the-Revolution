@@ -10,7 +10,7 @@ public class BreakableController : MonoBehaviour
     private int _watchValue;
     private int _maxReward;
     private int _remainingRewardValue;
-    public bool IsOnWatch { get; private set; }
+    public bool IsOnWatchList { get; private set; }
 
     [HideInInspector] public UnityEvent<int, BreakableController> OnDestroyedBreakable;
     [HideInInspector] public UnityEvent<int, Transform> OnDamagedBreakable;
@@ -23,7 +23,7 @@ public class BreakableController : MonoBehaviour
         _watchValue = _breakableSO.WatchValue;
         _maxReward = _breakableSO.Reward;
         _remainingRewardValue = _maxReward;
-        IsOnWatch = false;
+        IsOnWatchList = false;
     }
 
     public void Damage(int damageValue)
@@ -35,15 +35,15 @@ public class BreakableController : MonoBehaviour
             _remainingRewardValue -= rewardGranted;
             OnDamagedBreakable?.Invoke(rewardGranted, transform);
 
-            if(!IsOnWatch)
+            if(!IsOnWatchList)
             {
-                IsOnWatch = true;
+                IsOnWatchList = true;
                 StartWatch?.Invoke(_watchValue, transform);
             }   
         } 
         else
         {
-            IsOnWatch = false;
+            IsOnWatchList = false;
             OnDestroyedBreakable?.Invoke(_remainingRewardValue, this);
             Destroy(gameObject);
         }

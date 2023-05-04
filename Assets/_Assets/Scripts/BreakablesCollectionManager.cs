@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class BreakablesCollectionManager : MonoBehaviour
 {
+    public static BreakablesCollectionManager Instance { get; private set;}
+
     [SerializeField] private List<BreakableController> _breakablesList;
 
     public UnityEvent<int> OnScoreChange;
@@ -12,7 +14,17 @@ public class BreakablesCollectionManager : MonoBehaviour
     private int _score;
 
     private void Awake()
-    {        
+    {
+        if(Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+
         foreach(BreakableController breakable in _breakablesList)
         {
             breakable.OnDamagedBreakable.AddListener(Breakable_OnDamagedBreakable);

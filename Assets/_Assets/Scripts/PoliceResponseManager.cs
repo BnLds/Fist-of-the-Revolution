@@ -71,7 +71,7 @@ public class PoliceResponseManager : MonoBehaviour
     {
         PoliceResponseData.WatchPoints = new List<Transform>();
         PoliceResponseData.Suspects = new List<Transform>();
-        PoliceResponseData.Culprit = null;
+        PoliceResponseData.IsPlayerIdentified = false;
     }
 
 }

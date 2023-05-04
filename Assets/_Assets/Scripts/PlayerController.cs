@@ -3,11 +3,12 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private LayerMask _breakableMask;
     [SerializeField] private LayerMask _avoidCollisionMask;
 
-    [HideInInspector] public UnityEvent OnDamageBreakable;
+    [HideInInspector] public UnityEvent<Transform> OnDamageDone;
 
     private Rigidbody _playerRigidbody;
     private Collider _playerCollider;
@@ -15,13 +16,22 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         _playerRigidbody = GetComponent<Rigidbody>();
         _playerCollider = GetComponent<CapsuleCollider>();
     }
 
     private void Start()
     {
-        GameInput.Instance.OnInteract.AddListener(PerformInteractAction);
+        GameInput.Instance.OnInteract.AddListener(PerformAttack);
     }
 
     private void FixedUpdate()
@@ -31,13 +41,14 @@ public class PlayerController : MonoBehaviour
         _playerRigidbody.velocity = moveInput * _moveSpeed;
     }
 
-    private void PerformInteractAction()
+    private void PerformAttack()
     {
         float detectionRadius = 2f;
         Collider[] breakableColliders = Physics.OverlapSphere(transform.position, detectionRadius, _breakableMask);
         foreach(Collider collider in breakableColliders)
         {
             collider.GetComponent<BreakableController>().Damage(_playerDamage);
+            OnDamageDone?.Invoke(transform);
         }
     }
 

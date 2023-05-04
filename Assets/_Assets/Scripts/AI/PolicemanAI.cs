@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -42,7 +42,7 @@ public class PolicemanAI : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
+        //InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
     }
 
     private void OnDisable()
@@ -70,10 +70,9 @@ public class PolicemanAI : MonoBehaviour
         
     }
 
+
     private void Update()
     {
-        Debug.Log(_currentState);
-
         switch(_currentState)
         {
             case PoliceState.Idle:
@@ -229,3 +228,4 @@ public class PolicemanAI : MonoBehaviour
         }
     }
 }
+*/

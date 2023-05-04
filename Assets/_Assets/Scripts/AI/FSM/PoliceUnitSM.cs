@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoliceUnitSM : StateMachine
 {
-    //private const string PERFORM_DETECTION = "PerformDetection";
+    private const string PERFORM_DETECTION = "PerformDetection";
 
     [HideInInspector]
     public UnityEvent<Transform> OnObjectDestroyed;
@@ -38,7 +38,8 @@ public class PoliceUnitSM : StateMachine
     protected override void Start()
     {
         base.Start();
-        PoliceResponseManager.Instance.WatchTrigger.AddListener(PerformDetection);
+        float repeatRate = 2f;
+        InvokeRepeating(PERFORM_DETECTION, 0f, repeatRate);
     }
 
     protected override void Update()

@@ -137,7 +137,6 @@ public class ProtesterAI : MonoBehaviour
         if(Vector3.Distance(_protesterData.EndOfProtest.position, transform.position) < destructionDistance)
         {
             //Stopping logic
-            Debug.Log("Stopping");
             _moveDirectionInput = Vector3.zero;
             _protesterData.ReachedEndOfProtest = true;
             OnProtestEndReached?.Invoke();

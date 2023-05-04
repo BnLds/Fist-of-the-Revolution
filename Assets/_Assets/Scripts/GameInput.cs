@@ -7,7 +7,7 @@ public class GameInput : MonoBehaviour
 {
     public static GameInput Instance { get; private set; }
 
-    public UnityEvent OnInteract;
+    [HideInInspector] public UnityEvent OnInteract;
 
     private PlayerInputActions _playerInputActions;
 

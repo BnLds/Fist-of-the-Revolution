@@ -9,7 +9,7 @@ public class BreakablesCollectionManager : MonoBehaviour
 
     [SerializeField] private List<BreakableController> _breakablesList;
 
-    public UnityEvent<int> OnScoreChange;
+    [HideInInspector] public UnityEvent<int> OnScoreChange;
 
     private int _score;
 

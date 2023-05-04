@@ -9,7 +9,7 @@ public class ProtestFlowFields : MonoBehaviour
     [SerializeField] private List<Transform> _protestMeetingPoints;
     [SerializeField] private Transform _endOfProtest;
 
-    public UnityEvent OnFlowFieldsCreated;
+    [HideInInspector] public UnityEvent OnFlowFieldsCreated;
 
     private List<ProtestFlowFieldData> _flowFieldsProtest;
 

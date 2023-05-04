@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _breakableMask;
     [SerializeField] private LayerMask _avoidCollisionMask;
 
-    public UnityEvent OnDamageBreakable;
+    [HideInInspector] public UnityEvent OnDamageBreakable;
 
     private Rigidbody _playerRigidbody;
     private Collider _playerCollider;

@@ -7,7 +7,7 @@ public class SeekBehaviour : SteeringBehaviour
     [SerializeField] private float _targetReachedThreshold = 0.7f;
     [SerializeField] private bool _showGizmos = false;
 
-    public UnityEvent OnTargetReached;
+    [HideInInspector] public UnityEvent OnTargetReached;
 
     private bool _reachedLastTarget = true;
 

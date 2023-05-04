@@ -12,10 +12,9 @@ public class BreakableController : MonoBehaviour
     private int _remainingRewardValue;
     public bool IsOnWatch { get; private set; }
 
-    public UnityEvent<int, BreakableController> OnDestroyedBreakable;
-    public UnityEvent<int, Transform> OnDamagedBreakable;
-
-    public UnityEvent<int, Transform> StartWatch;
+    [HideInInspector] public UnityEvent<int, BreakableController> OnDestroyedBreakable;
+    [HideInInspector] public UnityEvent<int, Transform> OnDamagedBreakable;
+    [HideInInspector] public UnityEvent<int, Transform> StartWatch;
 
     private void Awake()
     {

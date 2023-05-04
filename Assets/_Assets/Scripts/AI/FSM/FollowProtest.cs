@@ -13,7 +13,6 @@ public class FollowProtest : BaseState
     public override void Enter()
     {
         base.Enter();
-        //_policeUnitSM.StartBrokenObjectsDetection();
     }
 
     public override void UpdateLogic()

@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,7 +6,7 @@ using System.Linq;
 
 public class PolicemanAI : MonoBehaviour
 {
-    private const string PERFORM_DETECTION = "PerformDetection";
+    /*private const string PERFORM_DETECTION = "PerformDetection";
 
     public enum PoliceState
     {
@@ -227,5 +227,5 @@ public class PolicemanAI : MonoBehaviour
                 
         }
     }
+    */
 }
-*/

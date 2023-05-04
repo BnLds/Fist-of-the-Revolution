@@ -5,9 +5,9 @@ public class FollowProtest : BaseState
     public bool IsFollowingProtest { get; private set; }
     
     private PoliceUnitSM _policeUnitSM;
-    [SerializeField] private float _countdownToWalkMax = 5f;
+    private float _countdownToWalkMax = 3f;
     private float _countdownToWalk;
-    [SerializeField] private float _countdownToPauseMax = 3f;
+    private float _countdownToPauseMax = 5f;
     private float _countdownToPause;
 
     public FollowProtest(PoliceUnitSM stateMachine) : base("FollowProtest", stateMachine)

@@ -50,7 +50,7 @@ public class FollowProtest : BaseState
             _countdownToPause = _countdownToPauseMax;
         } 
 
-        if (_policeUnitSM.PoliceUnitData.WatchedObjectsInReactionRange.Count != 0)
+        if (_policeUnitSM.PoliceUnitData.ObjectsToProtect.Count != 0)
         {
             Exit();
             _policeUnitSM.ChangeState(_policeUnitSM.WatchObjectState);

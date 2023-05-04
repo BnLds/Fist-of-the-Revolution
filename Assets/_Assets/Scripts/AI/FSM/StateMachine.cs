@@ -2,40 +2,40 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    private BaseState _currentState;
+    public BaseState CurrentState { get; private set; }
 
     protected virtual void Start()
     {
-        _currentState = GetInitialState();
+        CurrentState = GetInitialState();
 
-        if(_currentState != null)
+        if(CurrentState != null)
         {
-            _currentState.Enter();
+            CurrentState.Enter();
         }
     }
 
     protected virtual void Update()
     {
-        if(_currentState != null)
+        if(CurrentState != null)
         {
-            _currentState.UpdateLogic();
+            CurrentState.UpdateLogic();
         }
     }
 
     private void LateUpdate()
     {
-        if(_currentState != null)
+        if(CurrentState != null)
         {
-            _currentState.UpdatePhysics();
+            CurrentState.UpdatePhysics();
         }
     }
 
     public void ChangeState(BaseState newState)
     {
-        _currentState.Exit();
+        CurrentState.Exit();
 
-        _currentState = newState;
-        _currentState.Enter();
+        CurrentState = newState;
+        CurrentState.Enter();
     }
 
     protected virtual BaseState GetInitialState()
@@ -45,7 +45,7 @@ public class StateMachine : MonoBehaviour
 
     private void OnGUI()
     {
-        string message = _currentState != null ? _currentState.name : "no current state";
+        string message = CurrentState != null ? CurrentState.name : "no current state";
         GUILayout.Label($"<color='black'><size=40>{message}</size></color>");
     }
 }

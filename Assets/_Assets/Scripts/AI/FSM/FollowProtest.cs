@@ -3,7 +3,7 @@ using UnityEngine;
 public class FollowProtest : BaseState
 {
     private PoliceUnitSM _policeUnitSM;
-
+    public bool IsFollowingProtest { get; private set; }
 
     public FollowProtest(PoliceUnitSM stateMachine) : base("FollowProtest", stateMachine)
     {
@@ -13,6 +13,7 @@ public class FollowProtest : BaseState
     public override void Enter()
     {
         base.Enter();
+        IsFollowingProtest = false;
     }
 
     public override void UpdateLogic()
@@ -20,7 +21,17 @@ public class FollowProtest : BaseState
         base.UpdateLogic();
         if (_policeUnitSM.PoliceUnitData.WatchedObjectsInReactionRange.Count != 0)
         {
+            Exit();
             _policeUnitSM.ChangeState(_policeUnitSM.WatchObjectState);
         }
+
+        IsFollowingProtest = true;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        IsFollowingProtest = false;
+
     }
 }

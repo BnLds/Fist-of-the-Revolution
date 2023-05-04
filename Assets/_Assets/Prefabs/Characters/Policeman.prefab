@@ -370,6 +370,8 @@ GameObject:
   - component: {fileID: 925848642259586912}
   - component: {fileID: 7723722718084810004}
   - component: {fileID: 6316234633344160984}
+  - component: {fileID: 6443096262285097695}
+  - component: {fileID: 7030664641293707828}
   - component: {fileID: 5291358391560267339}
   - component: {fileID: 6212171684923365943}
   m_Layer: 12
@@ -409,8 +411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772d1d1e3314f2741a5f49c4c2456d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _policemanAI: {fileID: 5291358391560267339}
   _policeUnitSM: {fileID: 6316234633344160984}
+  _protesterAI: {fileID: 6443096262285097695}
   _moveSpeed: 3
 --- !u!114 &7723722718084810004
 MonoBehaviour:
@@ -429,6 +431,7 @@ MonoBehaviour:
   CurrentTarget: {fileID: 0}
   WatchedObjectsInReactionRange: []
   CurrentWatchObjectPosition: {x: 0, y: 0, z: 0}
+  CurrentWatchedObject: {fileID: 0}
 --- !u!114 &6316234633344160984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +444,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928752b6ee3a1ca4084460be1c0ff0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnObjectDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  MoveDirectionInput: {x: 0, y: 0, z: 0}
   _detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
@@ -451,7 +458,64 @@ MonoBehaviour:
   PoliceUnitData: {fileID: 7723722718084810004}
   _watchReactionRange: 10
   _detectionDelay: 0.5
-  MoveDirectionInput: {x: 0, y: 0, z: 0}
+--- !u!114 &6443096262285097695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149198449243920836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f6a1d4eaf74f8546b8f13dbecca85dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _steeringBehaviours:
+  - {fileID: 8676481532161510226}
+  - {fileID: 8641847114119605023}
+  _detectors:
+  - {fileID: 2598975837946078362}
+  - {fileID: 1259991071503837587}
+  _protesterData: {fileID: 7030664641293707828}
+  _moveDirectionInput: {x: 0, y: 0, z: 0}
+  _movementDirectionSolver: {fileID: 4006038392267361051}
+  _catchDistance: 1
+  _catchAttemptDelay: 1
+  _meetingPointReachedDistance: 2
+  _detectionDelay: 0.05
+  _aiUpdateDelay: 0.06
+  _currentState: 1
+  _showFlowFieldGizmo: 0
+  OnCatchAttempt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnProtestEndReached:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMoveDirectionInput:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerInput:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7030664641293707828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149198449243920836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37afdc28ca3a02348bead755120e6199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Targets: []
+  Obstacles: []
+  CurrentTarget: {fileID: 0}
+  CurrentFlowFieldIndex: 0
+  EndOfProtest: {fileID: 0}
+  ReachedEndOfProtest: 0
 --- !u!114 &5291358391560267339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,31 +528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3fd6aa4fb86e54288673105bb8d928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _steeringBehaviours:
-  - {fileID: 8676481532161510226}
-  - {fileID: 8641847114119605023}
-  _detectors:
-  - {fileID: 2598975837946078362}
-  - {fileID: 1259991071503837587}
-  _policemanData: {fileID: 7723722718084810004}
-  _moveDirectionInput: {x: 0, y: 0, z: 0}
-  _movementDirectionSolver: {fileID: 4006038392267361051}
-  _catchDistance: 1
-  _catchAttemptDelay: 1
-  _watchReactionRange: 10
-  _detectionDelay: 0.05
-  _aiUpdateDelay: 0.06
-  _currentState: 1
-  _showGizmo: 0
-  OnCatchAttempt:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMoveDirectionInput:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointerInput:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!54 &6212171684923365943
 Rigidbody:
   m_ObjectHideFlags: 0

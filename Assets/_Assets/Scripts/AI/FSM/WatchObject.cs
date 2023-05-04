@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -18,10 +19,18 @@ public class WatchObject : BaseState
         _policeUnitSM.OnObjectDestroyed.AddListener(PoliceUnitSM_OnObjectDestroyed);
 
         //if within reaction range of watched objects, go to protect the closest object
-        if (_policeUnitSM.PoliceUnitData.WatchedObjectsInReactionRange.Count != 0)
-        {            
-            //Get closest watched object
-            Transform reactionPoint = _policeUnitSM.PoliceUnitData.WatchedObjectsInReactionRange.OrderBy(target => Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, target.position)).FirstOrDefault();
+        if (_policeUnitSM.PoliceUnitData.ObjectsToProtect.Count != 0)
+        {
+            //order the list of objects to protect by distance to policeUnit
+            List<Transform> reactionList = _policeUnitSM.PoliceUnitData.ObjectsToProtect.OrderBy(target => Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, target.position)).ToList();
+            //get the closest HighPriority object or null
+            Transform reactionPoint = reactionList.FirstOrDefault(target => target.GetComponent<BreakableController>().IsHighPriority);
+            if(reactionPoint == null) 
+            {
+                //Get the closest watched object if there is no HighPriority
+                reactionPoint = reactionList.FirstOrDefault();
+            }
+            
             _policeUnitSM.PoliceUnitData.CurrentWatchedObject = reactionPoint;
             _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition = reactionPoint.position;
             //Generate flowfield to reaction point
@@ -48,7 +57,8 @@ public class WatchObject : BaseState
 
     public override void UpdateLogic()
     {
-        base.UpdateLogic();        
+        base.UpdateLogic();
+        
     }
 
     public override void UpdatePhysics()

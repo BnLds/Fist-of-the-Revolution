@@ -8,6 +8,8 @@ public class BreakablesCollectionManager : MonoBehaviour
     public static BreakablesCollectionManager Instance { get; private set;}
 
     [SerializeField] private List<BreakableController> _breakablesList;
+    public int HighValueObjectThreshold { get; private set; } = 5;
+
 
     [HideInInspector] public UnityEvent<int> OnScoreChange;
 

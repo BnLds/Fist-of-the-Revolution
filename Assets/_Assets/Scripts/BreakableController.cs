@@ -4,13 +4,17 @@ using UnityEngine.Events;
 public class BreakableController : MonoBehaviour
 {
     [SerializeField] private BreakableSO _breakableSO;
+    
+
+    public bool IsOnWatchList { get; private set; }
+    public bool IsHighPriority { get; private set; }
 
     private int _maxHealth;
     private int _health;
     private int _watchValue;
-    private int _maxReward;
     private int _remainingRewardValue;
-    public bool IsOnWatchList { get; private set; }
+    private int _maxReward;
+
 
     [HideInInspector] public UnityEvent<int, BreakableController> OnDestroyedBreakable;
     [HideInInspector] public UnityEvent<int, Transform> OnDamagedBreakable;
@@ -24,6 +28,12 @@ public class BreakableController : MonoBehaviour
         _maxReward = _breakableSO.Reward;
         _remainingRewardValue = _maxReward;
         IsOnWatchList = false;
+    }
+
+    private void Start()
+    {
+        IsHighPriority = _maxReward >= BreakablesCollectionManager.Instance.HighValueObjectThreshold;
+
     }
 
     public void Damage(int damageValue)

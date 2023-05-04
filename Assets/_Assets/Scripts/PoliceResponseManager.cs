@@ -73,6 +73,8 @@ public class PoliceResponseManager : MonoBehaviour
     private void InitializePoliceResponseData()
     {
         PoliceResponseData.WatchPoints = new List<Transform>();
+        PoliceResponseData.Suspects = new List<Transform>();
+        PoliceResponseData.Culprit = null;
     }
 
 }

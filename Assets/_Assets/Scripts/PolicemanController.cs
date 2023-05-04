@@ -3,12 +3,18 @@ using UnityEngine;
 public class PolicemanController : MonoBehaviour
 {
     //[SerializeField] private PolicemanAI _policemanAI;
+    [Header("Initialization Parameters")]
     [SerializeField] private PoliceUnitSM _policeUnitSM;
     [SerializeField] private ProtesterAI _protesterAI;
+    [SerializeField] private LayerMask _avoidCollisionMask;
+    [SerializeField] private Collider _policemanCollider;
+
+    [Header("Game Balance Parameters")]
     [SerializeField] private float _moveSpeed = 3f;
     
     private Vector3 _moveDirectionFollowProtest;
     private Rigidbody _policemanRB;
+
 
     private void Awake()
     {
@@ -49,6 +55,14 @@ public class PolicemanController : MonoBehaviour
     private void protesterAI_OnMoveDirectionInput(Vector3 direction)
     {
         _moveDirectionFollowProtest = direction;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(1 << collision.collider.gameObject.layer == _avoidCollisionMask.value)
+        {
+            Physics.IgnoreCollision(collision.collider, _policemanCollider);
+        }
     }
 
     /*private void policemanAI_OnMoveDirectionInput(Vector3 direction)

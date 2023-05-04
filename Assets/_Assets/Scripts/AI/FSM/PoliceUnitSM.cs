@@ -46,11 +46,14 @@ public class PoliceUnitSM : StateMachine
         base.Update();
         if(PoliceUnitData.WatchedObjectsInReactionRange.Count != 0)
         {
+            Debug.Log(PoliceUnitData.WatchedObjectsInReactionRange.Count);
             for (int i = 0; i < PoliceUnitData.WatchedObjectsInReactionRange.Count; i++)
             {
-                if(PoliceUnitData.WatchedObjectsInReactionRange[i].GetComponent<BreakableController>().IsOnWatch == false && PoliceUnitData.WatchedObjectsInReactionRange.Contains(PoliceUnitData.WatchedObjectsInReactionRange[i]))
+                //check if object is not watched (ie undamaged or already destroyed) and if it is in watch list
+                if(PoliceUnitData.WatchedObjectsInReactionRange[i].GetComponent<BreakableController>().IsOnWatchList == false && PoliceUnitData.WatchedObjectsInReactionRange.Contains(PoliceUnitData.WatchedObjectsInReactionRange[i]))
                 {
                     Transform objectDestroyed = PoliceUnitData.WatchedObjectsInReactionRange[i];
+                    //remove object from the policement watch list and inform the policeman AI the object has been destroyed
                     PoliceUnitData.WatchedObjectsInReactionRange.Remove(PoliceUnitData.WatchedObjectsInReactionRange[i]);
                     OnObjectDestroyed?.Invoke(objectDestroyed);
                 }        
@@ -79,7 +82,7 @@ public class PoliceUnitSM : StateMachine
         {
             foreach (Transform watchPoint in PoliceResponseData.WatchPoints)
             {
-                if (Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= _watchReactionRange)
+                if (Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= _watchReactionRange && !PoliceUnitData.WatchedObjectsInReactionRange.Contains(watchPoint))
                 {
                     PoliceUnitData.WatchedObjectsInReactionRange.Add(watchPoint);
                 }

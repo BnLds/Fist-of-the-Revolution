@@ -24,14 +24,24 @@ public class PolicemanController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_policeUnitSM.CurrentState == _policeUnitSM.FollowProtestState && _policeUnitSM.FollowProtestState.IsFollowingProtest)
+        if(_policeUnitSM.CurrentState == _policeUnitSM.FollowProtestState)
         {
-            //follow the protest path
-            _policemanRB.velocity = _moveDirectionFollowProtest * _moveSpeed; 
+            //if the policeman is in the FollowProtest state, apply protester momevement logic
+            if(_policeUnitSM.FollowProtestState.IsFollowingProtest)
+            {
+                //follow the protest path
+                _policemanRB.velocity = _moveDirectionFollowProtest * _moveSpeed; 
+            }
+            else
+            {
+                //await 
+                _policemanRB.velocity = Vector3.zero;
+            }
+            
         }
         else
         {
-
+            //apply policeman move logic
             _policemanRB.velocity =  _policeUnitSM.MoveDirectionInput * _moveSpeed;
         }
     }

@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class FollowProtest : BaseState
 {
-    private PoliceUnitSM _policeUnitSM;
     public bool IsFollowingProtest { get; private set; }
+    
+    private PoliceUnitSM _policeUnitSM;
+    [SerializeField] private float _countdownToWalkMax = 5f;
+    private float _countdownToWalk;
+    [SerializeField] private float _countdownToPauseMax = 3f;
+    private float _countdownToPause;
 
     public FollowProtest(PoliceUnitSM stateMachine) : base("FollowProtest", stateMachine)
     {
@@ -14,18 +19,43 @@ public class FollowProtest : BaseState
     {
         base.Enter();
         IsFollowingProtest = false;
+        _countdownToPause = _countdownToPauseMax;
+        _countdownToWalk = 0f;
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+
+        _countdownToPause -= Time.deltaTime;
+        _countdownToWalk -= Time.deltaTime;
+
+
+        if(_countdownToWalk <=0)
+        {
+            IsFollowingProtest = true;
+        }
+
+        if(_countdownToPause <= 0)
+        {
+            IsFollowingProtest = false;
+        }
+
+        if(IsFollowingProtest)
+        {
+            _countdownToWalk = _countdownToWalkMax;
+        }  
+        else
+        {
+            _countdownToPause = _countdownToPauseMax;
+        } 
+
         if (_policeUnitSM.PoliceUnitData.WatchedObjectsInReactionRange.Count != 0)
         {
             Exit();
             _policeUnitSM.ChangeState(_policeUnitSM.WatchObjectState);
         }
 
-        IsFollowingProtest = true;
     }
 
     public override void Exit()

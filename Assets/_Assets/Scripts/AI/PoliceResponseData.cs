@@ -10,6 +10,6 @@ public static class PoliceResponseData
 
     public static List<Transform> WatchPoints;
     public static List<Transform> Suspects;
-    public static Transform Culprit;
+    public static bool IsPlayerIdentified;
 
 }

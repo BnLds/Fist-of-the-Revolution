@@ -227,10 +227,10 @@ MonoBehaviour:
   _targetDetectionRange: 20
   _obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 3200
   _targetsLayerMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 3072
   _showGizmos: 0
 --- !u!1 &6608261059095314829
 GameObject:
@@ -433,6 +433,7 @@ MonoBehaviour:
   Targets: []
   Obstacles: []
   CurrentTarget: {fileID: 0}
+  IsChasingTarget: 0
   ObjectsToProtect: []
   CurrentWatchObjectPosition: {x: 0, y: 0, z: 0}
   CurrentWatchedObject: {fileID: 0}
@@ -461,8 +462,6 @@ MonoBehaviour:
   _movementDirectionSolver: {fileID: 4006038392267361051}
   PoliceUnitData: {fileID: 7723722718084810004}
   _protectionRange: 10
-  _detectionDelay: 0.5
-  _playerDetectionRange: 5
 --- !u!114 &6443096262285097695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,6 +517,7 @@ MonoBehaviour:
   Targets: []
   Obstacles: []
   CurrentTarget: {fileID: 0}
+  IsChasingTarget: 0
   CurrentFlowFieldIndex: 0
   EndOfProtest: {fileID: 0}
   ReachedEndOfProtest: 0

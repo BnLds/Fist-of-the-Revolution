@@ -15,18 +15,23 @@ public class PoliceUnitSM : StateMachine
     [HideInInspector] public Idle IdleState;
     [HideInInspector] public FollowProtest FollowProtestState;
     [HideInInspector] public WatchObject WatchObjectState;
+    [HideInInspector] public FollowSuspect FollowSuspectState;
+    
 
     [Header("Initialization Parameters")]
     [SerializeField] private List<Detector> _detectors;
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours;
     [SerializeField] private ContextSolver _movementDirectionSolver;
-
     public PolicemanData PoliceUnitData;
 
     [Header("Game Balance Parameters")]
     [SerializeField] private float _protectionRange = 10f;
-    [SerializeField] private float _detectionDelay = 0.5f;
-    [SerializeField] private float _playerDetectionRange = 5f;
+    public float PlayerDetectionRange { get; private set; } = 20f;
+    public float CatchDistance { get; private set; } = 1f;
+    public float CatchAttemptDelay { get; private set; } = 1f;
+
+    public float DetectionDelay { get; private set; } = 0.5f;
+
 
     private void Awake()
     {
@@ -34,6 +39,7 @@ public class PoliceUnitSM : StateMachine
         IdleState = new Idle(this);
         FollowProtestState = new FollowProtest(this);
         WatchObjectState = new WatchObject(this);
+        FollowSuspectState = new FollowSuspect(this);
     }
 
     protected override void Start()
@@ -105,8 +111,9 @@ public class PoliceUnitSM : StateMachine
 
     private void PlayerController_OnDamageDone(Transform player)
     {
-        if(Utility.Distance2DBetweenVector3(transform.position, player.position) <= _playerDetectionRange)
+        if(Utility.Distance2DBetweenVector3(transform.position, player.position) <= PlayerDetectionRange)
         {
+            Debug.Log("Player IDed!");
             PoliceResponseData.IsPlayerIdentified = true;
         }
     }

@@ -20,11 +20,12 @@ public class SeekBehaviour : SteeringBehaviour
     {
         //if we don't have a target stop seeking
         //else set a new target
+        /*
         if(_reachedLastTarget)
         {
             if(aiData.Targets == null || aiData.Targets.Count <= 0)
             {
-                aiData.CurrentTarget = null;
+                //aiData.CurrentTarget = null;
                 return (danger, interest);
             }
             else
@@ -33,6 +34,7 @@ public class SeekBehaviour : SteeringBehaviour
                 aiData.CurrentTarget = aiData.Targets.OrderBy(target => Vector3.Distance(transform.position, target.position)).FirstOrDefault();
             }
         }
+        */
 
         //cache the last position only if we still see the target (if the targets collection is not empty)
         if(aiData.CurrentTarget != null && aiData.Targets != null && aiData.Targets.Contains(aiData.CurrentTarget))
@@ -40,15 +42,16 @@ public class SeekBehaviour : SteeringBehaviour
             _targetPositionCached = aiData.CurrentTarget.position;
         }
 
+        /*
         //first check if we have reached the target
         if(Vector3.Distance(transform.position, _targetPositionCached) < _targetReachedThreshold)
         {
             Debug.Log("Target reached");
             _reachedLastTarget = true;
-            aiData.CurrentTarget = null;
             OnTargetReached?.Invoke();
             return (danger, interest);
         }
+        */
 
         //if we havent reached the target, do the main logic of finding the interest directions
         Vector2 directionToTarget = new Vector2((_targetPositionCached - transform.position).x, (_targetPositionCached - transform.position).z);
@@ -80,7 +83,6 @@ public class SeekBehaviour : SteeringBehaviour
             //if we don't have a target stop seeking
             if(protesterData.ReachedEndOfProtest || protesterData.FlowFieldsProtest.Count == 0)
             {
-                Debug.Log("Stopped seeking");
                 return (danger, interest);
             }
 

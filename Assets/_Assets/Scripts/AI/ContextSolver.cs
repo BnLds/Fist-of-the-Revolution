@@ -20,7 +20,7 @@ public class ContextSolver : MonoBehaviour
         float[] danger = new float[8];
         float[] interest = new float[8];
 
-        if(aiData is ProtesterData || aiData is PolicemanData)
+        if(aiData is ProtesterData || (aiData is PolicemanData policemanData && policemanData.IsChasingTarget == false))
         {
             //loop through each behaviour
             foreach (SteeringBehaviour behaviour in behaviours)

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7706309892174729190}
   - component: {fileID: 2598975837946078362}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: ObstacleDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 8756372246786316379}
   - component: {fileID: 1784478841898551319}
   - component: {fileID: 423561137945770695}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: PolicemanVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7272661461591421413}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Detectors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4142582712147605254}
   - component: {fileID: 1259991071503837587}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: TargetDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9068312630166200493}
   - component: {fileID: 8676481532161510226}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: ObstacleAvoidance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,7 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1098452223986684286}
   - component: {fileID: 4006038392267361051}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: ContextSolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3179672545867612782}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: SteeringBehaviours
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ MonoBehaviour:
   Targets: []
   Obstacles: []
   CurrentTarget: {fileID: 0}
-  WatchedObjectsInReactionRange: []
+  ObjectsToProtect: []
   CurrentWatchObjectPosition: {x: 0, y: 0, z: 0}
   CurrentWatchedObject: {fileID: 0}
 --- !u!114 &6316234633344160984
@@ -460,8 +460,9 @@ MonoBehaviour:
   - {fileID: 8641847114119605023}
   _movementDirectionSolver: {fileID: 4006038392267361051}
   PoliceUnitData: {fileID: 7723722718084810004}
-  _watchReactionRange: 10
+  _protectionRange: 10
   _detectionDelay: 0.5
+  _playerDetectionRange: 5
 --- !u!114 &6443096262285097695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3591084702506104369}
   - component: {fileID: 8641847114119605023}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: SeekBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}

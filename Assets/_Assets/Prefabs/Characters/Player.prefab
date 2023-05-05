@@ -55,7 +55,7 @@ MonoBehaviour:
   _avoidCollisionMask:
     serializedVersion: 2
     m_Bits: 1024
-  OnDamageBreakable:
+  OnDamageDone:
     m_PersistentCalls:
       m_Calls: []
   _playerDamage: 1

@@ -6,6 +6,7 @@ using UnityEngine;
 public class WatchObject : BaseState
 {
     private PoliceUnitSM _policeUnitSM;
+    private bool _isSuspectsListUpdated;
 
     public WatchObject(PoliceUnitSM stateMachine) : base("WatchObject", stateMachine)
     {
@@ -15,6 +16,7 @@ public class WatchObject : BaseState
     public override void Enter()
     {
         base.Enter();
+        _isSuspectsListUpdated = false;
 
         _policeUnitSM.OnObjectDestroyed.AddListener(PoliceUnitSM_OnObjectDestroyed);
 
@@ -49,7 +51,6 @@ public class WatchObject : BaseState
         if(_policeUnitSM.PoliceUnitData.CurrentWatchedObject == objectDestroyed)
         {
             _policeUnitSM.PoliceUnitData.CurrentWatchedObject = null;
-            Exit();
             _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
         }
         
@@ -58,7 +59,12 @@ public class WatchObject : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        
+        float identificationRange = 5f;
+        if(Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition) <= identificationRange && !_isSuspectsListUpdated)
+        {
+            _isSuspectsListUpdated = true;
+            PoliceResponseManager.Instance.UpdateClosestSuspects(_policeUnitSM.transform, _policeUnitSM.PoliceUnitData.CurrentWatchedObject.GetComponent<BreakableController>());
+        }
     }
 
     public override void UpdatePhysics()

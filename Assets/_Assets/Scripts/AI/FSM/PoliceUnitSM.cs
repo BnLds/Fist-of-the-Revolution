@@ -20,12 +20,13 @@ public class PoliceUnitSM : StateMachine
     [SerializeField] private List<Detector> _detectors;
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours;
     [SerializeField] private ContextSolver _movementDirectionSolver;
-    
+
     public PolicemanData PoliceUnitData;
 
     [Header("Game Balance Parameters")]
     [SerializeField] private float _protectionRange = 10f;
     [SerializeField] private float _detectionDelay = 0.5f;
+    [SerializeField] private float _playerDetectionRange = 5f;
 
     private void Awake()
     {
@@ -40,6 +41,8 @@ public class PoliceUnitSM : StateMachine
         base.Start();
         float repeatRate = 2f;
         InvokeRepeating(PERFORM_DETECTION, 0f, repeatRate);
+
+        PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
     }
 
     protected override void Update()
@@ -97,6 +100,14 @@ public class PoliceUnitSM : StateMachine
                     PoliceUnitData.ObjectsToProtect.Add(watchPoint);
                 }
             }
+        }
+    }
+
+    private void PlayerController_OnDamageDone(Transform player)
+    {
+        if(Utility.Distance2DBetweenVector3(transform.position, player.position) <= _playerDetectionRange)
+        {
+            PoliceResponseData.IsPlayerIdentified = true;
         }
     }
 

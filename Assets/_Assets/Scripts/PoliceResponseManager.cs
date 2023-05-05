@@ -82,37 +82,42 @@ public class PoliceResponseManager : MonoBehaviour
         {
             if(allCollidersDetected[i] != null) 
             {
-                if(PoliceResponseData.TrackedSuspects.Contains(allCollidersDetected[i].transform))
+                //check if collider is already in trackedSuspect list
+                if(PoliceResponseData.TrackedSuspects.Select(_=> _.SuspectTransform).ToList().Contains(allCollidersDetected[i].transform))
                 {
+                    //go to next collider
                     continue;
                 }
 
+                //check if collider is already suspected
                 if(PoliceResponseData.Suspects.Contains(allCollidersDetected[i].transform))
                 {
+                    //remove it from list of suspects and add it to list of tracked suspects
                     PoliceResponseData.Suspects.Remove(allCollidersDetected[i].transform);
-                    PoliceResponseData.TrackedSuspects.Add(allCollidersDetected[i].transform);
+                    PoliceResponseData.TrackedSuspects.Add((allCollidersDetected[i].transform, IsTracked: false));
                 }
                 else
                 {
+                    //add it to suspect list
                     PoliceResponseData.Suspects.Add(allCollidersDetected[i].transform);
                 }
             }
         }
         
-        /*
+        
         Debug.Log("suspects List: ");
         foreach(Transform element in PoliceResponseData.Suspects) Debug.Log(element.parent);
 
         Debug.Log("Tracked suspects List: ");
-        foreach(Transform element in PoliceResponseData.TrackedSuspects) Debug.Log(element.parent);
-        */
+        foreach((Transform suspect, bool isTracked) element in PoliceResponseData.TrackedSuspects) Debug.Log(element.suspect.parent + " " + element.isTracked);
+        
     }
 
     private void InitializePoliceResponseData()
     {
         PoliceResponseData.WatchPoints = new List<Transform>();
         PoliceResponseData.Suspects = new List<Transform>();
-        PoliceResponseData.TrackedSuspects = new List<Transform>();
+        PoliceResponseData.TrackedSuspects = new List<(Transform, bool)>();
         PoliceResponseData.IsPlayerIdentified = false;
     }
 

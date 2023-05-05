@@ -52,7 +52,6 @@ public class FollowProtest : BaseState
 
         if (_policeUnitSM.PoliceUnitData.ObjectsToProtect.Count != 0)
         {
-            Exit();
             _policeUnitSM.ChangeState(_policeUnitSM.WatchObjectState);
         }
 
@@ -62,6 +61,5 @@ public class FollowProtest : BaseState
     {
         base.Exit();
         IsFollowingProtest = false;
-
     }
 }

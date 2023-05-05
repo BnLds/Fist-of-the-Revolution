@@ -21,7 +21,7 @@ public class ProtesterController : MonoBehaviour
 
     private void protesterAI_OnProtestEndReached()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
     private void FixedUpdate()

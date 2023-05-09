@@ -454,6 +454,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   MoveDirectionInput: {x: 0, y: 0, z: 0}
+  IsTargetLost: 0
   _detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
@@ -584,3 +585,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetReachedThreshold: 0.7
   _showGizmos: 0
+  OnTargetLost:
+    m_PersistentCalls:
+      m_Calls: []

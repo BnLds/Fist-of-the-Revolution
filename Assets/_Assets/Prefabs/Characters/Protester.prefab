@@ -47,7 +47,7 @@ MonoBehaviour:
   _detectionRadius: 2
   _layerMask:
     serializedVersion: 2
-    m_Bits: 3200
+    m_Bits: 3712
   _showGizmos: 0
 --- !u!1 &1001593164066478922
 GameObject:
@@ -245,8 +245,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2176
   _targetsLayerMask:
-    serializedVersion: 2
+  - serializedVersion: 2
     m_Bits: 2048
+  - serializedVersion: 2
+    m_Bits: 0
   _showGizmos: 0
 --- !u!1 &6608261059095314829
 GameObject:
@@ -441,6 +443,7 @@ MonoBehaviour:
   Targets: []
   Obstacles: []
   CurrentTarget: {fileID: 0}
+  IsChasingTarget: 0
   CurrentFlowFieldIndex: 0
   EndOfProtest: {fileID: 0}
   ReachedEndOfProtest: 0
@@ -546,6 +549,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetReachedThreshold: 3
   _showGizmos: 0
-  OnTargetReached:
-    m_PersistentCalls:
-      m_Calls: []

@@ -47,7 +47,7 @@ MonoBehaviour:
   _detectionRadius: 2
   _layerMask:
     serializedVersion: 2
-    m_Bits: 1152
+    m_Bits: 1664
   _showGizmos: 0
 --- !u!1 &1001593164066478922
 GameObject:
@@ -229,8 +229,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3200
   _targetsLayerMask:
-    serializedVersion: 2
-    m_Bits: 3072
+  - serializedVersion: 2
+    m_Bits: 1024
+  - serializedVersion: 2
+    m_Bits: 2048
   _showGizmos: 0
 --- !u!1 &6608261059095314829
 GameObject:
@@ -372,7 +374,6 @@ GameObject:
   - component: {fileID: 6316234633344160984}
   - component: {fileID: 6443096262285097695}
   - component: {fileID: 7030664641293707828}
-  - component: {fileID: 5291358391560267339}
   - component: {fileID: 6212171684923365943}
   m_Layer: 12
   m_Name: Policeman
@@ -521,18 +522,6 @@ MonoBehaviour:
   CurrentFlowFieldIndex: 0
   EndOfProtest: {fileID: 0}
   ReachedEndOfProtest: 0
---- !u!114 &5291358391560267339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7149198449243920836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d3fd6aa4fb86e54288673105bb8d928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &6212171684923365943
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -595,6 +584,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetReachedThreshold: 0.7
   _showGizmos: 0
-  OnTargetReached:
-    m_PersistentCalls:
-      m_Calls: []

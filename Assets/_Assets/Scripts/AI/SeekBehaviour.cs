@@ -7,10 +7,12 @@ public class SeekBehaviour : SteeringBehaviour
     [SerializeField] private float _targetReachedThreshold = 0f;
     [SerializeField] private bool _showGizmos = false;
 
+    public UnityEvent OnTargetLost;
+
     private bool _reachedLastTarget = true;
 
     //gizmo parameters
-    private Vector3 _targetPositionCached;
+    private Vector3 _targetPosition;
     private float[] _interestsTemp;
     private Vector3 _moveDirectionFlowFieldTemp;
 
@@ -23,32 +25,34 @@ public class SeekBehaviour : SteeringBehaviour
             if(aiData.Targets == null || aiData.Targets.Count <= 0)
             {
                 //aiData.CurrentTarget = null;
-                Debug.Log("Target lost");
+                Debug.Log("Target lost, starting to wander...");
+
+                OnTargetLost?.Invoke();
                 return (danger, interest);
             }
-            /*else
+            else
             {
                 _reachedLastTarget = false;
-                aiData.CurrentTarget = aiData.Targets.OrderBy(target => Vector3.Distance(transform.position, target.position)).FirstOrDefault();
-            }*/
+                //aiData.CurrentTarget = aiData.Targets.OrderBy(target => Vector3.Distance(transform.position, target.position)).FirstOrDefault();
+            }
         }
 
         //cache the last position only if we still see the target (if the targets collection is not empty)
         if(aiData.CurrentTarget != null && aiData.Targets != null && aiData.Targets.Contains(aiData.CurrentTarget))
         {
-            _targetPositionCached = aiData.CurrentTarget.position;
+            _targetPosition = aiData.CurrentTarget.position;
         }
 
         //first check if we have reached the target
-        if(Vector3.Distance(transform.position, _targetPositionCached) < _targetReachedThreshold)
+        if(Utility.Distance2DBetweenVector3(transform.position, _targetPosition) <= _targetReachedThreshold)
         {
-            Debug.Log("Target reached");
+            Debug.Log("Target position reached");
             _reachedLastTarget = true;
             return (danger, interest);
         }
         
         //if we havent reached the target, do the main logic of finding the interest directions
-        Vector2 directionToTarget = new Vector2((_targetPositionCached - transform.position).x, (_targetPositionCached - transform.position).z);
+        Vector2 directionToTarget = new Vector2((_targetPosition - transform.position).x, (_targetPosition - transform.position).z);
         for (int i = 0; i < interest.Length; i++)
         {
             float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
@@ -128,7 +132,7 @@ public class SeekBehaviour : SteeringBehaviour
     private void OnDrawGizmos()
     {
         if(!_showGizmos) return;
-        Gizmos.DrawSphere(_targetPositionCached, .2f);
+        Gizmos.DrawSphere(_targetPosition, .2f);
 
         if(Application.isPlaying && _interestsTemp != null)
         {
@@ -141,7 +145,7 @@ public class SeekBehaviour : SteeringBehaviour
             if (_reachedLastTarget == false)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawSphere(_targetPositionCached, .1f);
+                Gizmos.DrawSphere(_targetPosition, .1f);
             }
         }
     }

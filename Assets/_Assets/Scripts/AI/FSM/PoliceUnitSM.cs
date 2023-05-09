@@ -7,17 +7,15 @@ public class PoliceUnitSM : StateMachine
 {
     private const string PERFORM_DETECTION = "PerformDetection";
 
-    [HideInInspector]
-    public UnityEvent<Transform> OnObjectDestroyed;
-
-    [HideInInspector]
-    public Vector3 MoveDirectionInput = Vector3.zero;
+    [HideInInspector] public UnityEvent<Transform> OnObjectDestroyed;
+    [HideInInspector] public Vector3 MoveDirectionInput = Vector3.zero;
+    [HideInInspector] public bool IsTargetLost = false;
 
     [HideInInspector] public Idle IdleState;
     [HideInInspector] public FollowProtest FollowProtestState;
     [HideInInspector] public WatchObject WatchObjectState;
     [HideInInspector] public FollowSuspect FollowSuspectState;
-    
+    [HideInInspector] public Wander WanderState;
 
     [Header("Initialization Parameters")]
     [SerializeField] private List<Detector> _detectors;
@@ -30,6 +28,9 @@ public class PoliceUnitSM : StateMachine
     public float PlayerDetectionRange { get; private set; } = 20f;
     public float CatchDistance { get; private set; } = 1f;
     public float CatchAttemptDelay { get; private set; } = 1f;
+    public float WanderDuration { get; private set; } = 3f;
+    public float CountdownToWalkMax { get; private set; } = .5f;
+    public float CountdownToPauseMax { get; private set; } = 3f;
 
     public float DetectionDelay { get; private set; } = 0.5f;
 
@@ -41,6 +42,7 @@ public class PoliceUnitSM : StateMachine
         FollowProtestState = new FollowProtest(this);
         WatchObjectState = new WatchObject(this);
         FollowSuspectState = new FollowSuspect(this);
+        WanderState = new Wander(this);
     }
 
     protected override void Start()
@@ -50,11 +52,21 @@ public class PoliceUnitSM : StateMachine
         InvokeRepeating(PERFORM_DETECTION, 0f, repeatRate);
 
         PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
+
+        foreach (SteeringBehaviour behaviour in _steeringBehaviours)
+        {
+            if (behaviour is SeekBehaviour seekBehaviour)
+            {
+                seekBehaviour.OnTargetLost.AddListener(SeekBehaviour_OnTargetLost);
+            }
+        }
     }
 
     protected override void Update()
     {
         base.Update();
+
+        GetComponent<ProtesterAI>().enabled = CurrentState == FollowProtestState;
 
         //Remove destroyed object from police unit watch list if necessary
         if(PoliceUnitData.ObjectsToProtect.Count != 0)
@@ -137,6 +149,11 @@ public class PoliceUnitSM : StateMachine
         }
     }
 
+    private void SeekBehaviour_OnTargetLost()
+    {
+        IsTargetLost = true;
+    }
+
     public Vector3 GetMoveDirectionInput()
     {
         return _movementDirectionSolver.GetContextDirection(_steeringBehaviours, PoliceUnitData);
@@ -148,6 +165,20 @@ public class PoliceUnitSM : StateMachine
         bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
 
         return canSeePlayer && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Unwalkable") && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Breakable");
+    }
+
+    public void AttemptCatchPlayer()
+    {
+        float attemptValue = Random.Range(0f, 100f);
+        float catchThreshold = 80f;
+        if(attemptValue <= catchThreshold)
+        {
+            Debug.Log("Player Caught!");
+        }
+        else
+        {
+            Debug.Log("Player Dodged!");
+        }
     }
 
 }

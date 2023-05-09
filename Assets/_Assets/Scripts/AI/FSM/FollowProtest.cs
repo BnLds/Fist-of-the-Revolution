@@ -6,9 +6,7 @@ public class FollowProtest : BaseState
     public bool IsFollowingProtest { get; private set; }
     
     private PoliceUnitSM _policeUnitSM;
-    private float _countdownToWalkMax = 3f;
     private float _countdownToWalk;
-    private float _countdownToPauseMax = 5f;
     private float _countdownToPause;
     private float _detectionDelay;
 
@@ -22,7 +20,7 @@ public class FollowProtest : BaseState
         base.Enter();
         //IsFollowingProtest is used by the PolicemanController to update policeman position
         IsFollowingProtest = false;
-        _countdownToPause = _countdownToPauseMax;
+        _countdownToPause = _policeUnitSM.CountdownToPauseMax;
         _countdownToWalk = 0f;
         _detectionDelay = 0f;
     }
@@ -36,7 +34,7 @@ public class FollowProtest : BaseState
         //check if player is identified
         if(PoliceResponseData.IsPlayerIdentified)
         {
-            //check if player is within detection range
+            //check if player is within detection range and line of sight
             if (_detectionDelay <= 0)
             {
                 _detectionDelay = _policeUnitSM.DetectionDelay;
@@ -95,11 +93,11 @@ public class FollowProtest : BaseState
 
         if(IsFollowingProtest)
         {
-            _countdownToWalk = _countdownToWalkMax;
+            _countdownToWalk = _policeUnitSM.CountdownToWalkMax;
         }  
         else
         {
-            _countdownToPause = _countdownToPauseMax;
+            _countdownToPause = _policeUnitSM.CountdownToPauseMax;
         } 
     }
 

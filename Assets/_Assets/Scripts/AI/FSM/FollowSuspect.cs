@@ -5,12 +5,9 @@ using UnityEngine.Events;
 
 public class FollowSuspect : BaseState
 {
-    public UnityEvent<Transform> OnCatchAttempt;
-
     private PoliceUnitSM _policeUnitSM;
     private float _detectionDelay;
     private float _catchAttemptDelay;
-
 
     public FollowSuspect(PoliceUnitSM stateMachine) : base("FollowSuspect", stateMachine)
     {
@@ -31,7 +28,6 @@ public class FollowSuspect : BaseState
     {
         base.Exit();
         _policeUnitSM.PoliceUnitData.IsChasingTarget = false;
-
     }
 
     private void PlayerController_OnDamageDone(Transform arg0)
@@ -39,7 +35,7 @@ public class FollowSuspect : BaseState
         //check if current target in within line of site
         if(_policeUnitSM.PoliceUnitData.CurrentTarget != null && _policeUnitSM.PoliceUnitData.Targets != null && _policeUnitSM.PoliceUnitData.Targets.Contains(_policeUnitSM.PoliceUnitData.CurrentTarget))
         {
-            Debug.Log("suspect no longer suspectd");
+            Debug.Log("suspect no longer suspected");
             //remove current tracked suspect from suspects list
             PoliceResponseData.TrackedSuspects.Remove(PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == _policeUnitSM.PoliceUnitData.CurrentTarget));
             _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
@@ -53,16 +49,19 @@ public class FollowSuspect : BaseState
 
         if(_policeUnitSM.PoliceUnitData.CurrentTarget == null) _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
 
+        if(_policeUnitSM.IsTargetLost && _policeUnitSM.PoliceUnitData.CurrentTarget!= null)
+        {
+            _policeUnitSM.ChangeState(_policeUnitSM.WanderState);
+        }
+
+        //check if player within catch distance
         if(Utility.Distance2DBetweenVector3(_policeUnitSM.PoliceUnitData.CurrentTarget.position, _policeUnitSM.transform.position)<= _policeUnitSM.CatchDistance)
         {
             if(_catchAttemptDelay <= 0)
             {
-                Debug.Log("Attempting to catch the target");
-
+                _policeUnitSM.AttemptCatchPlayer();
                 _catchAttemptDelay = _policeUnitSM.CatchAttemptDelay;
-                OnCatchAttempt?.Invoke(_policeUnitSM.PoliceUnitData.CurrentTarget);
             }
-            
         }
     }
 

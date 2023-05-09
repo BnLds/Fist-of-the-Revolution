@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Linq;
 
 public class PoliceUnitSM : StateMachine
 {
@@ -54,11 +55,13 @@ public class PoliceUnitSM : StateMachine
     protected override void Update()
     {
         base.Update();
+
+        //Remove destroyed object from police unit watch list if necessary
         if(PoliceUnitData.ObjectsToProtect.Count != 0)
         {
             for (int i = 0; i < PoliceUnitData.ObjectsToProtect.Count; i++)
             {
-                //check if object is not watched (ie undamaged or already destroyed) and if it is in watch list
+                //check if object is not watched (ie undamaged or already destroyed) and if it is in watch list of the police unit
                 if(PoliceUnitData.ObjectsToProtect[i].GetComponent<BreakableController>().IsOnWatchList == false && PoliceUnitData.ObjectsToProtect.Contains(PoliceUnitData.ObjectsToProtect[i]))
                 {
                     Transform objectDestroyed = PoliceUnitData.ObjectsToProtect[i];
@@ -74,11 +77,6 @@ public class PoliceUnitSM : StateMachine
     {
         return IdleState;
     }
-
-    /*public void StartBrokenObjectsDetection()
-    {
-        InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
-    }*/ 
 
     private void PerformDetection()
     {
@@ -113,8 +111,30 @@ public class PoliceUnitSM : StateMachine
     {
         if(Utility.Distance2DBetweenVector3(transform.position, player.position) <= PlayerDetectionRange)
         {
-            Debug.Log("Player IDed!");
-            PoliceResponseData.IsPlayerIdentified = true;
+            Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
+            bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
+            
+            //chick if the player is in line of sight
+            if (canSeePlayer && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Unwalkable") && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Breakable"))
+            {
+                Debug.Log("Player IDed!");
+                PoliceResponseData.IsPlayerIdentified = true;
+
+                (Transform playerSuspectTransform, bool IsPlayerTracked) playerSuspectData = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);
+                if(playerSuspectData.playerSuspectTransform == null)
+                {
+                    //add player in tracked suspects list if not already in
+                    (Transform, bool) newTargetData = (PlayerController.Instance.transform, true) ;
+                    PoliceResponseData.TrackedSuspects.Add(newTargetData);
+                }
+                else if(playerSuspectData.playerSuspectTransform != null && !playerSuspectData.IsPlayerTracked)
+                {
+                    //update IsTracked if player already is in TrackedList
+                    (Transform, bool) newTargetData = (playerSuspectData.playerSuspectTransform, true) ;
+                    int index = PoliceResponseData.TrackedSuspects.IndexOf(playerSuspectData);
+                    PoliceResponseData.TrackedSuspects[index] = newTargetData;
+                }
+            }
         }
     }
 

@@ -31,11 +31,11 @@ public class GridController : MonoBehaviour
         _currentFlowField.CreateGrid(transform.position);
     }
 
-    public FlowField GenerateFlowField(Transform targetTransform)
+    public FlowField GenerateFlowField(Vector3 targetPosition)
     {
         InitializeFlowField();
         _currentFlowField.CreateCostField();
-        Node targetGridPosition = _currentFlowField.GetNodeFromWorldPoint(targetTransform.position);
+        Node targetGridPosition = _currentFlowField.GetNodeFromWorldPoint(targetPosition);
         _currentFlowField.CreateIntegrationField(targetGridPosition);
 
         _currentFlowField.CreateFlowField();

@@ -36,7 +36,7 @@ public class ProtestFlowFields : MonoBehaviour
     {
         for (int i = 0; i < _protestMeetingPoints.Count; i++)
         {
-            _flowFieldsProtest.Add(new ProtestFlowFieldData(i, "MeetingPoint: " + i, _protestMeetingPoints[i].position, GridController.Instance.GenerateFlowField(_protestMeetingPoints[i])));
+            _flowFieldsProtest.Add(new ProtestFlowFieldData(i, "MeetingPoint: " + i, _protestMeetingPoints[i].position, GridController.Instance.GenerateFlowField(_protestMeetingPoints[i].position)));
         }
 
         OnFlowFieldsCreated?.Invoke();

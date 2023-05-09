@@ -35,9 +35,9 @@ public class WatchObject : BaseState
             
             _policeUnitSM.PoliceUnitData.CurrentWatchedObject = reactionPoint;
             _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition = reactionPoint.position;
+
             //Generate flowfield to reaction point
-            //policemanData.currentFlowField = PoliceFlowfieldsGenerator.Instance.CreateNewFlowField(reactionPoint);
-            _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint);
+            _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint.position);
         }
     }
 

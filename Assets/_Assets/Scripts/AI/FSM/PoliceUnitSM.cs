@@ -111,11 +111,10 @@ public class PoliceUnitSM : StateMachine
     {
         if(Utility.Distance2DBetweenVector3(transform.position, player.position) <= PlayerDetectionRange)
         {
-            Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
-            bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
-            
+
+
             //chick if the player is in line of sight
-            if (canSeePlayer && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Unwalkable") && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Breakable"))
+            if (IsPlayerInLineOfSight())
             {
                 Debug.Log("Player IDed!");
                 PoliceResponseData.IsPlayerIdentified = true;
@@ -141,6 +140,14 @@ public class PoliceUnitSM : StateMachine
     public Vector3 GetMoveDirectionInput()
     {
         return _movementDirectionSolver.GetContextDirection(_steeringBehaviours, PoliceUnitData);
+    }
+
+    public bool IsPlayerInLineOfSight()
+    {
+        Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
+        bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
+
+        return canSeePlayer && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Unwalkable") && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Breakable");
     }
 
 }

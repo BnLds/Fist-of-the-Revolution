@@ -40,7 +40,7 @@ public class FollowProtest : BaseState
             if (_detectionDelay <= 0)
             {
                 _detectionDelay = _policeUnitSM.DetectionDelay;
-                if (Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange)
+                if (Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange && _policeUnitSM.IsPlayerInLineOfSight()) 
                 {
                     //assign new target in unit data
                     _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;

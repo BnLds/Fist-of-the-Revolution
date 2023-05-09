@@ -23,8 +23,7 @@ public class TargetDetector : Detector
         {
             //unused at the moment but run
             //find out if targets are near
-            //targetColliders = Physics.OverlapSphere(transform.position, _targetDetectionRange, _targetsLayerMask);
-            targetColliders = null;
+            targetColliders = Physics.OverlapSphere(transform.position, _targetDetectionRange, _targetsLayerMask.Sum(_=>_.value));
         }
 
         if (targetColliders!=null && targetColliders.Length != 0)

@@ -25,15 +25,17 @@ public class ContextSolver : MonoBehaviour
             //loop through each behaviour
             foreach (SteeringBehaviour behaviour in behaviours)
             {
+                //use steering based on flowfields 
                 (danger, interest) = behaviour.GetSteeringFlowFields(danger, interest, aiData);
             }
         }
-        else
+        else if (aiData is PolicemanData _policemanData && _policemanData.IsChasingTarget == true)
         {
             //loop through each behaviour
             foreach (SteeringBehaviour behaviour in behaviours)
             {
-                (danger, interest) = behaviour.GetSteeringToTargets(danger, interest, aiData);
+                //use steering based on target detection
+                (danger, interest) = behaviour.GetSteeringToTargets(danger, interest, _policemanData);
             }
         }
 

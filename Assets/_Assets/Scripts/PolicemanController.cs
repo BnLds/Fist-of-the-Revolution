@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PolicemanController : MonoBehaviour
 {
-    //[SerializeField] private PolicemanAI _policemanAI;
     [Header("Initialization Parameters")]
     [SerializeField] private PoliceUnitSM _policeUnitSM;
     [SerializeField] private ProtesterAI _protesterAI;
@@ -23,7 +22,6 @@ public class PolicemanController : MonoBehaviour
     }
     private void Start()
     {
-        //_policemanAI.OnMoveDirectionInput.AddListener(policemanAI_OnMoveDirectionInput);
         _protesterAI.OnMoveDirectionInput.AddListener(protesterAI_OnMoveDirectionInput);
     }
     
@@ -64,9 +62,4 @@ public class PolicemanController : MonoBehaviour
             Physics.IgnoreCollision(collision.collider, _policemanCollider);
         }
     }
-
-    /*private void policemanAI_OnMoveDirectionInput(Vector3 direction)
-    {
-        _moveDirection = direction;
-    */
 }

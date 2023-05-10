@@ -7,6 +7,7 @@ public class WatchObject : BaseState
 {
     private PoliceUnitSM _policeUnitSM;
     private bool _isSuspectsListUpdated;
+    private float _detectionDelay;
 
     public WatchObject(PoliceUnitSM stateMachine) : base("WatchObject", stateMachine)
     {
@@ -59,6 +60,26 @@ public class WatchObject : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+
+        _detectionDelay -= Time.deltaTime;
+
+        //check if player is identified
+        if(PoliceResponseData.IsPlayerIdentified)
+        {
+            //check if player is within detection range and line of sight
+            if (_detectionDelay <= 0)
+            {
+                _detectionDelay = _policeUnitSM.DetectionDelay;
+                if (Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange && _policeUnitSM.IsPlayerInLineOfSight()) 
+                {
+                    //assign new target in unit data
+                    _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
+                    //follow player
+                    _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
+                }
+            }
+        }
+
         float identificationRange = 5f;
         if(Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition) <= identificationRange && !_isSuspectsListUpdated)
         {

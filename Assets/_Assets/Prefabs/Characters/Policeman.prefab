@@ -61,7 +61,8 @@ GameObject:
   - component: {fileID: 8756372246786316379}
   - component: {fileID: 1784478841898551319}
   - component: {fileID: 423561137945770695}
-  - component: {fileID: 3827255554392099123}
+  - component: {fileID: 8704924481579179445}
+  - component: {fileID: 2529381985505830884}
   m_Layer: 12
   m_Name: PolicemanVisual
   m_TagString: Untagged
@@ -148,7 +149,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &3827255554392099123
+--- !u!95 &8704924481579179445
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -158,7 +159,7 @@ Animator:
   m_GameObject: {fileID: 1001593164066478922}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f2e4095b153ba234caabe79acb33cc4e, type: 2}
+  m_Controller: {fileID: 9100000, guid: bb3d5f57124deaf4aa8a7fcabacce98e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -169,6 +170,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2529381985505830884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001593164066478922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366f7adfb564fb144aa99feb138dd2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _policeUnitSM: {fileID: 6316234633344160984}
 --- !u!1 &2397674075804722291
 GameObject:
   m_ObjectHideFlags: 0

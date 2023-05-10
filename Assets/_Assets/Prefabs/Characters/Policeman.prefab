@@ -462,8 +462,22 @@ MonoBehaviour:
   - {fileID: 8676481532161510226}
   - {fileID: 8641847114119605023}
   _movementDirectionSolver: {fileID: 4006038392267361051}
-  PoliceUnitData: {fileID: 7723722718084810004}
+  <PoliceUnitData>k__BackingField: {fileID: 7723722718084810004}
+  _blockingViewMasks:
+  - serializedVersion: 2
+    m_Bits: 128
+  - serializedVersion: 2
+    m_Bits: 512
   _protectionRange: 10
+  <PlayerDetectionRange>k__BackingField: 20
+  <CatchDistance>k__BackingField: 1
+  <CatchAttemptDelay>k__BackingField: 1
+  <WanderDuration>k__BackingField: 10
+  <CountdownToWalkMax>k__BackingField: 0.5
+  <CountdownToPauseMax>k__BackingField: 3
+  <WanderRandomDistanceMax>k__BackingField: 5
+  _detectionRepeatRate: 0.5
+  <DetectionDelay>k__BackingField: 0.5
 --- !u!114 &6443096262285097695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,7 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece8f25ce268c78408eb96682968ccc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetReachedThreshold: 0.7
+  _targetReachedThreshold: 1
   _showGizmos: 0
   OnTargetLost:
     m_PersistentCalls:

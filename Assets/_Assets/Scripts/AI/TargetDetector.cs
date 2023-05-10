@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -36,10 +37,9 @@ public class TargetDetector : Detector
 
                 //targets are also on the obstaclesLayerMask
                 bool isPlayerInDetectionRange = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, _targetDetectionRange, _obstaclesLayerMask);
-                bool canSeePlayer = _targetsLayerMask.Any(_ => _.value == 1 << hitInfo.collider.gameObject.layer);
 
                 //Make sure the collider we see is on the targetLayer.
-                if (isPlayerInDetectionRange && canSeePlayer)
+                if (isPlayerInDetectionRange && _targetsLayerMask.FirstOrDefault(_ => _.value == 1 << hitInfo.collider.gameObject.layer) != 0)
                 {
                     //Debug.DrawRay(transform.position, direction * targetDetectionRange, Color.blue);
                     _colliders.Add(target.transform);

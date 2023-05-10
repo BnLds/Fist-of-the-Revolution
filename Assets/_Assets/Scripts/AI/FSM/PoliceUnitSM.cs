@@ -166,9 +166,8 @@ public class PoliceUnitSM : StateMachine
     {
         Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
         bool isPlayerInDetectionRange = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
-        bool canSeePlayer = !_blockingViewMasks.Any(_ => _.value == 1 << hitInfo.collider.gameObject.layer);
 
-        return isPlayerInDetectionRange && canSeePlayer;
+        return isPlayerInDetectionRange && _blockingViewMasks.FirstOrDefault(_ => _.value == 1 << hitInfo.collider.gameObject.layer) == 0;
     }
 
     public void AttemptCatchPlayer()

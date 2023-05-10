@@ -35,10 +35,11 @@ public class TargetDetector : Detector
                 Vector3 direction = (target.transform.position - transform.position).normalized;
 
                 //targets are also on the obstaclesLayerMask
-                bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, _targetDetectionRange, _obstaclesLayerMask);
+                bool isPlayerInDetectionRange = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, _targetDetectionRange, _obstaclesLayerMask);
+                bool canSeePlayer = _targetsLayerMask.Any(_ => _.value == 1 << hitInfo.collider.gameObject.layer);
 
                 //Make sure the collider we see is on the targetLayer.
-                if (canSeePlayer && _targetsLayerMask.FirstOrDefault(_ => _.value == 1 << hitInfo.collider.gameObject.layer) != 0)
+                if (isPlayerInDetectionRange && canSeePlayer)
                 {
                     //Debug.DrawRay(transform.position, direction * targetDetectionRange, Color.blue);
                     _colliders.Add(target.transform);

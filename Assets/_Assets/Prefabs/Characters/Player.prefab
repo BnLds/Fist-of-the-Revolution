@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 859090756526079724}
   - component: {fileID: 3871344002033084576}
   - component: {fileID: 413845884720243411}
+  - component: {fileID: 8839676995375959102}
   m_Layer: 11
   m_Name: PlayerVisual
   m_TagString: Untagged
@@ -83,6 +84,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8839676995375959102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5260170971696877481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1b4fe0773bbd14289c69d842561fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skinSOs:
+  - {fileID: 11400000, guid: c3307e045459dd74da925d764f80d7f5, type: 2}
+  - {fileID: 11400000, guid: de9959318dad31b478c2f485cb4964ad, type: 2}
+  - {fileID: 11400000, guid: 4713cbd4300ab9a4681c98550c15aeae, type: 2}
+  - {fileID: 11400000, guid: 19d2603b919393a4c928a5258d4572f9, type: 2}
+  - {fileID: 11400000, guid: 6dcbac850f4c0ae4095fcb5fdce76681, type: 2}
+  - {fileID: 11400000, guid: 00562c42e1977d340b590f7ddc7aadad, type: 2}
+  - {fileID: 11400000, guid: 1629f7f12c959b8469951e0d20656b74, type: 2}
 --- !u!1 &8092548695155217262
 GameObject:
   m_ObjectHideFlags: 0

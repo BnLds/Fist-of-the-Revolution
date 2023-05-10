@@ -96,9 +96,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd7009ae0ad53d4a9ff1b745207cc3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _protesterData: {fileID: 727319368865638778}
   _floorMask:
     serializedVersion: 2
     m_Bits: 64
+  _skinSOs:
+  - {fileID: 11400000, guid: de9959318dad31b478c2f485cb4964ad, type: 2}
+  - {fileID: 11400000, guid: 4713cbd4300ab9a4681c98550c15aeae, type: 2}
+  - {fileID: 11400000, guid: 19d2603b919393a4c928a5258d4572f9, type: 2}
+  - {fileID: 11400000, guid: 6dcbac850f4c0ae4095fcb5fdce76681, type: 2}
+  - {fileID: 11400000, guid: 00562c42e1977d340b590f7ddc7aadad, type: 2}
+  - {fileID: 11400000, guid: 1629f7f12c959b8469951e0d20656b74, type: 2}
+  - {fileID: 11400000, guid: c3307e045459dd74da925d764f80d7f5, type: 2}
 --- !u!33 &8756372246786316379
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -447,6 +456,7 @@ MonoBehaviour:
   CurrentFlowFieldIndex: 0
   EndOfProtest: {fileID: 0}
   ReachedEndOfProtest: 0
+  Skin: {fileID: 0}
 --- !u!114 &3752383236802386957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,3 +559,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetReachedThreshold: 3
   _showGizmos: 0
+  OnTargetLost:
+    m_PersistentCalls:
+      m_Calls: []

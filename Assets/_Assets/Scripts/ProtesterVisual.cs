@@ -1,14 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProtesterVisual : MonoBehaviour
 {
+    [SerializeField] private ProtesterData _protesterData;
     [SerializeField] private LayerMask _floorMask;
+    [SerializeField] private List<SkinSO> _skinSOs;
 
     private MeshRenderer _meshRenderer;
 
     private void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    private void Start()
+    {
+        int randomIndex = Random.Range(0, _skinSOs.Count);
+        _meshRenderer.material = _skinSOs[randomIndex].skinMaterial;
+        _protesterData.Skin = _skinSOs[randomIndex];
     }
 
     private void Update()

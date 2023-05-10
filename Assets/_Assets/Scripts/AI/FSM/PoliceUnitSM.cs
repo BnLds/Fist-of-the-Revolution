@@ -8,6 +8,7 @@ public class PoliceUnitSM : StateMachine
     private const string PERFORM_DETECTION = "PerformDetection";
 
     [HideInInspector] public UnityEvent<Transform> OnObjectDestroyed;
+    [HideInInspector] public UnityEvent OnPlayerIDed;
     [HideInInspector] public Vector3 MoveDirectionInput = Vector3.zero;
     [HideInInspector] public bool IsTargetLost = false;
 
@@ -126,12 +127,10 @@ public class PoliceUnitSM : StateMachine
     {
         if(Utility.Distance2DBetweenVector3(transform.position, player.position) <= PlayerDetectionRange)
         {
-
-
-            //chick if the player is in line of sight
-            if (IsPlayerInLineOfSight())
+            //check if the player is in line of sight and not already IDed
+            if (IsPlayerInLineOfSight() && !PoliceResponseData.IsPlayerIdentified)
             {
-                Debug.Log("Player IDed!");
+                OnPlayerIDed?.Invoke();
                 PoliceResponseData.IsPlayerIdentified = true;
 
                 (Transform playerSuspectTransform, bool IsPlayerTracked) playerSuspectData = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);

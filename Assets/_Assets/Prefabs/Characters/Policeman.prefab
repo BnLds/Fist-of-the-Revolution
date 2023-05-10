@@ -682,7 +682,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   _policemanCollider: {fileID: 423561137945770695}
-  _moveSpeed: 3
+  _moveSpeed: 4
 --- !u!114 &7723722718084810004
 MonoBehaviour:
   m_ObjectHideFlags: 0

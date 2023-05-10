@@ -30,12 +30,12 @@ public class FollowSuspect : BaseState
         _policeUnitSM.PoliceUnitData.IsChasingTarget = false;
     }
 
-    private void PlayerController_OnDamageDone(Transform arg0)
+    private void PlayerController_OnDamageDone(Transform attacker)
     {
-        //check if current target in within line of site
-        if(_policeUnitSM.PoliceUnitData.CurrentTarget != null && _policeUnitSM.PoliceUnitData.Targets != null && _policeUnitSM.PoliceUnitData.Targets.Contains(_policeUnitSM.PoliceUnitData.CurrentTarget))
+        //check if current target in within line of site and is not the attacker
+        if(_policeUnitSM.PoliceUnitData.CurrentTarget != null && attacker != _policeUnitSM.PoliceUnitData.CurrentTarget && _policeUnitSM.PoliceUnitData.Targets != null && _policeUnitSM.PoliceUnitData.Targets.Contains(_policeUnitSM.PoliceUnitData.CurrentTarget))
         {
-            Debug.Log("suspect no longer suspected");
+            Debug.Log("suspect no longer suspected: " + _policeUnitSM.PoliceUnitData.CurrentTarget);
             //remove current tracked suspect from suspects list
             PoliceResponseData.TrackedSuspects.Remove(PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == _policeUnitSM.PoliceUnitData.CurrentTarget));
             _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);

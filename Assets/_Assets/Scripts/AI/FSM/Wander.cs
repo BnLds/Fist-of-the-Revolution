@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Wander : BaseState
 {
@@ -49,7 +48,6 @@ public class Wander : BaseState
             {
                 //assign new target in unit data
                 _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
-                Debug.Log("Target Found again !");
                 //follow player
                 _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
             }
@@ -63,7 +61,6 @@ public class Wander : BaseState
         //check if the policeman is within distance of the wander point
         if (Utility.Distance2DBetweenVector3(_wanderPoint, _policeUnitSM.transform.position) < _wanderPointReachedRange)
         {
-            Debug.Log("WanderPoint reached");
             CreateNewWanderPoint();
         }
         else if (_policeUnitSM.PoliceUnitData.CurrentFlowField != null)
@@ -77,7 +74,6 @@ public class Wander : BaseState
     {
         base.Exit();
         _policeUnitSM.IsTargetLost = false;
-        Debug.Log("Exiting Wander state");
     }
 
     private void CreateNewWanderPoint()

@@ -21,18 +21,22 @@ public class PoliceUnitSM : StateMachine
     [SerializeField] private List<Detector> _detectors;
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours;
     [SerializeField] private ContextSolver _movementDirectionSolver;
-    public PolicemanData PoliceUnitData;
+    [field: SerializeField] public PolicemanData PoliceUnitData { get; private set; }
+    [SerializeField] private LayerMask[] _blockingViewMasks;
 
     [Header("Game Balance Parameters")]
     [SerializeField] private float _protectionRange = 10f;
-    public float PlayerDetectionRange { get; private set; } = 20f;
-    public float CatchDistance { get; private set; } = 1f;
-    public float CatchAttemptDelay { get; private set; } = 1f;
-    public float WanderDuration { get; private set; } = 3f;
-    public float CountdownToWalkMax { get; private set; } = .5f;
-    public float CountdownToPauseMax { get; private set; } = 3f;
+    [field: SerializeField] public float PlayerDetectionRange { get; private set; } = 20f;
+    [field: SerializeField] public float CatchDistance { get; private set; } = 1f;
+    [field: SerializeField] public float CatchAttemptDelay { get; private set; } = 1f;
+    [field: SerializeField] public float WanderDuration { get; private set; } = 10f;
+    [field: SerializeField] public float CountdownToWalkMax { get; private set; } = .5f;
+    [field: SerializeField] public float CountdownToPauseMax { get; private set; } = 3f;
+    [field: SerializeField] public float WanderRandomDistanceMax { get; private set; } = 5f;
 
-    public float DetectionDelay { get; private set; } = 0.5f;
+    [Header("Optimization Parameters")]
+    [SerializeField] private float _detectionRepeatRate = 0.5f;
+    [field: SerializeField] public float DetectionDelay { get; private set; } = 0.5f;
 
 
     private void Awake()
@@ -48,8 +52,7 @@ public class PoliceUnitSM : StateMachine
     protected override void Start()
     {
         base.Start();
-        float repeatRate = 2f;
-        InvokeRepeating(PERFORM_DETECTION, 0f, repeatRate);
+        InvokeRepeating(PERFORM_DETECTION, 0f, _detectionRepeatRate);
 
         PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
 
@@ -162,9 +165,10 @@ public class PoliceUnitSM : StateMachine
     public bool IsPlayerInLineOfSight()
     {
         Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
-        bool canSeePlayer = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
+        bool isPlayerInDetectionRange = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
+        bool canSeePlayer = !_blockingViewMasks.Any(_ => _.value == 1 << hitInfo.collider.gameObject.layer);
 
-        return canSeePlayer && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Unwalkable") && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Breakable");
+        return isPlayerInDetectionRange && canSeePlayer;
     }
 
     public void AttemptCatchPlayer()

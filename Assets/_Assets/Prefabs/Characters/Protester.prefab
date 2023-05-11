@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _protesterData: {fileID: 727319368865638778}
-  _safeZoneRadius: 3
-  _countdownToLoseIDMax: 4
+  _safeZoneRadius: 1.5
+  _countdownToLoseIDMax: 2
   _countdownToUntrackMax: 7
   OnPlayerEnterSafeZone:
     m_PersistentCalls:
@@ -122,7 +122,6 @@ GameObject:
   - component: {fileID: 6839299778052979318}
   - component: {fileID: 8756372246786316379}
   - component: {fileID: 1784478841898551319}
-  - component: {fileID: 423561137945770695}
   m_Layer: 10
   m_Name: ProtesterVisual
   m_TagString: Untagged
@@ -219,20 +218,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &423561137945770695
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1001593164066478922}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5227867819902992731
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +444,7 @@ GameObject:
   - component: {fileID: 727319368865638778}
   - component: {fileID: 3752383236802386957}
   - component: {fileID: 6212171684923365943}
+  - component: {fileID: 8210123262625342141}
   m_Layer: 10
   m_Name: Protester
   m_TagString: Untagged
@@ -575,6 +561,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &8210123262625342141
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149198449243920836}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8851393742283226433
 GameObject:
   m_ObjectHideFlags: 0

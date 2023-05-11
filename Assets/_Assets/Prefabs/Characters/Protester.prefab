@@ -47,14 +47,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _protesterData: {fileID: 727319368865638778}
   _safeZoneRadius: 3
-  _countdownToHiddenMax: 4
+  _countdownToLoseIDMax: 4
+  _countdownToUntrackMax: 7
   OnPlayerEnterSafeZone:
     m_PersistentCalls:
       m_Calls: []
   OnPlayerExitSafeZone:
     m_PersistentCalls:
       m_Calls: []
-  OnPlayerSafe:
+  OnPlayerIDedFree:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerTrackedFree:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &975521885031689807
@@ -668,6 +672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _protesterSafeZone: {fileID: 6049730379723146507}
+  _protesterParent: {fileID: 7149198449243920832}
 --- !u!1 &9054266330343070608
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ public class ProtesterSafeZoneVisual : MonoBehaviour
 {
     [Header("Initialization Parameters")]
     [SerializeField] private ProtesterSafeZone _protesterSafeZone;
+    [SerializeField] private Transform _protesterParent;
 
     private void Start()
     {
@@ -13,7 +14,7 @@ public class ProtesterSafeZoneVisual : MonoBehaviour
         _protesterSafeZone.OnPlayerTrackedFree.AddListener(Hide);
 
         //ensure the localscale displays the radius of the safe zone
-        Vector3 parentScale = transform.parent.lossyScale;
+        Vector3 parentScale = _protesterParent.lossyScale;
         transform.localScale = new Vector3(1f/parentScale.x, 0, 1f/parentScale.z)  * _protesterSafeZone.GetSafeZoneRadius();
 
         Hide();

@@ -22,6 +22,7 @@ public class FollowSuspect : BaseState
     {
         base.Exit();
         _policeUnitSM.PoliceUnitData.IsChasingTarget = false;
+        PlayerController.Instance.OnDamageDone.RemoveListener(PlayerController_OnDamageDone);
     }
 
     private void PlayerController_OnDamageDone(Transform attacker)

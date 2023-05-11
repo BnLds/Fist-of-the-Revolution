@@ -742,7 +742,7 @@ MonoBehaviour:
   <WanderDuration>k__BackingField: 10
   <CountdownToWalkMax>k__BackingField: 0.5
   <CountdownToPauseMax>k__BackingField: 3
-  <WanderRandomDistanceMax>k__BackingField: 5
+  <WanderRandomDistanceMax>k__BackingField: 3
   _detectionRepeatRate: 0.5
   <DetectionDelay>k__BackingField: 0.5
 --- !u!114 &6443096262285097695

@@ -27,6 +27,7 @@ public class PoliceUnitSM : StateMachine
     [field: SerializeField] public PolicemanData PoliceUnitData { get; private set; }
     [SerializeField] private LayerMask[] _blockingViewMasks;
 
+    [Space(5)]
     [Header("Game Balance Parameters")]
     [SerializeField] private float _protectionRange = 10f;
     [field: SerializeField] public float PlayerDetectionRange { get; private set; } = 20f;
@@ -37,9 +38,15 @@ public class PoliceUnitSM : StateMachine
     [field: SerializeField] public float CountdownToPauseMax { get; private set; } = 3f;
     [field: SerializeField] public float WanderRandomDistanceMax { get; private set; } = 3f;
 
+    [Space(5)]
     [Header("Optimization Parameters")]
     [SerializeField] private float _detectionRepeatRate = 0.5f;
     [field: SerializeField] public float DetectionDelay { get; private set; } = 0.5f;
+
+    [Space(5)]
+    [Header("Dev Tools")]
+    [SerializeField] private bool _isPlayerDetectableByPolice = true;
+
 
 
     private void Awake()
@@ -60,6 +67,7 @@ public class PoliceUnitSM : StateMachine
 
         PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
         PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
+        PoliceResponseManager.Instance.OnPlayerHidden.AddListener(PoliceResponseManager_OnPlayerHidden);
 
         foreach (SteeringBehaviour behaviour in _steeringBehaviours)
         {
@@ -69,7 +77,6 @@ public class PoliceUnitSM : StateMachine
             }
         }
     }
-
 
     protected override void Update()
     {
@@ -135,6 +142,18 @@ public class PoliceUnitSM : StateMachine
             PoliceUnitData.CurrentTarget = null;
         }
     }
+    
+    private void PoliceResponseManager_OnPlayerHidden(Transform protester)
+    {
+        int random = Random.Range(0, 9);
+        int followProtesterThreshold = 7;
+        if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && random >=followProtesterThreshold)
+        {
+            Debug.Log("Following protester");
+            AddTargetToTrackedList(protester);
+            PoliceUnitData.CurrentTarget = protester;
+        }
+    }
 
     private void PlayerController_OnDamageDone(Transform player)
     {
@@ -146,21 +165,27 @@ public class PoliceUnitSM : StateMachine
                 OnPlayerIDed?.Invoke();
                 PoliceResponseData.IsPlayerIdentified = true;
 
-                (Transform playerSuspectTransform, bool IsPlayerTracked) playerSuspectData = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);
-                if(playerSuspectData.playerSuspectTransform == null)
-                {
-                    //add player in tracked suspects list if not already in
-                    (Transform, bool) newTargetData = (PlayerController.Instance.transform, true) ;
-                    PoliceResponseData.TrackedSuspects.Add(newTargetData);
-                }
-                else if(playerSuspectData.playerSuspectTransform != null && !playerSuspectData.IsPlayerTracked)
-                {
-                    //update IsTracked if player already is in TrackedList
-                    (Transform, bool) newTargetData = (playerSuspectData.playerSuspectTransform, true) ;
-                    int index = PoliceResponseData.TrackedSuspects.IndexOf(playerSuspectData);
-                    PoliceResponseData.TrackedSuspects[index] = newTargetData;
-                }
+                AddTargetToTrackedList(PlayerController.Instance.transform);
             }
+        }
+    }
+
+    private void AddTargetToTrackedList(Transform target)
+    {
+        (Transform suspectTransform, bool isTracked) suspectData = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == target);
+        //check if suspect is already in tracked list 
+        if(suspectData.suspectTransform == null)
+        {
+            //add suspect in tracked suspects list if not already in
+            (Transform, bool) newTargetData = (target, true) ;
+            PoliceResponseData.TrackedSuspects.Add(newTargetData);
+        }
+        else if(suspectData.suspectTransform != null && !suspectData.isTracked)
+        {
+            //update IsTracked if target already is in TrackedList
+            (Transform, bool) newTargetData = (suspectData.suspectTransform, true) ;
+            int index = PoliceResponseData.TrackedSuspects.IndexOf(suspectData);
+            PoliceResponseData.TrackedSuspects[index] = newTargetData;
         }
     }
 
@@ -176,10 +201,17 @@ public class PoliceUnitSM : StateMachine
 
     public bool IsPlayerInLineOfSight()
     {
-        Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
-        bool isPlayerInDetectionRange = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
+        if(_isPlayerDetectableByPolice)
+        {
+            Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
+            bool isPlayerInDetectionRange = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, PlayerDetectionRange);
 
-        return isPlayerInDetectionRange && _blockingViewMasks.FirstOrDefault(_ => _.value == 1 << hitInfo.collider.gameObject.layer) == 0;
+            return isPlayerInDetectionRange && _blockingViewMasks.FirstOrDefault(_ => _.value == 1 << hitInfo.collider.gameObject.layer) == 0;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void AttemptCatchPlayer()

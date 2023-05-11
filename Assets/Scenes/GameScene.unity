@@ -6278,7 +6278,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441622365}
-  m_LocalRotation: {x: 0.5682029, y: -0.000000020023757, z: 0.000000013826365, w: 0.82288855}
+  m_LocalRotation: {x: 0.5682029, y: 0.000000020023753, z: -0.000000013826361, w: 0.82288855}
   m_LocalPosition: {x: 0, y: 19.9, z: -7.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8201,6 +8201,11 @@ PrefabInstance:
     - target: {fileID: 4006038392267361051, guid: ba80c5b9d758a6b40bf56832417a8a4b,
         type: 3}
       propertyPath: _showGizmos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6316234633344160984, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: _isPlayerDetectableByPolice
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7149198449243920832, guid: ba80c5b9d758a6b40bf56832417a8a4b,
@@ -20270,6 +20275,9 @@ MonoBehaviour:
   OnPlayerUntracked:
     m_PersistentCalls:
       m_Calls: []
+  OnPlayerHidden:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1464442345 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7149198449243920832, guid: b1849dd0aa246a143a1e3dc18fd92945,
@@ -24768,7 +24776,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868153550}
-  m_LocalRotation: {x: 0.5682029, y: -0.000000020023757, z: 0.000000013826365, w: 0.82288855}
+  m_LocalRotation: {x: 0.5682029, y: 0.000000020023753, z: -0.000000013826361, w: 0.82288855}
   m_LocalPosition: {x: 0, y: 19.9, z: -7.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

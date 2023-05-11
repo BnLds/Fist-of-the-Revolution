@@ -10,13 +10,13 @@ public class ProtesterSafeZoneVisual : MonoBehaviour
     {
         _protesterSafeZone.OnPlayerEnterSafeZone.AddListener(Show);
         _protesterSafeZone.OnPlayerExitSafeZone.AddListener(Hide);
-        _protesterSafeZone.OnPlayerIDedFree.AddListener(Hide);
+        _protesterSafeZone.OnPlayerIDedFree.AddListener((Transform sender) => { Hide(); });
         _protesterSafeZone.OnPlayerTrackedFree.AddListener(Hide);
 
         //ensure the localscale displays the radius of the safe zone
         Vector3 parentScale = _protesterParent.lossyScale;
-        transform.localScale = new Vector3(1f/parentScale.x, 0, 1f/parentScale.z)  * _protesterSafeZone.GetSafeZoneRadius();
-
+        Vector3 localRadius = new Vector3(1f/parentScale.x, 0, 1f/parentScale.z)  * _protesterSafeZone.GetSafeZoneRadius();
+        transform.localScale = localRadius*2;
         Hide();
     }
 

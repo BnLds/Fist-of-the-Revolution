@@ -12,23 +12,18 @@ public class ProtesterSafeZone : MonoBehaviour
     [Space(5)]
     [Header("Game Balance Parameters")]
     //MinAttribute equal to 2x character radius
-    [SerializeField] [MinAttribute(1f)] private float _safeZoneRadius = 3f;
-    [SerializeField] private float _countdownToLoseIDMax = 4f;
+    [SerializeField] [MinAttribute(1f)] private float _safeZoneRadius = 1.5f;
+    [SerializeField] private float _countdownToLoseIDMax = 2f;
     [SerializeField] private float _countdownToUntrackMax = 7f;
-
 
     [HideInInspector] public UnityEvent OnPlayerEnterSafeZone;
     [HideInInspector] public UnityEvent OnPlayerExitSafeZone;
-    [HideInInspector] public UnityEvent OnPlayerIDedFree;
+    [HideInInspector] public UnityEvent<Transform> OnPlayerIDedFree;
     [HideInInspector] public UnityEvent OnPlayerTrackedFree;
-
-
-
 
     private bool _isPlayerAlreadyInSafeZone;
     private float _countdownToLoseID;
     private float _countdownToUntrack;
-
 
     private void Awake()
     {
@@ -50,7 +45,7 @@ public class ProtesterSafeZone : MonoBehaviour
                 if (_countdownToLoseID <= 0)
                 {
                     Debug.Log("PLAYER NOT IDED ANYMORE");
-                    OnPlayerIDedFree?.Invoke();
+                    OnPlayerIDedFree?.Invoke(_protesterData.transform);
                     _countdownToLoseID = _countdownToLoseIDMax;
                 }
             }

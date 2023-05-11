@@ -18,6 +18,7 @@ public class PoliceResponseManager : MonoBehaviour
     [SerializeField] private float suspectDetectionRadius = 10f;
 
     [HideInInspector] public UnityEvent OnPlayerUntracked;
+    [HideInInspector] public UnityEvent<Transform> OnPlayerHidden;
 
     private List<BreakableController> _breakablesWatched;
     private int _currentWatchValue;
@@ -64,10 +65,10 @@ public class PoliceResponseManager : MonoBehaviour
         }
     }
 
-    private void ProtesterCollectionManager_OnPlayerIDFree()
+    private void ProtesterCollectionManager_OnPlayerIDFree(Transform sender)
     {
         PoliceResponseData.IsPlayerIdentified = false;
-        Debug.Log("player is not IDed anymore");
+        OnPlayerHidden?.Invoke(sender);
     }
 
     private void Breakable_StartWatch(int watchValue, Transform sender)
@@ -95,9 +96,9 @@ public class PoliceResponseManager : MonoBehaviour
         sender.StartWatch.RemoveAllListeners();
     }
 
-    public void UpdateClosestSuspects(Transform sender, BreakableController damagedBreakable)
+    public void UpdateClosestSuspects(Transform sender, Vector3 damagedBreakablePosition)
     {
-        List<Collider> allCollidersDetected = Physics.OverlapSphere(damagedBreakable.transform.position, suspectDetectionRadius, suspectMask).OrderBy(target => Utility.Distance2DBetweenVector3(sender.position, target.transform.position)).ToList();
+        List<Collider> allCollidersDetected = Physics.OverlapSphere(damagedBreakablePosition, suspectDetectionRadius, suspectMask).OrderBy(target => Utility.Distance2DBetweenVector3(sender.position, target.transform.position)).ToList();
 
         int numberOfSuspects = 5;
         for (int i = 0; i < (int)Mathf.Min(numberOfSuspects, allCollidersDetected.Count); i++)
@@ -128,10 +129,10 @@ public class PoliceResponseManager : MonoBehaviour
         
         
         Debug.Log("suspects List: ");
-        foreach(Transform element in PoliceResponseData.Suspects) Debug.Log(element.parent);
+        foreach(Transform element in PoliceResponseData.Suspects) Debug.Log(element);
 
         Debug.Log("Tracked suspects List: ");
-        foreach((Transform suspect, bool isTracked) element in PoliceResponseData.TrackedSuspects) Debug.Log(element.suspect.parent + " " + element.isTracked);
+        foreach((Transform suspect, bool isTracked) element in PoliceResponseData.TrackedSuspects) Debug.Log(element.suspect + " " + element.isTracked);
         
     }
 

@@ -9,7 +9,7 @@ public class ProtesterCollectionManager : MonoBehaviour
 
     [SerializeField] private List<Transform> _protestersCollection;
 
-    [HideInInspector] public UnityEvent OnPlayerIDFree;
+    [HideInInspector] public UnityEvent<Transform> OnPlayerIDFree;
     [HideInInspector] public UnityEvent OnPlayerTrackFree;
 
 
@@ -40,8 +40,8 @@ public class ProtesterCollectionManager : MonoBehaviour
         OnPlayerTrackFree?.Invoke();
     }
 
-    private void ProtesterSafeZone_OnPlayerIDedFree()
+    private void ProtesterSafeZone_OnPlayerIDedFree(Transform sender)
     {
-        OnPlayerIDFree?.Invoke();
+        OnPlayerIDFree?.Invoke(sender);
     }
 }

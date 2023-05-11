@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ProtesterVisual : MonoBehaviour
 {
+    [Header("Initialization Parameters")]
     [SerializeField] private ProtesterData _protesterData;
     [SerializeField] private LayerMask _floorMask;
     [SerializeField] private List<SkinSO> _skinSOs;

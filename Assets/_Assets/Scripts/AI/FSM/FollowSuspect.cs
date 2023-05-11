@@ -8,6 +8,7 @@ public class FollowSuspect : BaseState
     private PoliceUnitSM _policeUnitSM;
     private float _detectionDelay;
     private float _catchAttemptDelay;
+    private bool _hasTarget;
 
     public FollowSuspect(PoliceUnitSM stateMachine) : base("FollowSuspect", stateMachine)
     {
@@ -19,6 +20,7 @@ public class FollowSuspect : BaseState
         base.Enter();
         PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
         _policeUnitSM.PoliceUnitData.IsChasingTarget = true;
+        _hasTarget = _policeUnitSM.PoliceUnitData.CurrentTarget != null;
 
         _detectionDelay = 0f;
         _catchAttemptDelay = 0f;
@@ -32,9 +34,13 @@ public class FollowSuspect : BaseState
 
     private void PlayerController_OnDamageDone(Transform attacker)
     {
+        bool canDetectTarget = _policeUnitSM.PoliceUnitData.Targets != null && _policeUnitSM.PoliceUnitData.Targets.Contains(_policeUnitSM.PoliceUnitData.CurrentTarget);
+        bool suspectIsNotAttacker = attacker != _policeUnitSM.PoliceUnitData.CurrentTarget;
+        
         //check if current target in within line of site and is not the attacker
-        if(_policeUnitSM.PoliceUnitData.CurrentTarget != null && attacker != _policeUnitSM.PoliceUnitData.CurrentTarget && _policeUnitSM.PoliceUnitData.Targets != null && _policeUnitSM.PoliceUnitData.Targets.Contains(_policeUnitSM.PoliceUnitData.CurrentTarget))
+        if(_hasTarget && canDetectTarget && suspectIsNotAttacker)
         {
+            //clear the target from suspicion
             Debug.Log("suspect no longer suspected: " + _policeUnitSM.PoliceUnitData.CurrentTarget);
             //remove current tracked suspect from suspects list
             PoliceResponseData.TrackedSuspects.Remove(PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == _policeUnitSM.PoliceUnitData.CurrentTarget));
@@ -47,15 +53,19 @@ public class FollowSuspect : BaseState
         base.UpdateLogic();
         _catchAttemptDelay -= Time.deltaTime;
 
-        if(_policeUnitSM.PoliceUnitData.CurrentTarget == null) _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
+        //follow protest is there is no target
+        if(!_hasTarget) _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
 
-        if(_policeUnitSM.IsTargetLost && _policeUnitSM.PoliceUnitData.CurrentTarget!= null)
+        //wander if the target is lost
+        if(_policeUnitSM.IsTargetLost && _hasTarget)
         {
             _policeUnitSM.ChangeState(_policeUnitSM.WanderState);
         }
 
-        //check if player within catch distance
-        if(Utility.Distance2DBetweenVector3(_policeUnitSM.PoliceUnitData.CurrentTarget.position, _policeUnitSM.transform.position)<= _policeUnitSM.CatchDistance)
+        bool targetIsPlayer = _policeUnitSM.PoliceUnitData.CurrentTarget == PlayerController.Instance.transform;
+        bool targetIsWithinCatchDistance = Utility.Distance2DBetweenVector3(_policeUnitSM.PoliceUnitData.CurrentTarget.position, _policeUnitSM.transform.position) <= _policeUnitSM.CatchDistance;
+        //check if player is within catch distance
+        if(targetIsPlayer && targetIsWithinCatchDistance)
         {
             if(_catchAttemptDelay <= 0)
             {

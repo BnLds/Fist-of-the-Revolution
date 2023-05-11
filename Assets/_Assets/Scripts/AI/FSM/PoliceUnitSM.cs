@@ -35,7 +35,7 @@ public class PoliceUnitSM : StateMachine
     [field: SerializeField] public float WanderDuration { get; private set; } = 10f;
     [field: SerializeField] public float CountdownToWalkMax { get; private set; } = .5f;
     [field: SerializeField] public float CountdownToPauseMax { get; private set; } = 3f;
-    [field: SerializeField] public float WanderRandomDistanceMax { get; private set; } = 5f;
+    [field: SerializeField] public float WanderRandomDistanceMax { get; private set; } = 3f;
 
     [Header("Optimization Parameters")]
     [SerializeField] private float _detectionRepeatRate = 0.5f;
@@ -59,6 +59,7 @@ public class PoliceUnitSM : StateMachine
         InvokeRepeating(PERFORM_DETECTION, 0f, _detectionRepeatRate);
 
         PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
+        PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
 
         foreach (SteeringBehaviour behaviour in _steeringBehaviours)
         {
@@ -68,6 +69,7 @@ public class PoliceUnitSM : StateMachine
             }
         }
     }
+
 
     protected override void Update()
     {
@@ -123,6 +125,14 @@ public class PoliceUnitSM : StateMachine
                     PoliceUnitData.ObjectsToProtect.Add(watchPoint);
                 }
             }
+        }
+    }
+
+    private void PoliceResponseManager_OnPlayerUntracked()
+    {
+        if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform)
+        {
+            PoliceUnitData.CurrentTarget = null;
         }
     }
 

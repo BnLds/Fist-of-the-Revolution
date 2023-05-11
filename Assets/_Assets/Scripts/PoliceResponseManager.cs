@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,9 +12,12 @@ public class PoliceResponseManager : MonoBehaviour
     [SerializeField] private PoliceWatchUI _policeWatchUI;
     [SerializeField] private LayerMask suspectMask;
 
+    [Space(5)]
     [Header("Game Balance Parameters")]
     [SerializeField] private int[] _watchThresholds = new int[6] {0, 1, 3, 7, 12, 20};
     [SerializeField] private float suspectDetectionRadius = 10f;
+
+    [HideInInspector] public UnityEvent OnPlayerUntracked;
 
     private List<BreakableController> _breakablesWatched;
     private int _currentWatchValue;
@@ -41,11 +43,31 @@ public class PoliceResponseManager : MonoBehaviour
         InitializePoliceResponseData();
 
         _breakablesWatched = _breakablesCollectionManager.GetBreakablesList();
+        ProtesterCollectionManager.Instance.OnPlayerIDFree.AddListener(ProtesterCollectionManager_OnPlayerIDFree);
+        ProtesterCollectionManager.Instance.OnPlayerTrackFree.AddListener(ProtesterCollectionManager_OnPlayerTrackFree);
+
         foreach(BreakableController breakable in _breakablesWatched)
         {
             breakable.OnDestroyedBreakable.AddListener(Breakable_OnDestroyedBreakable);
             breakable.StartWatch.AddListener(Breakable_StartWatch);
         }
+    }
+
+    private void ProtesterCollectionManager_OnPlayerTrackFree()
+    {
+        (Transform playerSuspectTransform, bool IsPlayerTracked) playerSuspectData = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);
+        if(playerSuspectData.playerSuspectTransform != null)
+        {
+            //remove player in tracked suspects list
+            PoliceResponseData.TrackedSuspects.Remove(playerSuspectData);
+            OnPlayerUntracked?.Invoke();
+        }
+    }
+
+    private void ProtesterCollectionManager_OnPlayerIDFree()
+    {
+        PoliceResponseData.IsPlayerIdentified = false;
+        Debug.Log("player is not IDed anymore");
     }
 
     private void Breakable_StartWatch(int watchValue, Transform sender)

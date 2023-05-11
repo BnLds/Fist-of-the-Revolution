@@ -43,7 +43,7 @@ public class FollowProtest : BaseState
                     //assign new target in unit data
                     _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
                     //follow player
-                    _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
+                    _policeUnitSM.ChangeState(_policeUnitSM.ChasePlayerState);
                 }
             }
         }

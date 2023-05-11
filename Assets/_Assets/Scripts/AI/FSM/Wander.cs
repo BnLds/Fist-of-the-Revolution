@@ -44,12 +44,12 @@ public class Wander : BaseState
         if (_detectionDelay <= 0)
         {
             _detectionDelay = _policeUnitSM.DetectionDelay;
-            if (Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange && _policeUnitSM.IsPlayerInLineOfSight()) 
+            if (Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange && _policeUnitSM.IsPlayerInLineOfSight() && PoliceResponseData.IsPlayerIdentified) 
             {
                 //assign new target in unit data
                 _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
                 //follow player
-                _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
+                _policeUnitSM.ChangeState(_policeUnitSM.ChasePlayerState);
             }
         }
     }

@@ -17,6 +17,8 @@ public class PoliceUnitSM : StateMachine
     [HideInInspector] public WatchObject WatchObjectState;
     [HideInInspector] public FollowSuspect FollowSuspectState;
     [HideInInspector] public Wander WanderState;
+    [HideInInspector] public ChasePlayer ChasePlayerState;
+
 
     [Header("Initialization Parameters")]
     [SerializeField] private List<Detector> _detectors;
@@ -48,6 +50,7 @@ public class PoliceUnitSM : StateMachine
         WatchObjectState = new WatchObject(this);
         FollowSuspectState = new FollowSuspect(this);
         WanderState = new Wander(this);
+        ChasePlayerState = new ChasePlayer(this);
     }
 
     protected override void Start()

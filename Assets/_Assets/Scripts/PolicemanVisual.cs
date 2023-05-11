@@ -21,7 +21,7 @@ public class PolicemanVisual : MonoBehaviour
 
     private void Update()
     {
-        if(_policeUnitSM.CurrentState == _policeUnitSM.FollowSuspectState)
+        if(_policeUnitSM.CurrentState == _policeUnitSM.ChasePlayerState)
         {
             _animator.SetBool(IS_FLASHING, true);
         }

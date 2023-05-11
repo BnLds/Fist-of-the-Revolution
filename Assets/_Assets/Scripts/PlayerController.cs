@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [Space(5)]
     [Header("Game Balance Parameters")]
     [SerializeField] private float _moveSpeed = 3f;
-    [SerializeField] private float _attackLoadingTotalTime = 1f;
+    [SerializeField] private float _attackLoadingTotalTime = .5f;
     [SerializeField] private int _playerDamage = 1;
     [SerializeField] private float _attackRadius = 2f;
 

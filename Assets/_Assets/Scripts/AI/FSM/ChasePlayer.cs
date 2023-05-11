@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChasePlayer : BaseState
@@ -46,11 +44,10 @@ public class ChasePlayer : BaseState
         //bool targetIsPlayer = _policeUnitSM.PoliceUnitData.CurrentTarget == PlayerController.Instance.transform;
         bool targetIsWithinCatchDistance = Utility.Distance2DBetweenVector3(_policeUnitSM.PoliceUnitData.CurrentTarget.position, _policeUnitSM.transform.position) <= _policeUnitSM.CatchDistance;
         //check if player is within catch distance
-        if(/*targetIsPlayer &&*/ targetIsWithinCatchDistance)
+        if(targetIsWithinCatchDistance)
         {
             if(_catchAttemptDelay <= 0)
             {
-                Debug.Log("Attempting to catch the player");
                 _policeUnitSM.AttemptCatchPlayer();
                 _catchAttemptDelay = _policeUnitSM.CatchAttemptDelay;
             }

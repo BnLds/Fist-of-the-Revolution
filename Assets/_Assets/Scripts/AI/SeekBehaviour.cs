@@ -45,7 +45,6 @@ public class SeekBehaviour : SteeringBehaviour
         //first check if we have reached the target
         if(Utility.Distance2DBetweenVector3(transform.position, _targetPosition) <= _targetReachedThreshold)
         {
-            Debug.Log("Target position reached");
             _reachedLastTarget = true;
             return (danger, interest);
         }

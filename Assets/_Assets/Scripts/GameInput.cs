@@ -7,7 +7,9 @@ public class GameInput : MonoBehaviour
 {
     public static GameInput Instance { get; private set; }
 
-    [HideInInspector] public UnityEvent OnInteract;
+    [HideInInspector] public UnityEvent OnInteractBegin;
+    [HideInInspector] public UnityEvent OnInteractEnd;
+
 
     private PlayerInputActions _playerInputActions;
 
@@ -25,12 +27,19 @@ public class GameInput : MonoBehaviour
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Player.Enable();
 
-        _playerInputActions.Player.Interact.performed += OnInteractPerformed;
+        _playerInputActions.Player.Interact.performed += OnInteractStarted;
+        _playerInputActions.Player.Interact.canceled += OnInteractCanceled;
+
     }
 
-    private void OnInteractPerformed(InputAction.CallbackContext obj)
+    private void OnInteractCanceled(InputAction.CallbackContext context)
     {
-        OnInteract?.Invoke();
+        OnInteractEnd?.Invoke();
+    }
+
+    private void OnInteractStarted(InputAction.CallbackContext obj)
+    {
+        OnInteractBegin?.Invoke();
     }
 
     public Vector2 GetMovementVectorNormalized()
@@ -39,8 +48,5 @@ public class GameInput : MonoBehaviour
         inputVector.Normalize();
 
         return inputVector;
-    }
-
-
-    
+    } 
 }

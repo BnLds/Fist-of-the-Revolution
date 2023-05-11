@@ -14,7 +14,7 @@ public class FollowSuspect : BaseState
     public override void Enter()
     {
         base.Enter();
-        PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
+        PlayerController.Instance.OnAttackPerformed.AddListener(PlayerController_OnDamageDone);
         _policeUnitSM.PoliceUnitData.IsChasingTarget = true;
     }
 
@@ -22,7 +22,7 @@ public class FollowSuspect : BaseState
     {
         base.Exit();
         _policeUnitSM.PoliceUnitData.IsChasingTarget = false;
-        PlayerController.Instance.OnDamageDone.RemoveListener(PlayerController_OnDamageDone);
+        PlayerController.Instance.OnAttackPerformed.RemoveListener(PlayerController_OnDamageDone);
     }
 
     private void PlayerController_OnDamageDone(Transform attacker)

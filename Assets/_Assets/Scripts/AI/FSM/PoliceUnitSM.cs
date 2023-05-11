@@ -65,7 +65,7 @@ public class PoliceUnitSM : StateMachine
         base.Start();
         InvokeRepeating(PERFORM_DETECTION, 0f, _detectionRepeatRate);
 
-        PlayerController.Instance.OnDamageDone.AddListener(PlayerController_OnDamageDone);
+        PlayerController.Instance.OnAttackPerformed.AddListener(PlayerController_OnDamageDone);
         PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
         PoliceResponseManager.Instance.OnPlayerHidden.AddListener(PoliceResponseManager_OnPlayerHidden);
 

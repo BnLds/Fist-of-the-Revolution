@@ -8,6 +8,7 @@ public class WatchObject : BaseState
     private PoliceUnitSM _policeUnitSM;
     private bool _isSuspectsListUpdated;
     private float _detectionDelay;
+    private bool _isObjectDestroyed;
 
     public WatchObject(PoliceUnitSM stateMachine) : base("WatchObject", stateMachine)
     {
@@ -18,6 +19,7 @@ public class WatchObject : BaseState
     {
         base.Enter();
         _isSuspectsListUpdated = false;
+        _isObjectDestroyed = false;
 
         _policeUnitSM.OnObjectDestroyed.AddListener(PoliceUnitSM_OnObjectDestroyed);
 
@@ -35,7 +37,7 @@ public class WatchObject : BaseState
             }
             
             _policeUnitSM.PoliceUnitData.CurrentWatchedObject = reactionPoint;
-            _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition = reactionPoint.position;
+            _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition = new Vector3 (reactionPoint.position.x,reactionPoint.position.y, reactionPoint.position.z);
 
             //Generate flowfield to reaction point
             _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint.position);
@@ -45,14 +47,15 @@ public class WatchObject : BaseState
     public override void Exit()
     {
         base.Exit();
+        _policeUnitSM.OnObjectDestroyed.RemoveListener(PoliceUnitSM_OnObjectDestroyed);
+
     }
 
     private void PoliceUnitSM_OnObjectDestroyed(Transform objectDestroyed)
     {
         if(_policeUnitSM.PoliceUnitData.CurrentWatchedObject == objectDestroyed)
         {
-            _policeUnitSM.PoliceUnitData.CurrentWatchedObject = null;
-            _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
+            _isObjectDestroyed = true;
         }
         
     }
@@ -84,7 +87,12 @@ public class WatchObject : BaseState
         if(Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition) <= identificationRange && !_isSuspectsListUpdated)
         {
             _isSuspectsListUpdated = true;
-            PoliceResponseManager.Instance.UpdateClosestSuspects(_policeUnitSM.transform, _policeUnitSM.PoliceUnitData.CurrentWatchedObject.GetComponent<BreakableController>());
+            PoliceResponseManager.Instance.UpdateClosestSuspects(_policeUnitSM.transform, _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition);
+        }
+
+        if(_isSuspectsListUpdated && _isObjectDestroyed)
+        {
+            _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
         }
     }
 

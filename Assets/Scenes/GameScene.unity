@@ -20267,6 +20267,9 @@ MonoBehaviour:
     m_Bits: 3072
   _watchThresholds: 000000000100000003000000070000000c00000014000000
   suspectDetectionRadius: 10
+  OnPlayerUntracked:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1464442345 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7149198449243920832, guid: b1849dd0aa246a143a1e3dc18fd92945,
@@ -25242,7 +25245,10 @@ MonoBehaviour:
   - {fileID: 654181827}
   - {fileID: 374776779}
   - {fileID: 1351610172}
-  OnPlayerHidden:
+  OnPlayerIDFree:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerTrackFree:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1880339130 stripped

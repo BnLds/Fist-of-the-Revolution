@@ -47,6 +47,17 @@ public class FollowSuspect : BaseState
 
         bool hasTarget = _policeUnitSM.PoliceUnitData.CurrentTarget != null;
         if(!hasTarget) _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
+
+        //wander if the player is lost
+        if(_policeUnitSM.IsTargetLost)
+        {
+            _policeUnitSM.ChangeState(_policeUnitSM.WanderState);
+        }
+
+        if(PoliceResponseData.IsPlayerIdentified && _policeUnitSM.IsPlayerInLineOfSight() && Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange)
+        {
+            _policeUnitSM.ChangeState(_policeUnitSM.ChasePlayerState);
+        }
     }
 
     public override void UpdatePhysics()

@@ -17,7 +17,7 @@ public class ChasePlayer : BaseState
         _policeUnitSM.PoliceUnitData.IsChasingTarget = true;
 
         _detectionDelay = 0f;
-        _catchAttemptDelay = 0f;
+        _catchAttemptDelay = _policeUnitSM.DetectionDelay;
     }
 
     public override void Exit()
@@ -29,7 +29,6 @@ public class ChasePlayer : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        _catchAttemptDelay -= Time.deltaTime;
 
         //follow protest is there is no target
         bool isPlayerIded = PoliceResponseData.IsPlayerIdentified;
@@ -46,6 +45,7 @@ public class ChasePlayer : BaseState
         //check if player is within catch distance
         if(targetIsWithinCatchDistance)
         {
+            _catchAttemptDelay -= Time.deltaTime;
             if(_catchAttemptDelay <= 0)
             {
                 _policeUnitSM.AttemptCatchPlayer();
@@ -58,6 +58,7 @@ public class ChasePlayer : BaseState
     {
         base.UpdatePhysics();
         _detectionDelay -= Time.deltaTime;
+        
         if(_detectionDelay <= 0)
         {
             _detectionDelay = _policeUnitSM.DetectionDelay;

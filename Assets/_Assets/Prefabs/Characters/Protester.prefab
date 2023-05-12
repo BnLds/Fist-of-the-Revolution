@@ -48,7 +48,7 @@ MonoBehaviour:
   _protesterData: {fileID: 727319368865638778}
   _safeZoneRadius: 1.5
   _countdownToLoseIDMax: 2
-  _countdownToUntrackMax: 7
+  _countdownToUntrackMax: 4
   OnPlayerEnterSafeZone:
     m_PersistentCalls:
       m_Calls: []

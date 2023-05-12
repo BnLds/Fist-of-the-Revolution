@@ -30,7 +30,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    public void ChangeState(BaseState newState)
+    public virtual void ChangeState(BaseState newState)
     {
         CurrentState.Exit();
 
@@ -41,11 +41,5 @@ public class StateMachine : MonoBehaviour
     protected virtual BaseState GetInitialState()
     {
         return null;
-    }
-
-    private void OnGUI()
-    {
-        string message = CurrentState != null ? CurrentState.name : "no current state";
-        GUILayout.Label($"<color='white'><size=40>{message}</size></color>");
     }
 }

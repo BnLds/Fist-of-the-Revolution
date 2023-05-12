@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 1051428433800045093}
   - component: {fileID: 2688455559580850657}
   m_Layer: 12
-  m_Name: PolicePlayerDetectedUI
+  m_Name: PoliceEmotesUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -313,6 +313,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _policeUnitSM: {fileID: 6316234633344160984}
+  _image: {fileID: 9153718201027474312}
+  _emotesAllocationCollection:
+  - PoliceReaction: 2
+    EmoteSprite: {fileID: 21300000, guid: 71ec858a9a09cf040ad03f98c403cf8e, type: 3}
+    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
+  - PoliceReaction: 3
+    EmoteSprite: {fileID: 21300000, guid: 9a693b9b6d471654d8a1446f9cc7a6a4, type: 3}
+    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
+  - PoliceReaction: 4
+    EmoteSprite: {fileID: 21300000, guid: 28e3e05d4c1c71346b2a8d498128aa41, type: 3}
+    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
+  - PoliceReaction: 5
+    EmoteSprite: {fileID: 21300000, guid: 0f2ba117f6550b14e99dc7bc82a2a95f, type: 3}
+    EmoteColor: {r: 1, g: 0, b: 0.029988289, a: 1}
+  - PoliceReaction: 6
+    EmoteSprite: {fileID: 21300000, guid: 4ec36b27bb978734cba21167749e3104, type: 3}
+    EmoteColor: {r: 1, g: 0, b: 0.029988289, a: 1}
+  - PoliceReaction: 7
+    EmoteSprite: {fileID: 21300000, guid: 52c3310db667a4d4ead07adc0024a1fc, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  - PoliceReaction: 8
+    EmoteSprite: {fileID: 21300000, guid: 7d72d9b60e0a98741856155723a3e9ea, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  - PoliceReaction: 9
+    EmoteSprite: {fileID: 21300000, guid: 4581d70b5c90ecf4e84da295e4f44943, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  - PoliceReaction: 1
+    EmoteSprite: {fileID: 21300000, guid: 6ee29030cdccbe64f864764dcac31a6e, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  _defaultSprite: {fileID: 21300000, guid: 6820e50a72696664cb1a9b5484ecee33, type: 3}
 --- !u!95 &2688455559580850657
 Animator:
   serializedVersion: 5
@@ -714,10 +744,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928752b6ee3a1ca4084460be1c0ff0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnObjectDestroyed:
+  OnReact:
     m_PersistentCalls:
       m_Calls: []
-  OnPlayerIDed:
+  OnObjectDestroyed:
     m_PersistentCalls:
       m_Calls: []
   MoveDirectionInput: {x: 0, y: 0, z: 0}

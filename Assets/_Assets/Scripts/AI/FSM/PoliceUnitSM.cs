@@ -5,10 +5,26 @@ using System.Linq;
 
 public class PoliceUnitSM : StateMachine
 {
+    public enum PoliceReactions
+    {
+        NoReaction,
+        FollowProtest, 
+        WatchObject, 
+        FollowSuspect, 
+        Wander, 
+        ChasePlayer,
+        PlayerIDed,
+        PlayerDodged,
+        PlayerUnIDed,
+        PlayerUntracked
+    }
+
     private const string PERFORM_DETECTION = "PerformDetection";
 
+    #region Parameters
+    [HideInInspector]public UnityEvent<PoliceReactions> OnReact;
     [HideInInspector] public UnityEvent<Transform> OnObjectDestroyed;
-    [HideInInspector] public UnityEvent OnPlayerIDed;
+
     [HideInInspector] public Vector3 MoveDirectionInput = Vector3.zero;
     [HideInInspector] public bool IsTargetLost = false;
 
@@ -47,6 +63,8 @@ public class PoliceUnitSM : StateMachine
     [Header("Dev Tools")]
     [SerializeField] private bool _isPlayerDetectableByPolice = true;
 
+    [HideInInspector] public List<BaseState> PoliceStates { get; private set; }
+    #endregion
 
 
     private void Awake()
@@ -58,6 +76,8 @@ public class PoliceUnitSM : StateMachine
         FollowSuspectState = new FollowSuspect(this);
         WanderState = new Wander(this);
         ChasePlayerState = new ChasePlayer(this);
+
+        PoliceStates = new List<BaseState>() { IdleState, FollowProtestState, WatchObjectState, FollowSuspectState, WanderState, ChasePlayerState };
     }
 
     protected override void Start()
@@ -101,6 +121,44 @@ public class PoliceUnitSM : StateMachine
         }
     }
 
+    public override void ChangeState(BaseState newState)
+    {
+        base.ChangeState(newState);
+
+        PoliceReactions reaction = PoliceReactions.NoReaction;
+
+        switch(newState)
+        {
+            case(FollowProtest):
+            {
+                reaction = PoliceReactions.FollowProtest;
+                break;
+            }
+            case(ChasePlayer):
+            {
+                reaction = PoliceReactions.ChasePlayer;
+                break;
+            }
+            case(FollowSuspect):
+            {
+                reaction = PoliceReactions.FollowSuspect;
+                break;
+            }
+            case(Wander):
+            {
+                reaction = PoliceReactions.Wander;
+                break;
+            }
+            case(WatchObject):
+            {
+                reaction = PoliceReactions.WatchObject;
+                break;
+            }
+        }
+
+        OnReact?.Invoke(reaction);
+    }
+
     protected override BaseState GetInitialState()
     {
         return IdleState;
@@ -140,11 +198,14 @@ public class PoliceUnitSM : StateMachine
         if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform)
         {
             PoliceUnitData.CurrentTarget = null;
+            OnReact?.Invoke(PoliceReactions.PlayerUntracked);
         }
     }
     
     private void PoliceResponseManager_OnPlayerHidden(Transform protester)
     {
+        OnReact?.Invoke(PoliceReactions.PlayerUnIDed);
+
         int random = Random.Range(0, 9);
         int followProtesterThreshold = 7;
         if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && random >=followProtesterThreshold)
@@ -162,7 +223,7 @@ public class PoliceUnitSM : StateMachine
             //check if the player is in line of sight and not already IDed
             if (IsPlayerInLineOfSight() && !PoliceResponseData.IsPlayerIdentified)
             {
-                OnPlayerIDed?.Invoke();
+                OnReact?.Invoke(PoliceReactions.PlayerIDed);
                 PoliceResponseData.IsPlayerIdentified = true;
 
                 AddTargetToTrackedList(PlayerController.Instance.transform);

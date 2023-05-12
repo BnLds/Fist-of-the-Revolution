@@ -32,10 +32,23 @@ public class ProtesterSafeZone : MonoBehaviour
         _countdownToUntrack = _countdownToUntrackMax;
     }
 
+    private void Start()
+    {
+        ProtesterCollectionManager.Instance.OnPlayerTrackFree.AddListener(ProtesterCollectionManager_OnPlayerTrackFree);
+    }
+
     private void Update()
     {
         bool isSameSkinAsPlayer = _protesterData.Skin == PlayerController.Instance.GetComponentInChildren<PlayerVisual>().GetSkinSO();
         bool isPlayerWithinSafeZoneDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= _safeZoneRadius;
+
+        bool playerIsTracked = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == PlayerController.Instance.transform).SuspectTransform != null;
+        if ((PoliceResponseData.IsPlayerIdentified || playerIsTracked) && isSameSkinAsPlayer && isPlayerWithinSafeZoneDistance && !_isPlayerAlreadyInSafeZone)
+        {
+            //display safe zone if player is within its area and is tracked or IDed
+            _isPlayerAlreadyInSafeZone = true;
+            OnPlayerEnterSafeZone?.Invoke();
+        }
 
         if(_isPlayerAlreadyInSafeZone && isPlayerWithinSafeZoneDistance)
         {
@@ -58,24 +71,25 @@ public class ProtesterSafeZone : MonoBehaviour
                     Debug.Log("PLAYER NOT TRACKED ANYMORE");
                     OnPlayerTrackedFree?.Invoke();
                     _countdownToUntrack = _countdownToUntrackMax;
+                    _isPlayerAlreadyInSafeZone = false;
                 }
             }
-            _isPlayerAlreadyInSafeZone = false;
         }
         else if(_isPlayerAlreadyInSafeZone && !isPlayerWithinSafeZoneDistance)
         {
             //player exited safe zone
             _countdownToLoseID = _countdownToLoseIDMax;
+            _countdownToUntrack = _countdownToUntrackMax;
             _isPlayerAlreadyInSafeZone = false;
             OnPlayerExitSafeZone?.Invoke();
         }
+    }
 
-        bool playerIsTracked = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == PlayerController.Instance.transform).SuspectTransform != null;
-        if ((PoliceResponseData.IsPlayerIdentified || playerIsTracked) && isSameSkinAsPlayer && isPlayerWithinSafeZoneDistance && !_isPlayerAlreadyInSafeZone)
-        {
-            _isPlayerAlreadyInSafeZone = true;
-            OnPlayerEnterSafeZone?.Invoke();
-        }
+    private void ProtesterCollectionManager_OnPlayerTrackFree()
+    {
+        //ensure no zone is displayed if another protester cleared player from tracking
+        _isPlayerAlreadyInSafeZone = false;
+        OnPlayerExitSafeZone?.Invoke();
     }
 
     public float GetSafeZoneRadius()

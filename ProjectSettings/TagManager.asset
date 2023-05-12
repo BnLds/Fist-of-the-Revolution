@@ -15,7 +15,7 @@ TagManager:
   - Unwalkable
   - Encumbered
   - Breakable
-  - NPC
+  - Protester
   - player
   - Policeman
   - 

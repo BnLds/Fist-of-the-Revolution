@@ -110,7 +110,7 @@ public class PoliceUnitSM : StateMachine
             for (int i = 0; i < PoliceUnitData.ObjectsToProtect.Count; i++)
             {
                 //check if object is not watched (ie undamaged or already destroyed) and if it is in watch list of the police unit
-                if(PoliceUnitData.ObjectsToProtect[i].GetComponent<BreakableController>().IsOnWatchList == false && PoliceUnitData.ObjectsToProtect.Contains(PoliceUnitData.ObjectsToProtect[i]))
+                if(PoliceUnitData.ObjectsToProtect[i] != null && PoliceUnitData.ObjectsToProtect[i].GetComponent<BreakableController>().IsOnWatchList == false && PoliceUnitData.ObjectsToProtect.Contains(PoliceUnitData.ObjectsToProtect[i]))
                 {
                     Transform objectDestroyed = PoliceUnitData.ObjectsToProtect[i];
                     //remove object from the policement watch list and inform the policeman AI the object has been destroyed

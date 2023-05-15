@@ -4,7 +4,8 @@ using UnityEngine.Events;
 public class BreakableController : MonoBehaviour
 {
     [SerializeField] private BreakableSO _breakableSO;
-    
+    [SerializeField] private GameObject _destroyedPrefab;
+
 
     public bool IsOnWatchList { get; private set; }
     public bool IsHighPriority { get; private set; }
@@ -55,7 +56,14 @@ public class BreakableController : MonoBehaviour
         {
             IsOnWatchList = false;
             OnDestroyedBreakable?.Invoke(_remainingRewardValue, this);
+            ShowDestroyed();
             Destroy(gameObject);
         }
+    }
+
+    private void ShowDestroyed()
+    {
+        _destroyedPrefab.transform.SetParent(null);
+        _destroyedPrefab.SetActive(true);
     }
 }

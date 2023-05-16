@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,7 +11,6 @@ public class ProtesterCollectionManager : MonoBehaviour
 
     [HideInInspector] public UnityEvent<Transform> OnPlayerIDFree;
     [HideInInspector] public UnityEvent OnPlayerTrackFree;
-
 
     private void Awake()
     {
@@ -30,8 +30,20 @@ public class ProtesterCollectionManager : MonoBehaviour
         {
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerIDedFree.AddListener(ProtesterSafeZone_OnPlayerIDedFree);
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerTrackedFree.AddListener(ProtesterSafeZone_OnPlayerTrackedFree);
+            protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerEnterSafeZone.AddListener(ProtesterSafeZone_OnPlayerEnterSafeZone);
+            protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerExitSafeZone.AddListener(ProtesterSafeZone_OnPlayerExitSafeZone);
 
         }
+    }
+
+    private void ProtesterSafeZone_OnPlayerEnterSafeZone()
+    {
+        GuidanceUI.Instance.ShowGuidanceSafeZone();
+    }
+
+    private void ProtesterSafeZone_OnPlayerExitSafeZone()
+    {
+        GuidanceUI.Instance.HideGuidanceSafeZone();
     }
 
     private void ProtesterSafeZone_OnPlayerTrackedFree()

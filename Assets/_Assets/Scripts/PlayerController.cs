@@ -59,6 +59,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(IsBreakableInAttackDistance())
+        {
+            GuidanceUI.Instance.ShowGuidanceAttack();
+        }
+        else
+        {
+            GuidanceUI.Instance.HideGuidanceAttack();
+        }
+
         if(_isLoadingAttack)
         {
             _attackLoadingProgress += Time.deltaTime;
@@ -98,5 +107,15 @@ public class PlayerController : MonoBehaviour
         {
             Physics.IgnoreCollision(collision.collider, _playerCollider);
         }
+    }
+
+    private float GetAttackRadius()
+    {
+        return _attackRadius;
+    }
+
+    private bool IsBreakableInAttackDistance()
+    {
+        return Physics.CheckSphere(transform.position, _attackRadius, _breakableMask);
     }
 }

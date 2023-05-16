@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GuidanceUI : MonoBehaviour
 {
-    public static GuidanceUI  Instance { get; private set; }
+    public static GuidanceUI Instance { get; private set; }
 
     private const string ATTACK_MESSAGE = "Hold [E] to attack";
     private const string HIDE_MESSAGE = "Stay close to hide!";
@@ -13,10 +13,11 @@ public class GuidanceUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _guidanceText;
 
     private string _currentGuidanceDisplayed;
+    private float _guidanceShowTimeMax = 3f;
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(this);
         }
@@ -30,20 +31,30 @@ public class GuidanceUI : MonoBehaviour
 
     private void ShowGuidance(string message)
     {
-        if(_currentGuidanceDisplayed == null)
+        //check if the same message was not previously displayed to avoid spamming the player
+        if (_currentGuidanceDisplayed !=  message)
         {
             _guidanceText.gameObject.SetActive(true);
             _guidanceText.text = message;
             _currentGuidanceDisplayed = message;
+
+            StartCoroutine(CountdownToHide());
         }
+    }
+
+    private IEnumerator CountdownToHide()
+    {
+        yield return new WaitForSeconds(_guidanceShowTimeMax);
+        HideGuidance(_currentGuidanceDisplayed);
     }
 
     private void HideGuidance(string message)
     {
-        if(_currentGuidanceDisplayed == message)
+        if (_currentGuidanceDisplayed == message)
         {
             _guidanceText.gameObject.SetActive(false);
-            _currentGuidanceDisplayed = null;
+
+            StopCoroutine(CountdownToHide());
         }
     }
 

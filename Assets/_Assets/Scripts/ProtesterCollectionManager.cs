@@ -31,19 +31,12 @@ public class ProtesterCollectionManager : MonoBehaviour
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerIDedFree.AddListener(ProtesterSafeZone_OnPlayerIDedFree);
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerTrackedFree.AddListener(ProtesterSafeZone_OnPlayerTrackedFree);
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerEnterSafeZone.AddListener(ProtesterSafeZone_OnPlayerEnterSafeZone);
-            protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerExitSafeZone.AddListener(ProtesterSafeZone_OnPlayerExitSafeZone);
-
         }
     }
 
     private void ProtesterSafeZone_OnPlayerEnterSafeZone()
     {
         GuidanceUI.Instance.ShowGuidanceSafeZone();
-    }
-
-    private void ProtesterSafeZone_OnPlayerExitSafeZone()
-    {
-        GuidanceUI.Instance.HideGuidanceSafeZone();
     }
 
     private void ProtesterSafeZone_OnPlayerTrackedFree()

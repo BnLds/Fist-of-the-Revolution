@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PolicePlayerDetectedUI_Pop
+  m_Name: EmotesUI_Pop
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0

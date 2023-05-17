@@ -9,7 +9,7 @@ public class GuidanceUI : MonoBehaviour
 
     private const string ATTACK_MESSAGE = "Hold [E] to attack"; // Attack message to display.
     private const string HIDE_MESSAGE = "Stay close to hide!"; // Hide message to display.
-    private const int MAX_MESSAGE_COUNT = 2;
+    private const int MAX_MESSAGE_COUNT = 2; //Number of times any message can be displayed on screen
 
     [SerializeField] private TextMeshProUGUI _guidanceText; 
 

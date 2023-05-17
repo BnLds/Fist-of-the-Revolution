@@ -63,10 +63,6 @@ public class PlayerController : MonoBehaviour
         {
             GuidanceUI.Instance.ShowGuidanceAttack();
         }
-        else
-        {
-            GuidanceUI.Instance.HideGuidanceAttack();
-        }
 
         if(_isLoadingAttack)
         {

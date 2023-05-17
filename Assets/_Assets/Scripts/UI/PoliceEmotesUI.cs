@@ -29,12 +29,12 @@ public class PoliceEmotesUI : MonoBehaviour
 
     private void Start()
     {
-        _policeUnitSM.OnReact.AddListener(PoliceUnitSM_OnEnterState);
+        _policeUnitSM.OnReact.AddListener(PoliceUnitSM_OnReact);
 
         Hide();
     }
 
-    private void PoliceUnitSM_OnEnterState(PoliceUnitSM.PoliceReactions reaction)
+    private void PoliceUnitSM_OnReact(PoliceUnitSM.PoliceReactions reaction)
     {
         if(reaction == PoliceUnitSM.PoliceReactions.NoReaction) return;
 

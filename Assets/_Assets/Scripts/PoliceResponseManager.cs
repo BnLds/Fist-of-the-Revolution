@@ -72,10 +72,24 @@ public class PoliceResponseManager : MonoBehaviour
         }
     }
 
-    private void ProtesterCollectionManager_OnPlayerIDFree(Transform sender)
+    private void ProtesterCollectionManager_OnPlayerIDFree(Transform protester)
     {
         _policeResponseData.IsPlayerIdentified = false;
-        OnPlayerNotIDedAnymore?.Invoke(sender);
+        
+        int random = Random.Range(0, 9);
+        int followProtesterThreshold = 7;
+        if(random >=followProtesterThreshold)
+        {
+            Debug.Log("Following protester");
+            PoliceResponseManager.Instance.ClearTrackedSuspect(PlayerController.Instance.transform);
+            PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(protester);
+            
+            OnPlayerNotIDedAnymore?.Invoke(protester);
+        }
+        else
+        {
+            OnPlayerNotIDedAnymore?.Invoke(null);
+        }
     }
 
     private void Breakable_StartWatch(int watchValue, Transform sender)

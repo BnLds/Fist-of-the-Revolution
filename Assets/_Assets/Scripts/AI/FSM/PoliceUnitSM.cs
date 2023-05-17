@@ -62,6 +62,7 @@ public class PoliceUnitSM : StateMachine
     [Space(5)]
     [Header("Dev Tools")]
     [SerializeField] private bool _isPlayerDetectableByPolice = true;
+    [SerializeField] private string _currentState;
 
     [HideInInspector] public List<BaseState> PoliceStates { get; private set; }
     #endregion
@@ -87,7 +88,7 @@ public class PoliceUnitSM : StateMachine
 
         PlayerController.Instance.OnAttackPerformed.AddListener(PlayerController_OnDamageDone);
         PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
-        PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerHidden);
+        PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerNotIDedAnymore);
 
         foreach (SteeringBehaviour behaviour in _steeringBehaviours)
         {
@@ -101,6 +102,8 @@ public class PoliceUnitSM : StateMachine
     protected override void Update()
     {
         base.Update();
+
+        _currentState = CurrentState.Name;
 
         GetComponent<ProtesterAI>().enabled = CurrentState == FollowProtestState;
 
@@ -202,17 +205,12 @@ public class PoliceUnitSM : StateMachine
         }
     }
     
-    private void PoliceResponseManager_OnPlayerHidden(Transform protester)
+    private void PoliceResponseManager_OnPlayerNotIDedAnymore(Transform protester)
     {
         OnReact?.Invoke(PoliceReactions.PlayerUnIDed);
 
-        int random = Random.Range(0, 9);
-        int followProtesterThreshold = 7;
-        if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && random >=followProtesterThreshold)
+        if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && protester != null)
         {
-            Debug.Log("Following protester");
-            PoliceResponseManager.Instance.ClearTrackedSuspect(PlayerController.Instance.transform);
-            PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(protester);
             PoliceUnitData.CurrentTarget = protester;
         }
     }

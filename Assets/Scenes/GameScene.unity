@@ -17763,6 +17763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 345892288}
+  - component: {fileID: 345892292}
   - component: {fileID: 345892290}
   - component: {fileID: 345892289}
   - component: {fileID: 345892291}
@@ -17911,6 +17912,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &345892292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345892287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1a0fa0ec09b044caff33087ef6cf7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guidanceUI: {fileID: 2019733852}
 --- !u!1001 &346479464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38586,6 +38600,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: _emotesAllocationCollection.Array.size
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfef43bdbe7a1e14b880809e79dbd432, type: 3}
@@ -71654,7 +71672,19 @@ MonoBehaviour:
   OnPlayerUntracked:
     m_PersistentCalls:
       m_Calls: []
-  OnPlayerHidden:
+  OnPlayerNotIDedAnymore:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTracked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFollowed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSuspectCleared:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerIdentified:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1462064606

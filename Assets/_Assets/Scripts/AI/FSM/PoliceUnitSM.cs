@@ -87,7 +87,7 @@ public class PoliceUnitSM : StateMachine
 
         PlayerController.Instance.OnAttackPerformed.AddListener(PlayerController_OnDamageDone);
         PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
-        PoliceResponseManager.Instance.OnPlayerHidden.AddListener(PoliceResponseManager_OnPlayerHidden);
+        PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerHidden);
 
         foreach (SteeringBehaviour behaviour in _steeringBehaviours)
         {
@@ -211,7 +211,8 @@ public class PoliceUnitSM : StateMachine
         if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && random >=followProtesterThreshold)
         {
             Debug.Log("Following protester");
-            PoliceResponseManager.Instance.AddTargetToTrackedList(protester);
+            PoliceResponseManager.Instance.ClearTrackedSuspect(PlayerController.Instance.transform);
+            PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(protester);
             PoliceUnitData.CurrentTarget = protester;
         }
     }
@@ -226,7 +227,7 @@ public class PoliceUnitSM : StateMachine
                 OnReact?.Invoke(PoliceReactions.PlayerIDed);
                 PoliceResponseManager.Instance.SetPlayerToIdentified();
 
-                PoliceResponseManager.Instance.AddTargetToTrackedList(PlayerController.Instance.transform);
+                PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(PlayerController.Instance.transform);
             }
         }
     }

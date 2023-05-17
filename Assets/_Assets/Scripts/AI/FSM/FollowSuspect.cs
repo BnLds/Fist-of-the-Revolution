@@ -37,7 +37,7 @@ public class FollowSuspect : BaseState
             //clear the target from suspicion
             Debug.Log("suspect no longer suspected: " + _policeUnitSM.PoliceUnitData.CurrentTarget);
             //remove current tracked suspect from suspects list
-            PoliceResponseManager.Instance.ClearTrackedSuspect(PoliceResponseManager.Instance.GetTrackedList().FirstOrDefault(_ => _.SuspectTransform == _policeUnitSM.PoliceUnitData.CurrentTarget));
+            PoliceResponseManager.Instance.ClearTrackedSuspect(_policeUnitSM.PoliceUnitData.CurrentTarget);
             _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
         }
     }

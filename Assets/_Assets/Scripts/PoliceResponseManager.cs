@@ -19,8 +19,8 @@ public class PoliceResponseManager : MonoBehaviour
     [SerializeField] private float suspectDetectionRadius = 10f;
 
     [HideInInspector] public UnityEvent OnPlayerUntracked;
-    [HideInInspector] public UnityEvent<Transform> OnPlayerHidden;
-    [HideInInspector] public UnityEvent<Transform> OnTrackedList;
+    [HideInInspector] public UnityEvent<Transform> OnPlayerNotIDedAnymore;
+    [HideInInspector] public UnityEvent<Transform> OnTracked;
     [HideInInspector] public UnityEvent<Transform> OnFollowed;
     [HideInInspector] public UnityEvent<Transform> OnSuspectCleared;
     [HideInInspector] public UnityEvent OnPlayerIdentified;
@@ -75,7 +75,7 @@ public class PoliceResponseManager : MonoBehaviour
     private void ProtesterCollectionManager_OnPlayerIDFree(Transform sender)
     {
         _policeResponseData.IsPlayerIdentified = false;
-        OnPlayerHidden?.Invoke(sender);
+        OnPlayerNotIDedAnymore?.Invoke(sender);
     }
 
     private void Breakable_StartWatch(int watchValue, Transform sender)
@@ -125,6 +125,8 @@ public class PoliceResponseManager : MonoBehaviour
                     //remove it from list of suspects and add it to list of tracked suspects
                     _policeResponseData.Suspects.Remove(allCollidersDetected[i].transform);
                     _policeResponseData.TrackedSuspects.Add((allCollidersDetected[i].transform, IsTracked: false));
+                    
+                    OnTracked?.Invoke(allCollidersDetected[i].transform);
                 }
                 else
                 {
@@ -132,29 +134,7 @@ public class PoliceResponseManager : MonoBehaviour
                     _policeResponseData.Suspects.Add(allCollidersDetected[i].transform);
                 }
             }
-        }
-        
-        foreach((Transform suspectTransform, bool isTracked) suspect in _policeResponseData.TrackedSuspects)
-        {
-            if(suspect.isTracked)
-            {
-                OnFollowed?.Invoke(suspect.suspectTransform);
-            }
-            else
-            {
-                OnTrackedList?.Invoke(suspect.suspectTransform);
-            }
-        }
-        
-    }
-
-    public void ClearTrackedSuspect((Transform suspectTransform, bool) suspect)
-    {
-        if(_policeResponseData.TrackedSuspects.Contains(suspect))
-        {
-            _policeResponseData.TrackedSuspects.Remove(suspect);
-        }
-        OnSuspectCleared?.Invoke(suspect.suspectTransform);
+        }       
     }
 
     private void InitializePoliceResponseData()
@@ -188,31 +168,45 @@ public class PoliceResponseManager : MonoBehaviour
     public void SetPlayerToIdentified()
     {
         _policeResponseData.IsPlayerIdentified = true;
+        OnPlayerIdentified?.Invoke();
     }
 
-    public void AddTargetToTrackedList(Transform target)
+    public void ClearTrackedSuspect(Transform suspectTransform)
+    {
+        (Transform transform, bool) suspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == suspectTransform);
+        if(suspectData.transform != null)
+        {
+            _policeResponseData.TrackedSuspects.Remove(suspectData);
+        }
+        OnSuspectCleared?.Invoke(suspectTransform);
+    }
+
+    public void AddFollowedTargetToTrackedList(Transform target)
     {
         (Transform suspectTransform, bool isTracked) suspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == target);
         //check if suspect is already in tracked list 
         if(suspectData.suspectTransform == null)
         {
             //add suspect in tracked suspects list if not already in
-            (Transform, bool) newTargetData = (target, true) ;
+            (Transform targetTransform, bool) newTargetData = (target, true) ;
             _policeResponseData.TrackedSuspects.Add(newTargetData);
+
+            OnFollowed?.Invoke(newTargetData.targetTransform);
         }
         else if(suspectData.suspectTransform != null && !suspectData.isTracked)
         {
             //update IsTracked if target already is in TrackedList
-            (Transform, bool) newTargetData = (suspectData.suspectTransform, true) ;
             int index = _policeResponseData.TrackedSuspects.IndexOf(suspectData);
-            _policeResponseData.TrackedSuspects[index] = newTargetData;
+            SetTrackedSuspectToFollowed(index);
         }
     }
 
     public void SetTrackedSuspectToFollowed(int index)
     {
-        (Transform, bool) newTargetData = (_policeResponseData.TrackedSuspects[index].SuspectTransform, true);
+        (Transform targetTransform, bool) newTargetData = (_policeResponseData.TrackedSuspects[index].SuspectTransform, true);
         _policeResponseData.TrackedSuspects[index] = newTargetData;
+
+        OnFollowed?.Invoke(newTargetData.targetTransform);
     }
 
 }

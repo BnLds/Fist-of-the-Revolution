@@ -91,10 +91,18 @@ public class Wander : BaseState
         if(!_isFirstWanderPoint)
         {
             _wanderPoint = new Vector3(_wanderPoint.x + Random.Range(0f, _wanderRandomDistanceMax), _wanderPoint.y, _wanderPoint.z + Random.Range(0f, _wanderRandomDistanceMax));
+            while(!IsWanderPointAccessible(_wanderPoint))
+            {
+                _wanderPoint = new Vector3(_wanderPoint.x + Random.Range(0f, _wanderRandomDistanceMax), _wanderPoint.y, _wanderPoint.z + Random.Range(0f, _wanderRandomDistanceMax));
+            }
         }
         else
         {
             _wanderPoint = new Vector3(PlayerController.Instance.transform.position.x + Random.Range(0f, _wanderRandomDistanceMax), PlayerController.Instance.transform.position.y, PlayerController.Instance.transform.position.z + Random.Range(0f, _wanderRandomDistanceMax));
+            while(!IsWanderPointAccessible(_wanderPoint))
+            {
+                _wanderPoint = new Vector3(_wanderPoint.x + Random.Range(0f, _wanderRandomDistanceMax), _wanderPoint.y, _wanderPoint.z + Random.Range(0f, _wanderRandomDistanceMax));
+            }
         }
 
         _isFirstWanderPoint = false;
@@ -103,4 +111,10 @@ public class Wander : BaseState
         _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(_wanderPoint);
     }
 
+    private bool IsWanderPointAccessible(Vector3 pointPosition)
+    {
+        float radius = 0.5f;
+        int unwalkableLayerValue = 1 << 7;
+        return !Physics.CheckSphere(pointPosition, radius, unwalkableLayerValue);
+    }
 }

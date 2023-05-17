@@ -32,7 +32,7 @@ public class FollowProtest : BaseState
         _detectionDelay -= Time.deltaTime;
 
         //check if player is identified
-        if(PoliceResponseData.IsPlayerIdentified)
+        if(PoliceResponseManager.Instance.IsPlayerIdentified())
         {
             //check if player is within detection range and line of sight
             if (_detectionDelay <= 0)
@@ -53,16 +53,15 @@ public class FollowProtest : BaseState
             if (_detectionDelay <= 0)
             {
                 _detectionDelay = _policeUnitSM.DetectionDelay;
-                for (int i = 0; i < PoliceResponseData.TrackedSuspects.Count; i++)
+                for (int i = 0; i < PoliceResponseManager.Instance.GetTrackedList().Count; i++)
                 {
                     //check if suspect is not already tracked and if it is within detection range 
-                    if (PoliceResponseData.TrackedSuspects[i].IsTracked == false && Utility.Distance2DBetweenVector3(PoliceResponseData.TrackedSuspects[i].SuspectTransform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange)
+                    if (PoliceResponseManager.Instance.GetTrackedList()[i].IsTracked == false && Utility.Distance2DBetweenVector3(PoliceResponseManager.Instance.GetTrackedList()[i].SuspectTransform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange)
                     {
                         //set it to tracked in police response data
-                        (Transform, bool) newTargetData = (PoliceResponseData.TrackedSuspects[i].SuspectTransform, true);
-                        PoliceResponseData.TrackedSuspects[i] = newTargetData;
+                        PoliceResponseManager.Instance.SetTrackedSuspectToFollowed(i);
                         //assign new target in unit data
-                        _policeUnitSM.PoliceUnitData.CurrentTarget = PoliceResponseData.TrackedSuspects[i].SuspectTransform;
+                        _policeUnitSM.PoliceUnitData.CurrentTarget = PoliceResponseManager.Instance.GetTrackedList()[i].SuspectTransform;
 
                         _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
                     }

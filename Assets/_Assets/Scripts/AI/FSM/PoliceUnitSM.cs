@@ -171,9 +171,9 @@ public class PoliceUnitSM : StateMachine
             detector.Detect(PoliceUnitData);
         }
 
-        if (PoliceResponseData.WatchPoints != null && PoliceResponseData.WatchPoints.Count != 0)
+        if (PoliceResponseManager.Instance.GetWatchPointsData() != null && PoliceResponseManager.Instance.GetWatchPointsData().Count != 0)
         {
-            foreach (Transform watchPoint in PoliceResponseData.WatchPoints)
+            foreach (Transform watchPoint in PoliceResponseManager.Instance.GetWatchPointsData())
             {
                 //go to next watchPoint if object is already in the list of objects to protect
                 if(PoliceUnitData.ObjectsToProtect.Contains(watchPoint)) continue;
@@ -211,7 +211,7 @@ public class PoliceUnitSM : StateMachine
         if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && random >=followProtesterThreshold)
         {
             Debug.Log("Following protester");
-            AddTargetToTrackedList(protester);
+            PoliceResponseManager.Instance.AddTargetToTrackedList(protester);
             PoliceUnitData.CurrentTarget = protester;
         }
     }
@@ -221,32 +221,13 @@ public class PoliceUnitSM : StateMachine
         if(Utility.Distance2DBetweenVector3(transform.position, player.position) <= PlayerDetectionRange)
         {
             //check if the player is in line of sight and not already IDed
-            if (IsPlayerInLineOfSight() && !PoliceResponseData.IsPlayerIdentified)
+            if (IsPlayerInLineOfSight() && !PoliceResponseManager.Instance.IsPlayerIdentified())
             {
                 OnReact?.Invoke(PoliceReactions.PlayerIDed);
-                PoliceResponseData.IsPlayerIdentified = true;
+                PoliceResponseManager.Instance.SetPlayerToIdentified();
 
-                AddTargetToTrackedList(PlayerController.Instance.transform);
+                PoliceResponseManager.Instance.AddTargetToTrackedList(PlayerController.Instance.transform);
             }
-        }
-    }
-
-    private void AddTargetToTrackedList(Transform target)
-    {
-        (Transform suspectTransform, bool isTracked) suspectData = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == target);
-        //check if suspect is already in tracked list 
-        if(suspectData.suspectTransform == null)
-        {
-            //add suspect in tracked suspects list if not already in
-            (Transform, bool) newTargetData = (target, true) ;
-            PoliceResponseData.TrackedSuspects.Add(newTargetData);
-        }
-        else if(suspectData.suspectTransform != null && !suspectData.isTracked)
-        {
-            //update IsTracked if target already is in TrackedList
-            (Transform, bool) newTargetData = (suspectData.suspectTransform, true) ;
-            int index = PoliceResponseData.TrackedSuspects.IndexOf(suspectData);
-            PoliceResponseData.TrackedSuspects[index] = newTargetData;
         }
     }
 

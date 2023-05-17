@@ -37,7 +37,7 @@ public class FollowSuspect : BaseState
             //clear the target from suspicion
             Debug.Log("suspect no longer suspected: " + _policeUnitSM.PoliceUnitData.CurrentTarget);
             //remove current tracked suspect from suspects list
-            PoliceResponseData.TrackedSuspects.Remove(PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == _policeUnitSM.PoliceUnitData.CurrentTarget));
+            PoliceResponseManager.Instance.ClearTrackedSuspect(PoliceResponseManager.Instance.GetTrackedList().FirstOrDefault(_ => _.SuspectTransform == _policeUnitSM.PoliceUnitData.CurrentTarget));
             _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
         }
     }
@@ -55,7 +55,7 @@ public class FollowSuspect : BaseState
             _policeUnitSM.ChangeState(_policeUnitSM.WanderState);
         }
 
-        if(PoliceResponseData.IsPlayerIdentified && _policeUnitSM.IsPlayerInLineOfSight() && Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange)
+        if(PoliceResponseManager.Instance.IsPlayerIdentified() && _policeUnitSM.IsPlayerInLineOfSight() && Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange)
         {
             _policeUnitSM.ChangeState(_policeUnitSM.ChasePlayerState);
         }

@@ -31,7 +31,7 @@ public class ChasePlayer : BaseState
         base.UpdateLogic();
 
         //follow protest is there is no target
-        bool isPlayerIded = PoliceResponseData.IsPlayerIdentified;
+        bool isPlayerIded = PoliceResponseManager.Instance.IsPlayerIdentified();
         if(!isPlayerIded) _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
 
         //wander if the player is lost

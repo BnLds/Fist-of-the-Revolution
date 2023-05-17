@@ -46,7 +46,7 @@ public class Wander : BaseState
             _detectionDelay = _policeUnitSM.DetectionDelay;
             if (Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange && _policeUnitSM.IsPlayerInLineOfSight()) 
             {
-                if(PoliceResponseData.IsPlayerIdentified)
+                if(PoliceResponseManager.Instance.IsPlayerIdentified())
                 {
                     //assign new target in unit data
                     _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;

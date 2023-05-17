@@ -6,6 +6,5 @@ public class ResetStaticData : MonoBehaviour
 {
     private void Awake()
     {
-        PoliceResponseData.ResetStaticData();
     }
 }

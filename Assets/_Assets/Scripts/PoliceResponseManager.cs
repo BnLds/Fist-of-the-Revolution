@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,10 +20,15 @@ public class PoliceResponseManager : MonoBehaviour
 
     [HideInInspector] public UnityEvent OnPlayerUntracked;
     [HideInInspector] public UnityEvent<Transform> OnPlayerHidden;
+    [HideInInspector] public UnityEvent<Transform> OnTrackedList;
+    [HideInInspector] public UnityEvent<Transform> OnFollowed;
+    [HideInInspector] public UnityEvent<Transform> OnSuspectCleared;
+    [HideInInspector] public UnityEvent OnPlayerIdentified;
 
     private List<BreakableController> _breakablesWatched;
     private int _currentWatchValue;
     private int _currentWatchThresholdIndex;
+    private PoliceResponseData _policeResponseData;
 
     private void Awake()
     {
@@ -37,6 +43,7 @@ public class PoliceResponseManager : MonoBehaviour
 
         _currentWatchValue = 0;
         _currentWatchThresholdIndex = 0;
+        _policeResponseData = new PoliceResponseData();
     }
 
     private void Start()
@@ -56,25 +63,25 @@ public class PoliceResponseManager : MonoBehaviour
 
     private void ProtesterCollectionManager_OnPlayerTrackFree()
     {
-        (Transform playerSuspectTransform, bool IsPlayerTracked) playerSuspectData = PoliceResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);
+        (Transform playerSuspectTransform, bool IsPlayerTracked) playerSuspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);
         if(playerSuspectData.playerSuspectTransform != null)
         {
             //remove player in tracked suspects list
-            PoliceResponseData.TrackedSuspects.Remove(playerSuspectData);
+            _policeResponseData.TrackedSuspects.Remove(playerSuspectData);
             OnPlayerUntracked?.Invoke();
         }
     }
 
     private void ProtesterCollectionManager_OnPlayerIDFree(Transform sender)
     {
-        PoliceResponseData.IsPlayerIdentified = false;
+        _policeResponseData.IsPlayerIdentified = false;
         OnPlayerHidden?.Invoke(sender);
     }
 
     private void Breakable_StartWatch(int watchValue, Transform sender)
     {
         //add damaged object to list of watched items
-        PoliceResponseData.WatchPoints.Add(sender);
+        _policeResponseData.WatchPoints.Add(sender);
 
         //increase watch value as soon as object is damaged
         _currentWatchValue += watchValue;
@@ -89,7 +96,7 @@ public class PoliceResponseManager : MonoBehaviour
 
     private void Breakable_OnDestroyedBreakable(int remainingWatchValue, BreakableController sender)
     {
-        PoliceResponseData.WatchPoints.Remove(sender.transform);
+        _policeResponseData.WatchPoints.Remove(sender.transform);
 
         //remove listeners
         sender.OnDestroyedBreakable.RemoveAllListeners();
@@ -106,42 +113,106 @@ public class PoliceResponseManager : MonoBehaviour
             if(allCollidersDetected[i] != null) 
             {
                 //check if collider is already in trackedSuspect list
-                if(PoliceResponseData.TrackedSuspects.Select(_=> _.SuspectTransform).ToList().Contains(allCollidersDetected[i].transform))
+                if(_policeResponseData.TrackedSuspects.Select(_=> _.SuspectTransform).ToList().Contains(allCollidersDetected[i].transform))
                 {
                     //go to next collider
                     continue;
                 }
 
                 //check if collider is already suspected
-                if(PoliceResponseData.Suspects.Contains(allCollidersDetected[i].transform))
+                if(_policeResponseData.Suspects.Contains(allCollidersDetected[i].transform))
                 {
                     //remove it from list of suspects and add it to list of tracked suspects
-                    PoliceResponseData.Suspects.Remove(allCollidersDetected[i].transform);
-                    PoliceResponseData.TrackedSuspects.Add((allCollidersDetected[i].transform, IsTracked: false));
+                    _policeResponseData.Suspects.Remove(allCollidersDetected[i].transform);
+                    _policeResponseData.TrackedSuspects.Add((allCollidersDetected[i].transform, IsTracked: false));
                 }
                 else
                 {
                     //add it to suspect list
-                    PoliceResponseData.Suspects.Add(allCollidersDetected[i].transform);
+                    _policeResponseData.Suspects.Add(allCollidersDetected[i].transform);
                 }
             }
         }
         
+        foreach((Transform suspectTransform, bool isTracked) suspect in _policeResponseData.TrackedSuspects)
+        {
+            if(suspect.isTracked)
+            {
+                OnFollowed?.Invoke(suspect.suspectTransform);
+            }
+            else
+            {
+                OnTrackedList?.Invoke(suspect.suspectTransform);
+            }
+        }
         
-        Debug.Log("suspects List: ");
-        foreach(Transform element in PoliceResponseData.Suspects) Debug.Log(element);
+    }
 
-        Debug.Log("Tracked suspects List: ");
-        foreach((Transform suspect, bool isTracked) element in PoliceResponseData.TrackedSuspects) Debug.Log(element.suspect + " " + element.isTracked);
-        
+    public void ClearTrackedSuspect((Transform suspectTransform, bool) suspect)
+    {
+        if(_policeResponseData.TrackedSuspects.Contains(suspect))
+        {
+            _policeResponseData.TrackedSuspects.Remove(suspect);
+        }
+        OnSuspectCleared?.Invoke(suspect.suspectTransform);
     }
 
     private void InitializePoliceResponseData()
     {
-        PoliceResponseData.WatchPoints = new List<Transform>();
-        PoliceResponseData.Suspects = new List<Transform>();
-        PoliceResponseData.TrackedSuspects = new List<(Transform, bool)>();
-        PoliceResponseData.IsPlayerIdentified = false;
+        _policeResponseData.WatchPoints = new List<Transform>();
+        _policeResponseData.Suspects = new List<Transform>();
+        _policeResponseData.TrackedSuspects = new List<(Transform, bool)>();
+        _policeResponseData.IsPlayerIdentified = false;
+    }
+
+    public ReadOnlyCollection<Transform> GetWatchPointsData()
+    {
+        return _policeResponseData.WatchPoints.AsReadOnly();
+    }
+    
+    public ReadOnlyCollection<Transform> GetSuspectsList()
+    {
+        return _policeResponseData.Suspects.AsReadOnly();
+    }
+
+    public ReadOnlyCollection<(Transform SuspectTransform, bool IsTracked)> GetTrackedList()
+    {
+        return _policeResponseData.TrackedSuspects.AsReadOnly();
+    }
+
+    public bool IsPlayerIdentified()
+    {
+        return _policeResponseData.IsPlayerIdentified;
+    }
+
+    public void SetPlayerToIdentified()
+    {
+        _policeResponseData.IsPlayerIdentified = true;
+    }
+
+    public void AddTargetToTrackedList(Transform target)
+    {
+        (Transform suspectTransform, bool isTracked) suspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == target);
+        //check if suspect is already in tracked list 
+        if(suspectData.suspectTransform == null)
+        {
+            //add suspect in tracked suspects list if not already in
+            (Transform, bool) newTargetData = (target, true) ;
+            _policeResponseData.TrackedSuspects.Add(newTargetData);
+        }
+        else if(suspectData.suspectTransform != null && !suspectData.isTracked)
+        {
+            //update IsTracked if target already is in TrackedList
+            (Transform, bool) newTargetData = (suspectData.suspectTransform, true) ;
+            int index = _policeResponseData.TrackedSuspects.IndexOf(suspectData);
+            _policeResponseData.TrackedSuspects[index] = newTargetData;
+        }
+    }
+
+    public void SetTrackedSuspectToFollowed(int index)
+    {
+        (Transform, bool) newTargetData = (_policeResponseData.TrackedSuspects[index].SuspectTransform, true);
+        _policeResponseData.TrackedSuspects[index] = newTargetData;
     }
 
 }

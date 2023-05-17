@@ -18,7 +18,7 @@ public class TargetDetector : Detector
         Collider[] targetColliders;
         if(aiData is PolicemanData policemandData)
         {
-            targetColliders = PoliceResponseData.TrackedSuspects.Select(_ => _.SuspectTransform.GetComponent<Collider>()).ToArray();
+            targetColliders = PoliceResponseManager.Instance.GetTrackedList().Select(_ => _.SuspectTransform.GetComponent<Collider>()).ToArray();
         }
         else
         {

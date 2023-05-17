@@ -1,19 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PoliceResponseData 
+public class PoliceResponseData 
 {
-    public static void ResetStaticData()
-    {
-        WatchPoints = null;
-        Suspects = null;
-        TrackedSuspects = null;
-    }
-
-    public static List<Transform> WatchPoints;
+    public List<Transform> WatchPoints;
     //List of NPN and player close to damaged area
-    public static List<Transform> Suspects;
-    public static List<(Transform SuspectTransform, bool IsTracked)> TrackedSuspects;
-    public static bool IsPlayerIdentified;
+    public List<Transform> Suspects;
+    public List<(Transform SuspectTransform, bool IsTracked)> TrackedSuspects;
+    public bool IsPlayerIdentified;
 
 }

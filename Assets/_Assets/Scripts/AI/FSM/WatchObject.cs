@@ -67,7 +67,7 @@ public class WatchObject : BaseState
         _detectionDelay -= Time.deltaTime;
 
         //check if player is identified
-        if(PoliceResponseData.IsPlayerIdentified)
+        if(PoliceResponseManager.Instance.IsPlayerIdentified())
         {
             //check if player is within detection range and line of sight
             if (_detectionDelay <= 0)

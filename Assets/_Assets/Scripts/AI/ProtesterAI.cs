@@ -8,30 +8,28 @@ public class ProtesterAI : MonoBehaviour
 {
     private const string PERFORM_DETECTION = "PerformDetection";
 
-    public enum ProtesterState
-    {
-        Chase,
-        FollowProtest
-    }
+    [HideInInspector] public UnityEvent OnProtestEndReached;
+    [HideInInspector] public UnityEvent<Vector3> OnMoveDirectionInput;
 
+    [Header("Initialization Parameters")]
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours;
     [SerializeField] private List<Detector> _detectors;
     [SerializeField] private ProtesterData _protesterData;
-    [ReadOnly] [SerializeField]  private Vector3 _moveDirectionInput = Vector3.zero;
     [SerializeField] private ContextSolver _movementDirectionSolver;
-    [SerializeField] private float _catchDistance = 1f;
-    [SerializeField] private float _catchAttemptDelay = 1f;
+
+    [Space(5)]
+    [Header("Game Balance Parameters")]
     [SerializeField] private float _meetingPointReachedDistance = 2f;
-    //performance parameters
-    [SerializeField] private float _detectionDelay = .05f, _aiUpdateDelay = .06f;
-    [SerializeField] private ProtesterState _currentState = ProtesterState.FollowProtest;
+
+    [Space(5)]
+    [Header("Performance Parameters")]
+    [SerializeField] private float _detectionDelay = .05f;
+    [SerializeField] private float _aiUpdateDelay = .06f;
+
+    [Space(5)]
+    [Header("Dev Parameters")]
     [SerializeField] private bool _showFlowFieldGizmo = false;
-
-    [HideInInspector] public UnityEvent<Transform> OnCatchAttempt;
-    [HideInInspector] public UnityEvent OnProtestEndReached;
-    [HideInInspector] public UnityEvent<Vector3> OnMoveDirectionInput, OnPointerInput;
-
-    private bool _isChasing = false;
+    [ReadOnly] [SerializeField] private Vector3 _moveDirectionInput = Vector3.zero;
 
     private void Start()
     {
@@ -50,7 +48,7 @@ public class ProtesterAI : MonoBehaviour
         _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == 0));
         _protesterData.EndOfProtest = ProtestFlowFields.Instance.GetEndOfProtest();
 
-        if(_currentState == ProtesterState.FollowProtest) StartCoroutine(FollowProtestPath());
+        StartCoroutine(FollowProtestPath());
     }
 
     private void PerformDetection()
@@ -63,71 +61,13 @@ public class ProtesterAI : MonoBehaviour
 
     private void Update()
     {
-        switch(_currentState)
+        //use the next protest flowfield if the NPC reaches the current meeting point 
+        if(Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
         {
-            case ProtesterState.FollowProtest:
-            {
-                //use the next protest flowfield if the NPC reaches the current meeting point 
-                if(Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
-                {
-                    _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == _protesterData.CurrentFlowFieldIndex + 1));
-                }
-                break;
-            }
-            case ProtesterState.Chase:
-            {
-                //NPC movement based on target availability and if chasing is enabled
-                if(_protesterData.CurrentTarget != null)
-                {
-                    //chase the target if enabled
-                    if(!_isChasing)
-                    {
-                        OnPointerInput?.Invoke(_protesterData.CurrentTarget.position);
-                        _isChasing = true;
-                        StartCoroutine(ChaseAndCatchTarget());
-                    }
-                } 
-                else if(_protesterData.GetTargetsCount() > 0)
-                {
-                    _protesterData.CurrentTarget = _protesterData.Targets[0];
-                }
-                break;
-            }
+            _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == _protesterData.CurrentFlowFieldIndex + 1));
         }
         //Moving the agent
         OnMoveDirectionInput?.Invoke(_moveDirectionInput);
-    }
-
-    private IEnumerator ChaseAndCatchTarget()
-    {
-        if(_protesterData.CurrentTarget == null)
-        {
-            //Stopping logic
-            Debug.Log("Stopping");
-            _moveDirectionInput = Vector3.zero;
-            _isChasing = false;
-            yield return null;
-        }
-        else
-        {
-            float distance = Vector3.Distance(_protesterData.CurrentTarget.position, transform.position);
-            if(distance < _catchDistance)
-            {
-                //Catch logic
-                _moveDirectionInput = Vector3.zero;
-                Debug.Log("Attempting to catch the target");
-                OnCatchAttempt?.Invoke(_protesterData.CurrentTarget);
-                yield return new WaitForSeconds(_catchAttemptDelay);
-                StartCoroutine(ChaseAndCatchTarget());
-            }
-            else
-            {
-                //chase logic
-                _moveDirectionInput = _movementDirectionSolver.GetContextDirection(_steeringBehaviours, _protesterData);
-                yield return new WaitForSeconds(_aiUpdateDelay);
-                StartCoroutine(ChaseAndCatchTarget());
-            }
-        }
     }
 
     private IEnumerator FollowProtestPath()
@@ -157,19 +97,13 @@ public class ProtesterAI : MonoBehaviour
         StartCoroutine(FollowProtestPath());
     }
 
-    public ProtesterState GetProtesterState()
-    {
-        return _currentState;
-    }
-
-
     //draw current FlowField info
     private void OnDrawGizmos()
     {
         if(Application.isPlaying && _showFlowFieldGizmo)
         {
-            float gridWorldSizeX = 50f;
-            float gridWorldSizeY = 50f;
+            float gridWorldSizeX = 100f;
+            float gridWorldSizeY = 100f;
 
             Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSizeX, 1, gridWorldSizeY));
             if(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].FlowField != null)

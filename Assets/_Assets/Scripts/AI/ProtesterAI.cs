@@ -104,7 +104,9 @@ public class ProtesterAI : MonoBehaviour
         {
             float gridWorldSizeX = 100f;
             float gridWorldSizeY = 100f;
+            float nodeRadius = .6f;
 
+            Gizmos.color = Color.magenta;
             Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSizeX, 1, gridWorldSizeY));
             if(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].FlowField != null)
             {
@@ -113,13 +115,13 @@ public class ProtesterAI : MonoBehaviour
                 {
                     foreach(Node node in currentFlowField.Grid)
                     {
-                        //Gizmos.color = node.walkable ? Color.green : Color.red;
+                        Gizmos.color = node.Walkable ? Color.green : Color.red;
 
                         //float t = (float) node.bestCost / 75;
                         //Gizmos.color = Color.Lerp(Color.yellow, Color.magenta, t);
                         //Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
 
-                        //Gizmos.DrawWireCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
+                        Gizmos.DrawWireCube(node.WorldPosition, Vector3.one * (nodeRadius*2 - .1f));
                         UnityEditor.Handles.Label(node.WorldPosition, node.BestCost.ToString());
                     }
                 }

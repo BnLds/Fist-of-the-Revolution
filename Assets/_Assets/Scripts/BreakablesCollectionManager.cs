@@ -26,7 +26,6 @@ public class BreakablesCollectionManager : MonoBehaviour
             Instance = this;
         }
 
-
         foreach(BreakableController breakable in _breakablesList)
         {
             breakable.OnDamagedBreakable.AddListener(Breakable_OnDamagedBreakable);

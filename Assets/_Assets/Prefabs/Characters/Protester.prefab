@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef66af1dfb2315146a49661aa062cb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetDetectionRange: 20
+  _targetDetectionRange: 0
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 2176
@@ -594,6 +594,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f6a1d4eaf74f8546b8f13dbecca85dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnProtestEndReached:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMoveDirectionInput:
+    m_PersistentCalls:
+      m_Calls: []
   _steeringBehaviours:
   - {fileID: 8676481532161510226}
   - {fileID: 8641847114119605023}
@@ -601,27 +607,12 @@ MonoBehaviour:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
   _protesterData: {fileID: 727319368865638778}
-  _moveDirectionInput: {x: 0, y: 0, z: 0}
   _movementDirectionSolver: {fileID: 4006038392267361051}
-  _catchDistance: 1.5
-  _catchAttemptDelay: 1
   _meetingPointReachedDistance: 4
-  _detectionDelay: 0.05
+  _detectionDelay: 0.1
   _aiUpdateDelay: 0.06
-  _currentState: 1
   _showFlowFieldGizmo: 0
-  OnCatchAttempt:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProtestEndReached:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMoveDirectionInput:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointerInput:
-    m_PersistentCalls:
-      m_Calls: []
+  _moveDirectionInput: {x: 0, y: 0, z: 0}
 --- !u!54 &6212171684923365943
 Rigidbody:
   m_ObjectHideFlags: 0

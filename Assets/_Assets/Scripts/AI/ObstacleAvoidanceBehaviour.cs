@@ -13,12 +13,15 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour
     {
         foreach (Collider obstacleCollider in aiData.Obstacles)
         {
-            if (obstacleCollider == null) return (danger, interest);
+            if (obstacleCollider == null)
+            {
+                return (danger, interest);
+            }
 
             Vector3 vector3ToObstacle = obstacleCollider.ClosestPoint(transform.position) - transform.position;
             Vector2 vector2ToObstacle = new Vector2(vector3ToObstacle.x, vector3ToObstacle.z);
             float distanceToObstacle = vector2ToObstacle.magnitude;
-
+            
             //calculate weight based on the distance NPC <-> Obstacle
             float weight = distanceToObstacle <= _agentColliderSize ? 1 : (_radius - distanceToObstacle) / _radius;
 

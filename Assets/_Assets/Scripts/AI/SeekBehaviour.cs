@@ -50,21 +50,8 @@ public class SeekBehaviour : SteeringBehaviour
         }
         
         //if we havent reached the target, do the main logic of finding the interest directions
-        Vector2 directionToTarget = new Vector2((_targetPosition - transform.position).x, (_targetPosition - transform.position).z);
-        for (int i = 0; i < interest.Length; i++)
-        {
-            float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
+         UpdateInterestDirections((_targetPosition - transform.position), ref interest);
 
-            //accept only directions at less than 90 degrees to the target direction
-            if(result>0)
-            {
-                float interestValue = result;
-                if(interestValue > interest[i])
-                {
-                    interest[i] = interestValue;
-                }
-            }
-        }
         _interestsTemp = interest;
         return (danger, interest);
     }
@@ -108,23 +95,29 @@ public class SeekBehaviour : SteeringBehaviour
         Vector3 moveDirectionFlowField = new Vector3(nodeBelow.BestDirection.Vector.x, 0, nodeBelow.BestDirection.Vector.y);
         _moveDirectionFlowFieldTemp = moveDirectionFlowField;
         //if we havent reached the target, do the main logic of finding the interest directions
-        Vector2 directionToTarget = new Vector2(moveDirectionFlowField.x, moveDirectionFlowField.z);
+        UpdateInterestDirections(moveDirectionFlowField, ref interest);
+
+        _interestsTemp = interest;
+        return (danger, interest);
+    }
+
+    private void UpdateInterestDirections(Vector3 moveDirection, ref float[] interest)
+    {
+        Vector2 directionToTarget = new Vector2(moveDirection.x, moveDirection.z);
         for (int i = 0; i < interest.Length; i++)
         {
             float result = Vector2.Dot(directionToTarget.normalized, GridDirection.GetNormalizedDirectionVector(GridDirection.CardinalAndIntercardinalDirections[i]));
 
-            //accept only directions at less than 90 degrees to the target direction
-            if(result>0)
+            // accept only directions at less than 90 degrees to the target direction
+            if (result > 0)
             {
                 float interestValue = result;
-                if(interestValue > interest[i])
+                if (interestValue > interest[i])
                 {
                     interest[i] = interestValue;
                 }
             }
         }
-        _interestsTemp = interest;
-        return (danger, interest);
     }
 
     private void OnDrawGizmos()

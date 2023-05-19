@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public class PolicemanController : MonoBehaviour
 {
+    [HideInInspector] public UnityEvent<Vector3> OnMovement;
+
     [Header("Initialization Parameters")]
     [SerializeField] private PoliceUnitSM _policeUnitSM;
     [SerializeField] private ProtesterAI _protesterAI;
@@ -34,7 +38,8 @@ public class PolicemanController : MonoBehaviour
             if(_policeUnitSM.FollowProtestState.IsFollowingProtest)
             {
                 //follow the protest path
-                _policemanRB.velocity = _moveDirectionFollowProtest * _moveSpeed; 
+                _policemanRB.velocity = _moveDirectionFollowProtest * _moveSpeed;
+                OnMovement?.Invoke(_moveDirectionFollowProtest);
             }
             else
             {
@@ -47,6 +52,8 @@ public class PolicemanController : MonoBehaviour
         {
             //apply policeman move logic
             _policemanRB.velocity =  _policeUnitSM.MoveDirectionInput * _moveSpeed;
+            OnMovement?.Invoke(_policeUnitSM.MoveDirectionInput);
+
         }
     }
 

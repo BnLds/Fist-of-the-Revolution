@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ProtesterController : MonoBehaviour
 {
+    [HideInInspector] public UnityEvent<Vector3> OnMove;
+
     [SerializeField] private ProtesterAI _protesterAI;
     [SerializeField] private float _moveSpeed = 3f;
     
@@ -32,5 +35,6 @@ public class ProtesterController : MonoBehaviour
     private void protesterAI_OnMoveDirectionInput(Vector3 direction)
     {
         _moveDirection = direction;
+        OnMove?.Invoke(direction);
     }
 }

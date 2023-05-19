@@ -3128,6 +3128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4735295899613784432}
   - component: {fileID: 7187884030108955700}
+  - component: {fileID: 3940581699297441813}
   m_Layer: 10
   m_Name: ProtesterVisual
   m_TagString: Untagged
@@ -3205,11 +3206,32 @@ MonoBehaviour:
   - {fileID: 6755855764554858508}
   - {fileID: 3924528763062315936}
   - {fileID: 7248690115230188705}
+  - {fileID: 3107631465768089232}
   _attributes:
   - {fileID: 7896192026832703087}
   - {fileID: 1621965811911120988}
-  - {fileID: 268745059373907685}
   - {fileID: 4798737847822778867}
+--- !u!95 &3940581699297441813
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8673357543976004463}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eaac61433139fe647a159ddff14c1cdc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8851393742283226433
 GameObject:
   m_ObjectHideFlags: 0

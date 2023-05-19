@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ProtesterVisual : MonoBehaviour
 {
+    private const string IS_WALKING = "IsWalking";
+
     [Header("Initialization Parameters")]
     [SerializeField] private ProtesterData _protesterData;
     [SerializeField] private ProtesterController _protesterController;
@@ -13,6 +15,12 @@ public class ProtesterVisual : MonoBehaviour
     [SerializeField] private List<Transform> _attributes;
 
     private Vector3 _targetDirection;
+    private Animator _animator;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
@@ -71,7 +79,13 @@ public class ProtesterVisual : MonoBehaviour
     {
         if(direction != Vector3.zero)
         {
+            //character visual has a 180° rotation to forward vector
             _targetDirection = -direction;
+            _animator.SetBool(IS_WALKING, true);
+        }
+        else
+        {
+            _animator.SetBool(IS_WALKING, false);
         }
     }
 

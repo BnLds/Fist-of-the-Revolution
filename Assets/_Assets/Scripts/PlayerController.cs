@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _attackRadius = 2f;
 
     [HideInInspector] public UnityEvent<Transform> OnAttackPerformed;
+    [HideInInspector] public UnityEvent<Vector3> OnMove;
     [HideInInspector] public UnityEvent<float> OnAttackProgressChange;
     [HideInInspector] public UnityEvent OnStartedLoadingAttack;
     [HideInInspector] public UnityEvent OnStoppedLoadingAttack;
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 moveInput = new Vector3(GameInput.Instance.GetMovementVectorNormalized().x, 0,GameInput.Instance.GetMovementVectorNormalized().y);
-
+        OnMove?.Invoke(moveInput);
         _playerRigidbody.velocity = moveInput * _moveSpeed;
     }
 

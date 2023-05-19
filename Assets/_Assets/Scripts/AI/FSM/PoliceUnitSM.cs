@@ -24,6 +24,8 @@ public class PoliceUnitSM : StateMachine
     #region Parameters
     [HideInInspector]public UnityEvent<PoliceReactions> OnReact;
     [HideInInspector] public UnityEvent<Transform> OnObjectDestroyed;
+    [HideInInspector] public UnityEvent OnCatchAttempt;
+
 
     [HideInInspector] public Vector3 MoveDirectionInput = Vector3.zero;
     [HideInInspector] public bool IsTargetLost = false;
@@ -262,6 +264,7 @@ public class PoliceUnitSM : StateMachine
         if(attemptValue <= catchThreshold)
         {
             Debug.Log("Player Caught!");
+            OnCatchAttempt?.Invoke();
         }
         else
         {

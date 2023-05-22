@@ -8,4 +8,5 @@ public class PoliceResponseData
     public List<Transform> Suspects;
     public List<(Transform SuspectTransform, bool IsTracked)> TrackedSuspects;
     public bool IsPlayerIdentified;
+    public (FlowField flowfield, Vector3 target) HighPriorityFlowfield;
 }

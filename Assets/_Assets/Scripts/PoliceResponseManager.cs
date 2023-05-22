@@ -223,4 +223,17 @@ public class PoliceResponseManager : MonoBehaviour
         OnFollowed?.Invoke(newTargetData.targetTransform);
     }
 
+    public FlowField GetPoliceForceFlowfield(Vector3 targetPosition)
+    {
+        if(_policeResponseData.HighPriorityFlowfield.target != targetPosition)
+        {
+            _policeResponseData.HighPriorityFlowfield.target = targetPosition;
+            _policeResponseData.HighPriorityFlowfield.flowfield = GridController.Instance.GenerateFlowField(targetPosition);
+        }
+        return _policeResponseData.HighPriorityFlowfield.flowfield;
+    }
+
+
+    
+
 }

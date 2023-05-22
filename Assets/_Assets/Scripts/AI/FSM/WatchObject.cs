@@ -26,21 +26,50 @@ public class WatchObject : BaseState
         //if within reaction range of watched objects, go to protect the closest object
         if (_policeUnitSM.PoliceUnitData.ObjectsToProtect.Count != 0)
         {
-            //order the list of objects to protect by distance to policeUnit
-            List<Transform> reactionList = _policeUnitSM.PoliceUnitData.ObjectsToProtect.OrderBy(target => Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, target.position)).ToList();
+            List<Transform> reactionList;
+
+            int retries = 0;
+            int maxRetries = 3;
+            while(true)
+            {
+                try
+                {
+                    //order the list of objects to protect by distance to policeUnit
+                    reactionList = _policeUnitSM.PoliceUnitData.ObjectsToProtect.OrderBy(target => Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, target.position)).ToList();
+                    break;
+                }
+                //catch exception when object was destroyed but it was not raken into account by system yet
+                catch (NullReferenceException)
+                {
+                    if(retries < maxRetries)
+                    {
+                        retries++;
+                        _policeUnitSM.WaitForEndOfframe();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
             //get the closest HighPriority object or null
             Transform reactionPoint = reactionList.FirstOrDefault(target => target.GetComponent<BreakableController>().IsHighPriority);
             if(reactionPoint == null) 
             {
                 //Get the closest watched object if there is no HighPriority
                 reactionPoint = reactionList.FirstOrDefault();
+                //Generate flowfield to reaction point
+                _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint.position);
+            }
+            else
+            {
+                //there is a HighPriority object to watch
+                //get the flowfield generated for the entire police force
+                _policeUnitSM.PoliceUnitData.CurrentFlowField = PoliceResponseManager.Instance.GetPoliceForceFlowfield(reactionPoint.position);
             }
             
             _policeUnitSM.PoliceUnitData.CurrentWatchedObject = reactionPoint;
             _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition = new Vector3 (reactionPoint.position.x,reactionPoint.position.y, reactionPoint.position.z);
-
-            //Generate flowfield to reaction point
-            _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint.position);
         }
     }
 

@@ -3364,7 +3364,7 @@ GameObject:
   - component: {fileID: 925848642259586912}
   - component: {fileID: 7723722718084810004}
   - component: {fileID: 6316234633344160984}
-  - component: {fileID: 6443096262285097695}
+  - component: {fileID: 1815961738702936601}
   - component: {fileID: 7030664641293707828}
   - component: {fileID: 6212171684923365943}
   m_Layer: 12
@@ -3410,7 +3410,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _policeUnitSM: {fileID: 6316234633344160984}
-  _protesterAI: {fileID: 6443096262285097695}
+  _policeFlowfieldAI: {fileID: 1815961738702936601}
   _avoidCollisionMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -3456,8 +3456,16 @@ MonoBehaviour:
   OnCatchAttempt:
     m_PersistentCalls:
       m_Calls: []
+  OnFollowProtestEntry:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFollowProtestExit:
+    m_PersistentCalls:
+      m_Calls: []
   MoveDirectionInput: {x: 0, y: 0, z: 0}
   IsTargetLost: 0
+  EnterFollowProtestState: 0
+  ExitFollowProtestState: 0
   _detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
@@ -3481,9 +3489,9 @@ MonoBehaviour:
   <WanderRandomDistanceMax>k__BackingField: 3
   _detectionRepeatRate: 0.5
   <DetectionDelay>k__BackingField: 0.5
-  _isPlayerDetectableByPolice: 1
+  _isPlayerDetectableByPolice: 0
   _currentState: 
---- !u!114 &6443096262285097695
+--- !u!114 &1815961738702936601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3492,10 +3500,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7149198449243920836}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f6a1d4eaf74f8546b8f13dbecca85dc, type: 3}
+  m_Script: {fileID: 11500000, guid: c99f7a1f36b29e1499cae9b40c0b9901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnProtestEndReached:
+  OnProtestPointReached:
     m_PersistentCalls:
       m_Calls: []
   OnMoveDirectionInput:
@@ -3509,10 +3517,10 @@ MonoBehaviour:
   - {fileID: 1259991071503837587}
   _protesterData: {fileID: 7030664641293707828}
   _movementDirectionSolver: {fileID: 4006038392267361051}
+  _policeUnitSM: {fileID: 6316234633344160984}
   _meetingPointReachedDistance: 2
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
-  _showFlowFieldGizmo: 0
   _moveDirectionInput: {x: 0, y: 0, z: 0}
 --- !u!114 &7030664641293707828
 MonoBehaviour:

@@ -5,7 +5,7 @@ public class ProtesterController : MonoBehaviour
 {
     [HideInInspector] public UnityEvent<Vector3> OnMove;
 
-    [SerializeField] private ProtesterAI _protesterAI;
+    [SerializeField] private ProtesterFlowfieldAI _protesterAI;
     [SerializeField] private float _moveSpeed = 3f;
     
     private Vector3 _moveDirection;

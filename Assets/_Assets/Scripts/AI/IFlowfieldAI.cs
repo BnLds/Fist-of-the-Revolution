@@ -4,54 +4,52 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-public class ProtesterAI : MonoBehaviour
+public class IFlowfieldAI : MonoBehaviour
 {
-    private const string PERFORM_DETECTION = "PerformDetection";
-
+    protected const string PERFORM_DETECTION = "PerformDetection";
     [HideInInspector] public UnityEvent OnProtestEndReached;
+    [HideInInspector] public UnityEvent<int> OnProtestPointReached;
     [HideInInspector] public UnityEvent<Vector3> OnMoveDirectionInput;
 
     [Header("Initialization Parameters")]
-    [SerializeField] private List<SteeringBehaviour> _steeringBehaviours;
-    [SerializeField] private List<Detector> _detectors;
-    [SerializeField] private ProtesterData _protesterData;
-    [SerializeField] private ContextSolver _movementDirectionSolver;
+    [SerializeField] protected List<SteeringBehaviour> _steeringBehaviours;
+    [SerializeField] protected List<Detector> _detectors;
+    [SerializeField] protected ProtesterData _protesterData;
+    [SerializeField] protected ContextSolver _movementDirectionSolver;
 
     [Space(5)]
     [Header("Game Balance Parameters")]
-    [SerializeField] private float _meetingPointReachedDistance = 2f;
+    [SerializeField] protected float _meetingPointReachedDistance = 2f;
 
     [Space(5)]
     [Header("Performance Parameters")]
-    [SerializeField] private float _detectionDelay = .05f;
-    [SerializeField] private float _aiUpdateDelay = .06f;
+    [SerializeField] protected float _detectionDelay = .05f;
+    [SerializeField] protected float _aiUpdateDelay = .06f;
 
     [Space(5)]
     [Header("Dev Parameters")]
+    [ReadOnly] [SerializeField] protected Vector3 _moveDirectionInput = Vector3.zero;
     [SerializeField] private bool _showFlowFieldGizmo = false;
-    [ReadOnly] [SerializeField] private Vector3 _moveDirectionInput = Vector3.zero;
 
-    private void Start()
+
+    protected virtual void Start()
     {
         ProtestFlowFields.Instance.OnFlowFieldsCreated.AddListener(ProtestManager_OnFlowFieldsCreated);
-        InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         ProtestFlowFields.Instance.OnFlowFieldsCreated.RemoveListener(ProtestManager_OnFlowFieldsCreated);
     }
 
-    private void ProtestManager_OnFlowFieldsCreated()
+    protected virtual void ProtestManager_OnFlowFieldsCreated()
     {
         _protesterData.FlowFieldsProtest = ProtestFlowFields.Instance.GetFlowFields();
         _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == 0));
         _protesterData.EndOfProtest = ProtestFlowFields.Instance.GetEndOfProtest();
-
-        StartCoroutine(FollowProtestPath());
     }
 
-    private void PerformDetection()
+    protected void PerformDetection()
     {
         foreach(Detector detector in _detectors)
         {
@@ -59,18 +57,19 @@ public class ProtesterAI : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         //use the next protest flowfield if the NPC reaches the current meeting point 
         if(Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
         {
             _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == _protesterData.CurrentFlowFieldIndex + 1));
+            OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
         }
         //Moving the agent
         OnMoveDirectionInput?.Invoke(_moveDirectionInput);
     }
 
-    private IEnumerator FollowProtestPath()
+    protected IEnumerator FollowProtestPath()
     {
         //Check if protester reached the end of the protest
         float destructionDistance = 1f;
@@ -79,7 +78,7 @@ public class ProtesterAI : MonoBehaviour
             //Stopping logic
             _moveDirectionInput = Vector3.zero;
             _protesterData.ReachedEndOfProtest = true;
-            OnProtestEndReached?.Invoke();
+             OnProtestEndReached?.Invoke();
             yield return null;
         }
 
@@ -98,7 +97,7 @@ public class ProtesterAI : MonoBehaviour
     }
 
     //draw current FlowField info
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         if(Application.isPlaying && _showFlowFieldGizmo)
         {
@@ -127,6 +126,5 @@ public class ProtesterAI : MonoBehaviour
                 }
             }
         }
-        
     }
 }

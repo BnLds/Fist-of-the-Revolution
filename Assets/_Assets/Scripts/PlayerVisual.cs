@@ -32,9 +32,12 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(_targetDirection);
-        float turnSpeed = 4f;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+        if(_targetDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(_targetDirection);
+            float turnSpeed = 4f;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+        }
     }
 
     private void PlayerController_OnMove(Vector3 direction)

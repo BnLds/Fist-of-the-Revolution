@@ -35,6 +35,11 @@ public class GuidanceUI : MonoBehaviour
         _isCoroutineRunning = false;
     }
 
+    private void Start()
+    {
+        Hide();
+    }
+
     private void InitializeMessageDict()
     {
         _messageCountDict[ATTACK_MESSAGE] = 0;
@@ -80,6 +85,11 @@ public class GuidanceUI : MonoBehaviour
         {
             _guidanceText.gameObject.SetActive(false);
         }
+    }
+
+    private void Hide()
+    {
+        _guidanceText.gameObject.SetActive(false);
     }
 
     public void ShowGuidanceSafeZone()

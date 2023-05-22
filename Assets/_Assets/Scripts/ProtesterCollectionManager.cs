@@ -11,6 +11,8 @@ public class ProtesterCollectionManager : MonoBehaviour
 
     [HideInInspector] public UnityEvent<Transform> OnPlayerIDFree;
     [HideInInspector] public UnityEvent OnPlayerTrackFree;
+    
+    private int _forwardProtestPointIndex;
 
     private void Awake()
     {
@@ -22,6 +24,8 @@ public class ProtesterCollectionManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        _forwardProtestPointIndex = 0;
     }
 
     private void Start()
@@ -31,6 +35,15 @@ public class ProtesterCollectionManager : MonoBehaviour
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerIDedFree.AddListener(ProtesterSafeZone_OnPlayerIDedFree);
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerTrackedFree.AddListener(ProtesterSafeZone_OnPlayerTrackedFree);
             protester.GetComponentInChildren<ProtesterSafeZone>().OnPlayerEnterSafeZone.AddListener(ProtesterSafeZone_OnPlayerEnterSafeZone);
+            protester.GetComponent<ProtesterFlowfieldAI>().OnProtestPointReached.AddListener(ProtesterAI_OnProtestPointReached);
+        }
+    }
+
+    private void ProtesterAI_OnProtestPointReached(int protestPointIndex)
+    {
+        if(protestPointIndex > _forwardProtestPointIndex)
+        {
+            _forwardProtestPointIndex = protestPointIndex;
         }
     }
 
@@ -47,5 +60,10 @@ public class ProtesterCollectionManager : MonoBehaviour
     private void ProtesterSafeZone_OnPlayerIDedFree(Transform sender)
     {
         OnPlayerIDFree?.Invoke(sender);
+    }
+
+    public int GetForwardProtestPointIndex()
+    {
+        return _forwardProtestPointIndex;
     }
 }

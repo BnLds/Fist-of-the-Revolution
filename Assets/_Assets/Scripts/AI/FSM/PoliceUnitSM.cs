@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 public class PoliceUnitSM : StateMachine
 {
@@ -25,10 +26,14 @@ public class PoliceUnitSM : StateMachine
     [HideInInspector]public UnityEvent<PoliceReactions> OnReact;
     [HideInInspector] public UnityEvent<Transform> OnObjectDestroyed;
     [HideInInspector] public UnityEvent OnCatchAttempt;
-
+    [HideInInspector] public UnityEvent OnFollowProtestEntry;
+    [HideInInspector] public UnityEvent OnFollowProtestExit;
 
     [HideInInspector] public Vector3 MoveDirectionInput = Vector3.zero;
     [HideInInspector] public bool IsTargetLost = false;
+    [HideInInspector] public bool EnterFollowProtestState = false;
+    [HideInInspector] public bool ExitFollowProtestState = false;
+
 
     [HideInInspector] public Idle IdleState;
     [HideInInspector] public FollowProtest FollowProtestState;
@@ -36,7 +41,7 @@ public class PoliceUnitSM : StateMachine
     [HideInInspector] public FollowSuspect FollowSuspectState;
     [HideInInspector] public Wander WanderState;
     [HideInInspector] public ChasePlayer ChasePlayerState;
-
+    [HideInInspector] public List<BaseState> PoliceStates { get; private set; }
 
     [Header("Initialization Parameters")]
     [SerializeField] private List<Detector> _detectors;
@@ -65,10 +70,7 @@ public class PoliceUnitSM : StateMachine
     [Header("Dev Tools")]
     [SerializeField] private bool _isPlayerDetectableByPolice = true;
     [SerializeField] private string _currentState;
-
-    [HideInInspector] public List<BaseState> PoliceStates { get; private set; }
     #endregion
-
 
     private void Awake()
     {
@@ -106,8 +108,19 @@ public class PoliceUnitSM : StateMachine
         base.Update();
 
         _currentState = CurrentState.Name;
+        if(EnterFollowProtestState)
+        {
+            OnFollowProtestEntry?.Invoke();
+            EnterFollowProtestState = false;
+        }
 
-        GetComponent<ProtesterAI>().enabled = CurrentState == FollowProtestState;
+        if(ExitFollowProtestState)
+        {
+            OnFollowProtestExit?.Invoke();
+            ExitFollowProtestState = false;
+        }
+
+        //GetComponent<PoliceFlowfieldAI>().enabled = CurrentState == FollowProtestState;
 
         //Remove destroyed object from police unit watch list if necessary
         if(PoliceUnitData.ObjectsToProtect.Count != 0)
@@ -270,6 +283,16 @@ public class PoliceUnitSM : StateMachine
         {
             Debug.Log("Player Dodged!");
         }
+    }
+
+    public void WaitForEndOfframe()
+    {
+        StartCoroutine(WaitEndOfFrame());
+    }
+
+    private IEnumerator WaitEndOfFrame()
+    {
+        yield return new WaitForEndOfFrame();
     }
 
 }

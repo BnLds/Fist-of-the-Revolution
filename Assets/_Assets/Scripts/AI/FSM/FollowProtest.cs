@@ -22,6 +22,8 @@ public class FollowProtest : BaseState
         _countdownToPause = _policeUnitSM.CountdownToPauseMax;
         _countdownToWalk = 0f;
         _detectionDelay = 0f;
+
+        _policeUnitSM.EnterFollowProtestState = true;
     }
 
     public override void UpdateLogic()
@@ -105,5 +107,6 @@ public class FollowProtest : BaseState
     {
         base.Exit();
         IsFollowingProtest = false;
+        _policeUnitSM.ExitFollowProtestState = true;
     }
 }

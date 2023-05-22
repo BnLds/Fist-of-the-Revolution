@@ -8,7 +8,7 @@ public class PolicemanController : MonoBehaviour
 
     [Header("Initialization Parameters")]
     [SerializeField] private PoliceUnitSM _policeUnitSM;
-    [SerializeField] private ProtesterAI _protesterAI;
+    [SerializeField] private PoliceFlowfieldAI _policeFlowfieldAI;
     [SerializeField] private LayerMask _avoidCollisionMask;
     [SerializeField] private Collider _policemanCollider;
 
@@ -26,7 +26,7 @@ public class PolicemanController : MonoBehaviour
     }
     private void Start()
     {
-        _protesterAI.OnMoveDirectionInput.AddListener(protesterAI_OnMoveDirectionInput);
+        _policeFlowfieldAI.OnMoveDirectionInput.AddListener(protesterAI_OnMoveDirectionInput);
     }
     
 

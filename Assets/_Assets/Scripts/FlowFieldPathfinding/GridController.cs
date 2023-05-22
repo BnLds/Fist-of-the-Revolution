@@ -36,37 +36,40 @@ public class GridController : MonoBehaviour
         InitializeFlowField();
         _currentFlowField.CreateCostField();
         Node targetGridPosition = _currentFlowField.GetNodeFromWorldPoint(targetPosition);
+        if(targetGridPosition.Cost == byte.MaxValue)
+        {
+            Debug.LogWarning("Trying to create a flowfield but destination node is unreachable. A flowfield to the nearest reachable point will be generated.");
+        }
         _currentFlowField.CreateIntegrationField(targetGridPosition);
 
         _currentFlowField.CreateFlowField();
 
         return _currentFlowField;
     }
-
-
-    /*
-    private void OnDrawGizmos()
+    
+    /*private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-        if(currentFlowField != null)
+        Gizmos.DrawWireCube(transform.position, new Vector3(_gridWorldSize.x, 1, _gridWorldSize.y));
+        if(_currentFlowField != null)
         {
-            if(currentFlowField.grid != null)
+            if(_currentFlowField.Grid != null)
             {
-                foreach(Node node in currentFlowField.grid)
+                foreach(Node node in _currentFlowField.Grid)
                 {
-                    //Gizmos.color = node.walkable ? Color.green : Color.red;
+                    Gizmos.color = node.Walkable ? Color.green : Color.red;
+                    Gizmos.DrawWireCube(node.WorldPosition, Vector3.one * (_nodeRadius*2 - .1f));
                     
-                    //float t = (float) node.bestCost / 75;
+                    
+                    //float t = (float) node.BestCost / 75;
                     //Gizmos.color = Color.Lerp(Color.yellow, Color.magenta, t);
-                    //Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
+                    //Gizmos.DrawCube(node.WorldPosition, Vector3.one * (_nodeRadius*2 - .1f));
                     
-                    //Gizmos.DrawWireCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
-                    Handles.Label(node.worldPosition, node.bestCost.ToString());
+                    //Handles.Label(node.WorldPosition, node.BestCost.ToString());
                 }
             }
         }
-    }
-    */
+    }*/
+    
     
     
     

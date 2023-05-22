@@ -79,9 +79,13 @@ public class FlowField
         return (Grid[x, y]);
     }
 
-    public void CreateIntegrationField(Node _destinationNode)
+    public void CreateIntegrationField(Node destinationNode)
     {
-        this._destinationNode = _destinationNode;
+        if(destinationNode.Cost == byte.MaxValue)
+        {
+            destinationNode = GetNearestReachablePoint(destinationNode);
+        }
+        this._destinationNode = destinationNode;
 
         this._destinationNode.Cost = 0;
         this._destinationNode.BestCost = 0;
@@ -149,5 +153,48 @@ public class FlowField
         {
             return Grid[finalPosition.x, finalPosition.y];
         }
+    }
+
+    private Node GetNearestReachablePoint(Node destinationNode)
+    {
+        List<GridDirection> directions = GridDirection.CardinalAndIntercardinalDirections;
+        Dictionary<Vector2Int, int> directionCosts = new Dictionary<Vector2Int, int>();
+
+        Node bestNode = destinationNode;
+        int maxDistance = 10;
+        int bestDistance = maxDistance;
+        foreach(Vector2Int direction in directions)
+        {
+            directionCosts[direction] = 0;
+            Node newNeighbour = GetCellAtRelativePosition(destinationNode.GridIndex, direction);
+            while(directionCosts[direction] < bestDistance)
+            {
+                Debug.Log(newNeighbour.WorldPosition);
+                if(newNeighbour.Cost != byte.MaxValue)
+                {
+                    if(directionCosts[direction] < bestDistance)
+                    {
+                        bestDistance = directionCosts[direction];
+                        bestNode = newNeighbour;
+                    }
+                    break;
+                }
+                else
+                {
+                    directionCosts[direction]++;
+                    newNeighbour = GetCellAtRelativePosition(newNeighbour.GridIndex, direction);
+                }
+            }
+        }
+
+        if(bestNode.Cost == byte.MaxValue)
+        {
+            Debug.LogError("Impossible to find a reachable Node. Flowfield creation aborted");
+        }
+        else
+        {
+            Debug.Log("New destinationNode found: " + bestNode.WorldPosition);
+        }
+        return (bestNode);
     }
 }

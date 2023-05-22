@@ -3479,7 +3479,7 @@ MonoBehaviour:
     m_Bits: 128
   - serializedVersion: 2
     m_Bits: 512
-  _protectionRange: 10
+  _protectionRange: 15
   <PlayerDetectionRange>k__BackingField: 20
   <CatchDistance>k__BackingField: 1
   <CatchAttemptDelay>k__BackingField: 1
@@ -3503,6 +3503,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99f7a1f36b29e1499cae9b40c0b9901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnProtestEndReached:
+    m_PersistentCalls:
+      m_Calls: []
   OnProtestPointReached:
     m_PersistentCalls:
       m_Calls: []
@@ -3517,11 +3520,12 @@ MonoBehaviour:
   - {fileID: 1259991071503837587}
   _protesterData: {fileID: 7030664641293707828}
   _movementDirectionSolver: {fileID: 4006038392267361051}
-  _policeUnitSM: {fileID: 6316234633344160984}
   _meetingPointReachedDistance: 2
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _moveDirectionInput: {x: 0, y: 0, z: 0}
+  _showFlowFieldGizmo: 0
+  _policeUnitSM: {fileID: 6316234633344160984}
 --- !u!114 &7030664641293707828
 MonoBehaviour:
   m_ObjectHideFlags: 0

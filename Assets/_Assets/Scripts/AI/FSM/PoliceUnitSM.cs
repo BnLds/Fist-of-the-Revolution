@@ -52,7 +52,7 @@ public class PoliceUnitSM : StateMachine
 
     [Space(5)]
     [Header("Game Balance Parameters")]
-    [SerializeField] private float _protectionRange = 10f;
+    [SerializeField] private float _protectionRange = 15f;
     [field: SerializeField] public float PlayerDetectionRange { get; private set; } = 20f;
     [field: SerializeField] public float CatchDistance { get; private set; } = 1f;
     [field: SerializeField] public float CatchAttemptDelay { get; private set; } = 1f;

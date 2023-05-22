@@ -83,7 +83,7 @@ public class SeekBehaviour : SteeringBehaviour
 
             //executes the main logic
             //get NPC position on grid
-            nodeBelow = policemanData.CurrentFlowField.GetNodeFromWorldPoint(transform.position);    
+            nodeBelow = policemanData.CurrentFlowField.GetNodeFromWorldPoint(transform.position);
         }
         else
         {

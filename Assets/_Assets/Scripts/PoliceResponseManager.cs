@@ -95,7 +95,8 @@ public class PoliceResponseManager : MonoBehaviour
     private void Breakable_StartWatch(int watchValue, Transform sender)
     {
         //add damaged object to list of watched items
-        _policeResponseData.WatchPoints.Add(sender);
+        int watchersLimit = 1;
+        _policeResponseData.WatchPoints[sender] = (watchersLimit, 0);
 
         //increase watch value as soon as object is damaged
         _currentWatchValue += watchValue;
@@ -153,15 +154,32 @@ public class PoliceResponseManager : MonoBehaviour
 
     private void InitializePoliceResponseData()
     {
-        _policeResponseData.WatchPoints = new List<Transform>();
+        _policeResponseData.WatchPoints = new Dictionary<Transform, (int WatchersLimit, int NumberOfWatchers)>();
         _policeResponseData.Suspects = new List<Transform>();
         _policeResponseData.TrackedSuspects = new List<(Transform, bool)>();
         _policeResponseData.IsPlayerIdentified = false;
     }
 
-    public ReadOnlyCollection<Transform> GetWatchPointsData()
+    public IReadOnlyDictionary<Transform, (int WatchersLimit, int NumberOfWatchers)> GetWatchPointsData()
     {
-        return _policeResponseData.WatchPoints.AsReadOnly();
+        return _policeResponseData.WatchPoints;
+    }
+
+    public bool CanAddWatcherToObject(Transform watchedObject)
+    {
+        return (_policeResponseData.WatchPoints[watchedObject].numberOfWatchers < _policeResponseData.WatchPoints[watchedObject].WatchersLimit);
+    }
+
+    public void AddWatcherToObject(Transform watchedObject)
+    {
+        (int, int) newData = (_policeResponseData.WatchPoints[watchedObject].WatchersLimit, _policeResponseData.WatchPoints[watchedObject].numberOfWatchers + 1);
+        _policeResponseData.WatchPoints[watchedObject] = newData;
+    }
+
+    public void RemoveWatcherToObject(Transform watchedObject)
+    {
+        (int, int) newData = (_policeResponseData.WatchPoints[watchedObject].WatchersLimit, _policeResponseData.WatchPoints[watchedObject].numberOfWatchers - 1);
+        _policeResponseData.WatchPoints[watchedObject] = newData;
     }
     
     public ReadOnlyCollection<Transform> GetSuspectsList()

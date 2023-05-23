@@ -191,19 +191,32 @@ public class PoliceUnitSM : StateMachine
 
         if (PoliceResponseManager.Instance.GetWatchPointsData() != null && PoliceResponseManager.Instance.GetWatchPointsData().Count != 0)
         {
-            foreach (Transform watchPoint in PoliceResponseManager.Instance.GetWatchPointsData())
+            foreach (Transform watchPoint in PoliceResponseManager.Instance.GetWatchPointsData().Keys)
             {
-                //go to next watchPoint if object is already in the list of objects to protect
-                if(PoliceUnitData.ObjectsToProtect.Contains(watchPoint)) continue;
+                //check if damaged object is already in the cop's list of objects to protect
+                if(PoliceUnitData.ObjectsToProtect.Contains(watchPoint))
+                {
+                    //check if a watcher can still be added
+                    if(PoliceResponseManager.Instance.CanAddWatcherToObject(watchPoint))
+                    {
+                        //all good, object can remain in list, go to next watchPoint
+                        continue;
+                    } 
+                    else
+                    {
+                        // max number of watcher reached, remove object from the list
+                        PoliceUnitData.ObjectsToProtect.Remove(watchPoint);
+                    }
+                }
 
-                //check if object on watchList is HighPriority
-                if(watchPoint.GetComponent<BreakableController>().IsHighPriority)
+                //check if object on watchList is HighPriority && number of watcher had not been reached
+                if(watchPoint.GetComponent<BreakableController>().IsHighPriority && PoliceResponseManager.Instance.CanAddWatcherToObject(watchPoint))
                 {
                     //add it to watch list 
                     PoliceUnitData.ObjectsToProtect.Add(watchPoint);
                 } 
-                //check if object is within protectionRange
-                else if (Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= _protectionRange)
+                //check if object is within protectionRange && number of watcher had not been reached
+                else if (Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= _protectionRange && PoliceResponseManager.Instance.CanAddWatcherToObject(watchPoint))
                 {
                     PoliceUnitData.ObjectsToProtect.Add(watchPoint);
                 }
@@ -295,4 +308,23 @@ public class PoliceUnitSM : StateMachine
         yield return new WaitForEndOfFrame();
     }
 
+    public bool CanWatchObject(Transform watchedObject)
+    {
+        return PoliceResponseManager.Instance.CanAddWatcherToObject(watchedObject);
+    }
+
+    public void AddWatcher(Transform watchedObject)
+    {
+        PoliceResponseManager.Instance.AddWatcherToObject(watchedObject);
+    }
+
+    public void RemoveWatcher(Transform watchedObject)
+    {
+        PoliceResponseManager.Instance.RemoveWatcherToObject(watchedObject);
+    }
+
+    public void RemoveObjectToProtect(Transform objectToProtect)
+    {
+        PoliceUnitData.ObjectsToProtect.Remove(objectToProtect);
+    }
 }

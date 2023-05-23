@@ -9,6 +9,7 @@ public class WatchObject : BaseState
     private bool _isSuspectsListUpdated;
     private float _detectionDelay;
     private bool _isObjectDestroyed;
+    private bool _isWatchingObject;
 
     public WatchObject(PoliceUnitSM stateMachine) : base("WatchObject", stateMachine)
     {
@@ -20,6 +21,7 @@ public class WatchObject : BaseState
         base.Enter();
         _isSuspectsListUpdated = false;
         _isObjectDestroyed = false;
+        _isWatchingObject = false;
 
         _policeUnitSM.OnObjectDestroyed.AddListener(PoliceUnitSM_OnObjectDestroyed);
 
@@ -39,7 +41,7 @@ public class WatchObject : BaseState
                     break;
                 }
                 //catch exception when object was destroyed but it was not raken into account by system yet
-                catch (NullReferenceException)
+                catch (NullReferenceException e)
                 {
                     if(retries < maxRetries)
                     {
@@ -48,7 +50,9 @@ public class WatchObject : BaseState
                     }
                     else
                     {
-                        throw;
+                        //exit state if there is an error finding an object (likely destroyed)
+                        Debug.LogWarning("Changing state to avoid Exception " + e);
+                        _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
                     }
                 }
             }
@@ -58,6 +62,36 @@ public class WatchObject : BaseState
             {
                 //Get the closest watched object if there is no HighPriority
                 reactionPoint = reactionList.FirstOrDefault();
+
+                while(reactionPoint != null)
+                {
+                    //check if the max number of watchers allowed has already been reached
+                    if(_policeUnitSM.CanWatchObject(reactionPoint))
+                    {
+                        //if not, exit the loop and generate flowfield
+                        _policeUnitSM.AddWatcher(reactionPoint);
+                        _isWatchingObject = true;
+                        break;
+                    }
+                    else
+                    {
+                        //if the max number of watchers has been reached, try to find another object to watch
+                        //loop through the list of objects to watch
+                        reactionList.Remove(reactionPoint);
+                        _policeUnitSM.RemoveObjectToProtect(reactionPoint);
+                        reactionPoint = reactionList.FirstOrDefault();
+                    }
+                }
+
+                //check if cop was able to find an object to watch
+                if(reactionPoint == null)
+                {
+                    Debug.Log(_policeUnitSM.transform + " changing state");
+                    //change state if there is no object to watch
+                    _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
+                    return;
+                }
+
                 //Generate flowfield to reaction point
                 _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint.position);
             }
@@ -65,11 +99,14 @@ public class WatchObject : BaseState
             {
                 //there is a HighPriority object to watch
                 //get the flowfield generated for the entire police force
+                _isWatchingObject = true;
                 _policeUnitSM.PoliceUnitData.CurrentFlowField = PoliceResponseManager.Instance.GetPoliceForceFlowfield(reactionPoint.position);
             }
             
             _policeUnitSM.PoliceUnitData.CurrentWatchedObject = reactionPoint;
             _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition = new Vector3 (reactionPoint.position.x,reactionPoint.position.y, reactionPoint.position.z);
+
+            _policeUnitSM.CanWatchObject(reactionPoint);
         }
     }
 
@@ -78,6 +115,10 @@ public class WatchObject : BaseState
         base.Exit();
         _policeUnitSM.OnObjectDestroyed.RemoveListener(PoliceUnitSM_OnObjectDestroyed);
 
+        if(_isWatchingObject)
+        {
+            _policeUnitSM.RemoveWatcher(_policeUnitSM.PoliceUnitData.CurrentWatchedObject);
+        }
     }
 
     private void PoliceUnitSM_OnObjectDestroyed(Transform objectDestroyed)

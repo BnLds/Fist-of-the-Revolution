@@ -86,7 +86,6 @@ public class WatchObject : BaseState
                 //check if cop was able to find an object to watch
                 if(reactionPoint == null)
                 {
-                    Debug.Log(_policeUnitSM.transform + " changing state");
                     //change state if there is no object to watch
                     _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
                     return;

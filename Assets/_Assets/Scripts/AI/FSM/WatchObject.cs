@@ -126,7 +126,6 @@ public class WatchObject : BaseState
         {
             _isObjectDestroyed = true;
         }
-        
     }
 
     public override void UpdateLogic()

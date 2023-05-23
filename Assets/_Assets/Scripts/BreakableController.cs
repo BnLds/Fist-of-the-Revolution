@@ -58,7 +58,7 @@ public class BreakableController : MonoBehaviour
             OnDestroyedBreakable?.Invoke(_remainingRewardValue, this);
             _halo.SetActive(false);
             ShowDestroyed();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

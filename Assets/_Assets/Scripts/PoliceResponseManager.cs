@@ -8,6 +8,15 @@ public class PoliceResponseManager : MonoBehaviour
 {
     public static PoliceResponseManager Instance { get; private set; }
 
+    [HideInInspector] public UnityEvent OnPlayerUntracked;
+    [HideInInspector] public UnityEvent<Transform> OnPlayerNotIDedAnymore;
+    [HideInInspector] public UnityEvent<Transform> OnTracked;
+    [HideInInspector] public UnityEvent<Transform> OnFollowed;
+    [HideInInspector] public UnityEvent<Transform> OnSuspectCleared;
+    [HideInInspector] public UnityEvent OnPlayerIdentified;
+    [HideInInspector] public UnityEvent<Transform> OnWatchedObjectDestroyed;
+
+
     [Header("Initialization Parameters")]
     [SerializeField] private BreakablesCollectionManager _breakablesCollectionManager;
     [SerializeField] private PoliceWatchUI _policeWatchUI;
@@ -17,13 +26,6 @@ public class PoliceResponseManager : MonoBehaviour
     [Header("Game Balance Parameters")]
     [SerializeField] private int[] _watchThresholds = new int[6] {0, 1, 3, 7, 12, 20};
     [SerializeField] private float suspectDetectionRadius = 10f;
-
-    [HideInInspector] public UnityEvent OnPlayerUntracked;
-    [HideInInspector] public UnityEvent<Transform> OnPlayerNotIDedAnymore;
-    [HideInInspector] public UnityEvent<Transform> OnTracked;
-    [HideInInspector] public UnityEvent<Transform> OnFollowed;
-    [HideInInspector] public UnityEvent<Transform> OnSuspectCleared;
-    [HideInInspector] public UnityEvent OnPlayerIdentified;
 
     private List<BreakableController> _breakablesWatched;
     private int _currentWatchValue;
@@ -111,6 +113,7 @@ public class PoliceResponseManager : MonoBehaviour
 
     private void Breakable_OnDestroyedBreakable(int remainingWatchValue, BreakableController sender)
     {
+        OnWatchedObjectDestroyed?.Invoke(sender.transform);
         _policeResponseData.WatchPoints.Remove(sender.transform);
 
         //remove listeners
@@ -178,8 +181,11 @@ public class PoliceResponseManager : MonoBehaviour
 
     public void RemoveWatcherToObject(Transform watchedObject)
     {
-        (int, int) newData = (_policeResponseData.WatchPoints[watchedObject].WatchersLimit, _policeResponseData.WatchPoints[watchedObject].numberOfWatchers - 1);
-        _policeResponseData.WatchPoints[watchedObject] = newData;
+        if(_policeResponseData.WatchPoints.Keys.Contains(watchedObject))
+        {
+            (int, int) newData = (_policeResponseData.WatchPoints[watchedObject].WatchersLimit, _policeResponseData.WatchPoints[watchedObject].numberOfWatchers - 1);
+            _policeResponseData.WatchPoints[watchedObject] = newData;
+        }
     }
     
     public ReadOnlyCollection<Transform> GetSuspectsList()

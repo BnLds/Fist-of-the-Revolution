@@ -93,6 +93,7 @@ public class PoliceUnitSM : StateMachine
         PlayerController.Instance.OnAttackPerformed.AddListener(PlayerController_OnDamageDone);
         PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
         PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerNotIDedAnymore);
+        PoliceResponseManager.Instance.OnWatchedObjectDestroyed.AddListener(PoliceResponseManager_OnWatchedObjectDestroyed);
 
         foreach (SteeringBehaviour behaviour in _steeringBehaviours)
         {
@@ -122,20 +123,13 @@ public class PoliceUnitSM : StateMachine
 
         //GetComponent<PoliceFlowfieldAI>().enabled = CurrentState == FollowProtestState;
 
-        //Remove destroyed object from police unit watch list if necessary
-        if(PoliceUnitData.ObjectsToProtect.Count != 0)
+    private void PoliceResponseManager_OnWatchedObjectDestroyed(Transform objectDestroyed)
+    {
+        if(PoliceUnitData.ObjectsToProtect.Count != 0 && PoliceUnitData.ObjectsToProtect.Contains(objectDestroyed))
         {
-            for (int i = 0; i < PoliceUnitData.ObjectsToProtect.Count; i++)
-            {
-                //check if object is not watched (ie undamaged or already destroyed) and if it is in watch list of the police unit
-                if(PoliceUnitData.ObjectsToProtect[i] != null && PoliceUnitData.ObjectsToProtect[i].GetComponent<BreakableController>().IsOnWatchList == false && PoliceUnitData.ObjectsToProtect.Contains(PoliceUnitData.ObjectsToProtect[i]))
-                {
-                    Transform objectDestroyed = PoliceUnitData.ObjectsToProtect[i];
-                    //remove object from the policement watch list and inform the policeman AI the object has been destroyed
-                    PoliceUnitData.ObjectsToProtect.Remove(PoliceUnitData.ObjectsToProtect[i]);
-                    OnObjectDestroyed?.Invoke(objectDestroyed);
-                }        
-            }
+            PoliceUnitData.ObjectsToProtect.Remove(objectDestroyed);
+            //remove object from the policement watch list and inform the policeman AI the object has been destroyed
+            OnObjectDestroyed?.Invoke(objectDestroyed);
         }
     }
 
@@ -193,6 +187,8 @@ public class PoliceUnitSM : StateMachine
         {
             foreach (Transform watchPoint in PoliceResponseManager.Instance.GetWatchPointsData().Keys)
             {
+                if(PoliceUnitData.CurrentWatchedObject == watchPoint) continue; 
+
                 //check if damaged object is already in the cop's list of objects to protect
                 if(PoliceUnitData.ObjectsToProtect.Contains(watchPoint))
                 {

@@ -169,7 +169,6 @@ public class FlowField
             Node newNeighbour = GetCellAtRelativePosition(destinationNode.GridIndex, direction);
             while(directionCosts[direction] < bestDistance)
             {
-                Debug.Log(newNeighbour.WorldPosition);
                 if(newNeighbour.Cost != byte.MaxValue)
                 {
                     if(directionCosts[direction] < bestDistance)
@@ -191,10 +190,7 @@ public class FlowField
         {
             Debug.LogError("Impossible to find a reachable Node. Flowfield creation aborted");
         }
-        else
-        {
-            Debug.Log("New destinationNode found: " + bestNode.WorldPosition);
-        }
+
         return (bestNode);
     }
 }

@@ -9,27 +9,26 @@ public class PoliceFlowfieldAI : IFlowfieldAI
         base.Start();
 
         _policeUnitSM.OnFollowProtestEntry.AddListener(PoliceUnitSM_OnFollowProtestEntry);
-        _policeUnitSM.OnFollowProtestExit.AddListener(PoliceUnitSM_OnFollowProtestExit);
     }
 
-    private void PoliceUnitSM_OnFollowProtestEntry()
+    protected override void ProtestManager_OnFlowFieldsCreated()
     {
-        _protesterData.CurrentFlowFieldIndex = ProtesterCollectionManager.Instance.GetForwardProtestPointIndex();
+        base.ProtestManager_OnFlowFieldsCreated();
 
         InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
         StartCoroutine(FollowProtestPath());
     }
 
-    private void PoliceUnitSM_OnFollowProtestExit()
+    private void PoliceUnitSM_OnFollowProtestEntry()
     {
-        CancelInvoke(PERFORM_DETECTION);
-        StopCoroutine(FollowProtestPath());
+        //Update the flowfield to go the most forward protest point when a cop re-enter the FollowProtestState 
+        _protesterData.CurrentFlowFieldIndex = ProtesterCollectionManager.Instance.GetForwardProtestPointIndex();
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
         
-        _policeUnitSM.OnFollowProtestEntry.RemoveListener(PoliceUnitSM_OnFollowProtestEntry);
+        CancelInvoke(PERFORM_DETECTION);
     }
 }

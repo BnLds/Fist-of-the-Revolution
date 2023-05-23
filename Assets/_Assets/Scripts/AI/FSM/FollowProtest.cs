@@ -107,6 +107,5 @@ public class FollowProtest : BaseState
     {
         base.Exit();
         IsFollowingProtest = false;
-        _policeUnitSM.ExitFollowProtestState = true;
     }
 }

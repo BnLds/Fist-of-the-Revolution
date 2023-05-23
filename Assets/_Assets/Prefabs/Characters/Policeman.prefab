@@ -3462,6 +3462,12 @@ MonoBehaviour:
   OnFollowProtestExit:
     m_PersistentCalls:
       m_Calls: []
+  OnObjectWatched:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectUnwatched:
+    m_PersistentCalls:
+      m_Calls: []
   MoveDirectionInput: {x: 0, y: 0, z: 0}
   IsTargetLost: 0
   EnterFollowProtestState: 0

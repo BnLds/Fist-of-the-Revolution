@@ -73,7 +73,7 @@ public class IFlowfieldAI : MonoBehaviour
     {
         //Check if protester reached the end of the protest
         float destructionDistance = 1f;
-        if(Vector3.Distance(_protesterData.EndOfProtest.position, transform.position) < destructionDistance)
+        if(_protesterData.EndOfProtest != null && Vector3.Distance(_protesterData.EndOfProtest.position, transform.position) < destructionDistance)
         {
             //Stopping logic
             _moveDirectionInput = Vector3.zero;

@@ -27,13 +27,10 @@ public class PoliceUnitSM : StateMachine
     [HideInInspector] public UnityEvent<Transform> OnObjectDestroyed;
     [HideInInspector] public UnityEvent OnCatchAttempt;
     [HideInInspector] public UnityEvent OnFollowProtestEntry;
-    [HideInInspector] public UnityEvent OnFollowProtestExit;
 
     [HideInInspector] public Vector3 MoveDirectionInput = Vector3.zero;
     [HideInInspector] public bool IsTargetLost = false;
     [HideInInspector] public bool EnterFollowProtestState = false;
-    [HideInInspector] public bool ExitFollowProtestState = false;
-
 
     [HideInInspector] public Idle IdleState;
     [HideInInspector] public FollowProtest FollowProtestState;
@@ -109,19 +106,13 @@ public class PoliceUnitSM : StateMachine
         base.Update();
 
         _currentState = CurrentState.Name;
+
         if(EnterFollowProtestState)
         {
             OnFollowProtestEntry?.Invoke();
             EnterFollowProtestState = false;
         }
-
-        if(ExitFollowProtestState)
-        {
-            OnFollowProtestExit?.Invoke();
-            ExitFollowProtestState = false;
-        }
-
-        //GetComponent<PoliceFlowfieldAI>().enabled = CurrentState == FollowProtestState;
+    }
 
     private void PoliceResponseManager_OnWatchedObjectDestroyed(Transform objectDestroyed)
     {

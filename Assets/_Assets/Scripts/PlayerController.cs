@@ -127,6 +127,11 @@ public class PlayerController : MonoBehaviour
         return _timeToLoseID;
     }
 
+    public float GetAttackLoadTime()
+    {
+        return _attackLoadingTotalTime;
+    }
+
     public float GetUntrackTime()
     {
         return _timeToUntrack;

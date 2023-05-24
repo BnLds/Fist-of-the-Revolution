@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerVisual : MonoBehaviour
 {
     private const string IS_WALKING = "IsWalking";
+    private const string IS_LOADING_ATTACK = "IsLoadingAttack";
+    private const string LOAD_ATTACK_SPEED = "LoadAttackSpeed";
+    private const string PERFORM_ATTACK = "PerformAttack";
 
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private List<SkinSO> _skinSOs;
@@ -28,6 +31,9 @@ public class PlayerVisual : MonoBehaviour
     private void Start()
     {
         _playerController.OnMove.AddListener(PlayerController_OnMove);
+        _playerController.OnStartedLoadingAttack.AddListener(PlayerController_OnStartedLoadingAttack);
+        _playerController.OnStoppedLoadingAttack.AddListener(PlayerController_OnStoppedLoadingAttack);
+        _playerController.OnAttackPerformed.AddListener(PlayerController_OnAttackPerformed);
     }
 
     private void Update()
@@ -38,6 +44,22 @@ public class PlayerVisual : MonoBehaviour
             float turnSpeed = 4f;
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
         }
+    }
+
+    private void PlayerController_OnStartedLoadingAttack()
+    {
+        _animator.SetFloat(LOAD_ATTACK_SPEED, (float)1/_playerController.GetAttackLoadTime());
+        _animator.SetBool(IS_LOADING_ATTACK, true);
+    }
+
+    private void PlayerController_OnStoppedLoadingAttack()
+    {
+        _animator.SetBool(IS_LOADING_ATTACK, false);
+    }
+
+    private void PlayerController_OnAttackPerformed(Transform t)
+    {
+        _animator.SetTrigger(PERFORM_ATTACK);
     }
 
     private void PlayerController_OnMove(Vector3 direction)

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecc2a89ed7deb1d42a4bec60c3479646, type: 3}
-  m_Name: Mask
+  m_Name: Saucepan
   m_EditorClassIdentifier: 
-  EquipmentName: Mask
-  EquipmentPrefab: {fileID: 5673020770459691450, guid: a8e634013e4e73540877f21f2356e98c,
+  EquipmentName: Saucepan
+  EquipmentPrefab: {fileID: 792323779624318060, guid: 42666f747890aa342a3d1687ae322245,
     type: 3}
-  DisplayPrefab: {fileID: 2848968338524471649, guid: ed5ed7789ff6ad942aa0ae7e927fe123,
+  DisplayPrefab: {fileID: 2848968338524471649, guid: 1da9d0a185e2a834893c3571e034e1df,
     type: 3}
-  FlatBonusDamage: 0
+  FlatBonusDamage: 1
   IncreasePercentMoveSpeed: 0
-  ReductionPercentHideTime: 0.2
+  ReductionPercentHideTime: 0
   IncreasePercentAttackRange: 0
-  IncreasePercentAttackSpeed: 0
+  IncreasePercentAttackSpeed: 0.2

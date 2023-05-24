@@ -9,7 +9,8 @@ public class GameInput : MonoBehaviour
 
     [HideInInspector] public UnityEvent OnInteractBegin;
     [HideInInspector] public UnityEvent OnInteractEnd;
-
+    [HideInInspector] public UnityEvent OnCasseroladeBegin;
+    [HideInInspector] public UnityEvent OnCasseroladeEnd;
 
     private PlayerInputActions _playerInputActions;
 
@@ -29,7 +30,19 @@ public class GameInput : MonoBehaviour
 
         _playerInputActions.Player.Interact.performed += OnInteractStarted;
         _playerInputActions.Player.Interact.canceled += OnInteractCanceled;
+        _playerInputActions.Player.Casserolade.performed += OnCasseroladeStarted;
+        _playerInputActions.Player.Casserolade.canceled += OnCasseroladeCanceled;
 
+    }
+
+    private void OnCasseroladeStarted(InputAction.CallbackContext context)
+    {
+        OnCasseroladeBegin?.Invoke();
+    }
+
+    private void OnCasseroladeCanceled(InputAction.CallbackContext context)
+    {
+        OnCasseroladeEnd?.Invoke();
     }
 
     private void OnInteractCanceled(InputAction.CallbackContext context)

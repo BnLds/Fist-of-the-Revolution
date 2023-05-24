@@ -2753,6 +2753,9 @@ MonoBehaviour:
   _equipmentLayer:
     serializedVersion: 2
     m_Bits: 65536
+  _itemsCasserolade:
+  - {fileID: 603902812305767398}
+  - {fileID: 2970426657970321867}
   _moveSpeed: 6
   _attackLoadingTotalTime: 0.5
   _playerDamage: 1
@@ -2775,6 +2778,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnHideTimesChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStartedCasserolade:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStoppedCasserolade:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4730921884135526718

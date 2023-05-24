@@ -9,6 +9,7 @@ public class GuidanceUI : MonoBehaviour
 
     private const string ATTACK_MESSAGE = "Hold [E] to attack"; // Attack message to display.
     private const string HIDE_MESSAGE = "Stay close to hide!"; // Hide message to display.
+    private const string CASSEROLADE = "Hold [C]?";
     private const int MAX_MESSAGE_COUNT = 2; //Number of times any message can be displayed on screen
 
     [SerializeField] private TextMeshProUGUI _guidanceText; 
@@ -16,8 +17,7 @@ public class GuidanceUI : MonoBehaviour
     private readonly Dictionary<string, int> _messageCountDict = new Dictionary<string, int>();
     private string _currentGuidanceDisplayed; // The currently displayed guidance message.
     private float _guidanceResetTimer = 10f; // Time before resetting the guidance message.
-    private bool _isCoroutineRunning; // Indicates if the coroutine is running.
-
+    private bool _isCoroutineRunning;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -44,6 +44,7 @@ public class GuidanceUI : MonoBehaviour
     {
         _messageCountDict[ATTACK_MESSAGE] = 0;
         _messageCountDict[HIDE_MESSAGE] = 0;
+        _messageCountDict[CASSEROLADE] = 0;
     }
 
     private void ShowGuidance(string message)
@@ -100,6 +101,11 @@ public class GuidanceUI : MonoBehaviour
     public void ShowGuidanceAttack()
     {
         ShowGuidance(ATTACK_MESSAGE);
+    }
+
+    public void ShowGuidanceCasserolade()
+    {
+        ShowGuidance(CASSEROLADE);
     }
 
     // This method is called by the animation at the end of the Pop animation.

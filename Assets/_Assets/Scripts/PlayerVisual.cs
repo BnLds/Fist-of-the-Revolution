@@ -8,6 +8,7 @@ public class PlayerVisual : MonoBehaviour
     private const string IS_LOADING_ATTACK = "IsLoadingAttack";
     private const string LOAD_ATTACK_SPEED = "LoadAttackSpeed";
     private const string PERFORM_ATTACK = "PerformAttack";
+    private const string IS_CASSEROLADE = "IsCasserolade";
 
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private List<SkinSO> _skinSOs;
@@ -34,6 +35,8 @@ public class PlayerVisual : MonoBehaviour
         _playerController.OnStartedLoadingAttack.AddListener(PlayerController_OnStartedLoadingAttack);
         _playerController.OnStoppedLoadingAttack.AddListener(PlayerController_OnStoppedLoadingAttack);
         _playerController.OnAttackPerformed.AddListener(PlayerController_OnAttackPerformed);
+        _playerController.OnStartedCasserolade.AddListener(PlayerController_OnStartedCasserolade);
+        _playerController.OnStoppedCasserolade.AddListener(PlayerController_OnStoppedCasserolade);
     }
 
     private void Update()
@@ -44,6 +47,16 @@ public class PlayerVisual : MonoBehaviour
             float turnSpeed = 4f;
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
         }
+    }
+
+    private void PlayerController_OnStartedCasserolade()
+    {
+        _animator.SetBool(IS_CASSEROLADE, true);
+    }
+
+    private void PlayerController_OnStoppedCasserolade()
+    {
+        _animator.SetBool(IS_CASSEROLADE, false);
     }
 
     private void PlayerController_OnStartedLoadingAttack()

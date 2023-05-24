@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _breakableMask;
     [SerializeField] private LayerMask _avoidCollisionMask;
     [SerializeField] private LayerMask _equipmentLayer;
+    [SerializeField] private List<Transform> _itemsCasserolade;
 
     [Space(5)]
     [Header("Game Balance Parameters")]
@@ -25,8 +27,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public UnityEvent OnStartedLoadingAttack;
     [HideInInspector] public UnityEvent OnStoppedLoadingAttack;
     [HideInInspector] public UnityEvent OnHideTimesChange;
-
-
+    [HideInInspector] public UnityEvent OnStartedCasserolade;
+    [HideInInspector] public UnityEvent OnStoppedCasserolade;
 
     private Rigidbody _playerRigidbody;
     private Collider _playerCollider;
@@ -55,6 +57,8 @@ public class PlayerController : MonoBehaviour
     {
         GameInput.Instance.OnInteractBegin.AddListener(StartLoadingAttack);
         GameInput.Instance.OnInteractEnd.AddListener(StopLoadingAttack);
+        GameInput.Instance.OnCasseroladeBegin.AddListener(PerformCasserolade);
+        GameInput.Instance.OnCasseroladeEnd.AddListener(EndCasserolade);
     }
 
     private void FixedUpdate()
@@ -90,6 +94,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PerformCasserolade()
+    {
+        foreach(Transform item in _itemsCasserolade)
+        {
+            if(item.gameObject.activeSelf == false) return;
+        }
+
+        OnStartedCasserolade?.Invoke();
+    }
+
+    private void EndCasserolade()
+    {
+        OnStoppedCasserolade?.Invoke();
+    }
+
     private void StartLoadingAttack()
     {
         OnStartedLoadingAttack?.Invoke();
@@ -118,8 +137,29 @@ public class PlayerController : MonoBehaviour
         if(1<< collider.gameObject.layer == _equipmentLayer.value)
         {
             _equipmentManager.Equip(collider.transform);
+            ShowCasseroladeGuidance(collider.GetComponent<EquipmentData>().GetEquipmentSO().EquipmentName);
+
             Destroy(collider.gameObject);
         }
+    }
+
+    private void ShowCasseroladeGuidance(string equipmentName)
+    {
+        bool canCasserolade = false;
+        foreach (Transform item in _itemsCasserolade)
+        {
+            if (item.gameObject.activeSelf)
+            {
+                canCasserolade = true;
+            }
+            else
+            {
+                canCasserolade = false;
+                return;
+            }
+        }
+
+        if(canCasserolade) GuidanceUI.Instance.ShowGuidanceCasserolade();
     }
 
     public float GetLoseIDTime()
@@ -145,7 +185,6 @@ public class PlayerController : MonoBehaviour
     public void IncreaseFlatAttackDamage(int bonusDamage)
     {
         _playerDamage += bonusDamage;
-        Debug.Log(_playerDamage);
     }
 
     public void IncreaseMoveSpeed(float percentMoveSpeed)
@@ -161,8 +200,6 @@ public class PlayerController : MonoBehaviour
     public void IncreaseAttackSpeed(float percentAttackSpeed)
     {
         _attackLoadingTotalTime *= 1 - percentAttackSpeed;
-        Debug.Log(_attackLoadingTotalTime);
-
     }
 
     public void ReduceHideTime(float percentHideTime)

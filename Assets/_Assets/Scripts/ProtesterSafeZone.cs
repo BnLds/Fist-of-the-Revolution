@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,6 @@ public class ProtesterSafeZone : MonoBehaviour
     [Header("Game Balance Parameters")]
     //MinAttribute equal to 2x character radius
     [SerializeField] [MinAttribute(1f)] private float _safeZoneRadius = 1.5f;
-    [SerializeField] private float _countdownToLoseIDMax = 2f;
-    [SerializeField] private float _countdownToUntrackMax = 7f;
 
     [HideInInspector] public UnityEvent OnPlayerEnterSafeZone;
     [HideInInspector] public UnityEvent OnPlayerExitSafeZone;
@@ -28,13 +27,26 @@ public class ProtesterSafeZone : MonoBehaviour
     private void Awake()
     {
         _isPlayerAlreadyInSafeZone = false;
-        _countdownToLoseID = _countdownToLoseIDMax;
-        _countdownToUntrack = _countdownToUntrackMax;
     }
 
     private void Start()
     {
         ProtesterCollectionManager.Instance.OnPlayerTrackFree.AddListener(ProtesterCollectionManager_OnPlayerTrackFree);
+        PlayerController.Instance.OnHideTimesChange.AddListener(PlayerController_OnHideTimeChange);
+
+        _countdownToLoseID = PlayerController.Instance.GetLoseIDTime();
+        _countdownToUntrack = PlayerController.Instance.GetUntrackTime();
+    }
+
+    private void PlayerController_OnHideTimeChange()
+    {
+        //check if the timers are not running
+        if(!_isPlayerAlreadyInSafeZone)
+        {
+            //update them if not running
+            _countdownToLoseID = PlayerController.Instance.GetLoseIDTime();
+            _countdownToUntrack = PlayerController.Instance.GetUntrackTime();
+        }
     }
 
     private void Update()
@@ -59,7 +71,7 @@ public class ProtesterSafeZone : MonoBehaviour
                 {
                     Debug.Log("PLAYER NOT IDED ANYMORE");
                     OnPlayerIDedFree?.Invoke(_protesterData.transform);
-                    _countdownToLoseID = _countdownToLoseIDMax;
+                    _countdownToLoseID = PlayerController.Instance.GetLoseIDTime();
                 }
             }
             else
@@ -70,7 +82,7 @@ public class ProtesterSafeZone : MonoBehaviour
                 {
                     Debug.Log("PLAYER NOT TRACKED ANYMORE");
                     OnPlayerTrackedFree?.Invoke();
-                    _countdownToUntrack = _countdownToUntrackMax;
+                    _countdownToUntrack = PlayerController.Instance.GetUntrackTime();
                     _isPlayerAlreadyInSafeZone = false;
                 }
             }
@@ -78,8 +90,8 @@ public class ProtesterSafeZone : MonoBehaviour
         else if(_isPlayerAlreadyInSafeZone && !isPlayerWithinSafeZoneDistance)
         {
             //player exited safe zone
-            _countdownToLoseID = _countdownToLoseIDMax;
-            _countdownToUntrack = _countdownToUntrackMax;
+            _countdownToLoseID = PlayerController.Instance.GetLoseIDTime();
+            _countdownToUntrack = PlayerController.Instance.GetUntrackTime();
             _isPlayerAlreadyInSafeZone = false;
             OnPlayerExitSafeZone?.Invoke();
         }

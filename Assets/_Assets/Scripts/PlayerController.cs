@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("Initialization Parameters")]
     [SerializeField] private LayerMask _breakableMask;
     [SerializeField] private LayerMask _avoidCollisionMask;
+    [SerializeField] private LayerMask _equipmentLayer;
 
     [Space(5)]
     [Header("Game Balance Parameters")]
@@ -15,12 +16,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _attackLoadingTotalTime = .5f;
     [SerializeField] private int _playerDamage = 1;
     [SerializeField] private float _attackRadius = 2f;
+    [SerializeField] private float _timeToLoseID = 2f;
+    [SerializeField] private float _timeToUntrack = 4f;
 
     [HideInInspector] public UnityEvent<Transform> OnAttackPerformed;
     [HideInInspector] public UnityEvent<Vector3> OnMove;
     [HideInInspector] public UnityEvent<float> OnAttackProgressChange;
     [HideInInspector] public UnityEvent OnStartedLoadingAttack;
     [HideInInspector] public UnityEvent OnStoppedLoadingAttack;
+    [HideInInspector] public UnityEvent OnHideTimesChange;
 
 
 
@@ -28,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private Collider _playerCollider;
     private float _attackLoadingProgress;
     private bool _isLoadingAttack;
+    private EquipmentManager _equipmentManager;
 
     private void Awake()
     {
@@ -42,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
         _playerRigidbody = GetComponent<Rigidbody>();
         _playerCollider = GetComponent<CapsuleCollider>();
+        _equipmentManager = GetComponent<EquipmentManager>();
         _isLoadingAttack = false;
     }
 
@@ -100,19 +106,65 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //check if collision with protester
         if(1 << collision.collider.gameObject.layer == _avoidCollisionMask.value)
         {
             Physics.IgnoreCollision(collision.collider, _playerCollider);
         }
     }
 
-    private float GetAttackRadius()
+    private void OnTriggerEnter(Collider collider)
     {
-        return _attackRadius;
+        if(1<< collider.gameObject.layer == _equipmentLayer.value)
+        {
+            _equipmentManager.Equip(collider.transform);
+            Destroy(collider.gameObject);
+        }
+    }
+
+    public float GetLoseIDTime()
+    {
+        return _timeToLoseID;
+    }
+
+    public float GetUntrackTime()
+    {
+        return _timeToUntrack;
     }
 
     private bool IsBreakableInAttackDistance()
     {
         return Physics.CheckSphere(transform.position, _attackRadius, _breakableMask);
+    }
+
+    public void IncreaseFlatAttackDamage(int bonusDamage)
+    {
+        _playerDamage += bonusDamage;
+        Debug.Log(_playerDamage);
+    }
+
+    public void IncreaseMoveSpeed(float percentMoveSpeed)
+    {
+        _moveSpeed *= 1 + percentMoveSpeed;
+    }
+
+    public void IncreaseAttackRange(float percentAttackRange)
+    {
+        _attackRadius *= 1 + percentAttackRange;
+    }
+
+    public void IncreaseAttackSpeed(float percentAttackSpeed)
+    {
+        _attackLoadingTotalTime *= 1 - percentAttackSpeed;
+        Debug.Log(_attackLoadingTotalTime);
+
+    }
+
+    public void ReduceHideTime(float percentHideTime)
+    {
+        _timeToLoseID *= 1 - percentHideTime;
+        _timeToUntrack *= 1 - percentHideTime;
+
+        OnHideTimesChange?.Invoke();
     }
 }

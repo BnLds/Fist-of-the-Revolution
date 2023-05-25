@@ -235,16 +235,18 @@ public class PoliceResponseManager : MonoBehaviour
         {
             //update IsTracked if target already is in TrackedList
             int index = _policeResponseData.TrackedSuspects.IndexOf(suspectData);
-            SetTrackedSuspectToFollowed(index);
+            (Transform targetTransform, bool) newTargetData = (_policeResponseData.TrackedSuspects[index].SuspectTransform, true);
+            _policeResponseData.TrackedSuspects[index] = newTargetData;
+
+            OnFollowed?.Invoke(newTargetData.targetTransform);
         }
     }
 
-    public void SetTrackedSuspectToFollowed(int index)
+    public void SetTrackedSuspectToUnfollowed(Transform target)
     {
-        (Transform targetTransform, bool) newTargetData = (_policeResponseData.TrackedSuspects[index].SuspectTransform, true);
-        _policeResponseData.TrackedSuspects[index] = newTargetData;
-
-        OnFollowed?.Invoke(newTargetData.targetTransform);
+        int targetIndex = PoliceResponseManager.Instance.GetTrackedList().IndexOf((target, true));
+        (Transform targetTransform, bool) newTargetData = (_policeResponseData.TrackedSuspects[targetIndex].SuspectTransform, false);
+        _policeResponseData.TrackedSuspects[targetIndex] = newTargetData;
     }
 
     public FlowField GetPoliceForceFlowfield(Vector3 targetPosition)

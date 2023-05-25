@@ -189,7 +189,6 @@ public class PoliceUnitSM : StateMachine
         {
             foreach (Transform watchPoint in PoliceResponseManager.Instance.GetWatchPointsData().Keys)
             {
-                Debug.Log(watchPoint.name);
                 if(PoliceUnitData.CurrentWatchedObject == watchPoint) continue; 
 
                 //check if damaged object is already in the cop's list of objects to protect

@@ -3459,19 +3459,9 @@ MonoBehaviour:
   OnFollowProtestEntry:
     m_PersistentCalls:
       m_Calls: []
-  OnFollowProtestExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnObjectWatched:
-    m_PersistentCalls:
-      m_Calls: []
-  OnObjectUnwatched:
-    m_PersistentCalls:
-      m_Calls: []
   MoveDirectionInput: {x: 0, y: 0, z: 0}
   IsTargetLost: 0
   EnterFollowProtestState: 0
-  ExitFollowProtestState: 0
   _detectors:
   - {fileID: 2598975837946078362}
   - {fileID: 1259991071503837587}
@@ -3493,9 +3483,10 @@ MonoBehaviour:
   <CountdownToWalkMax>k__BackingField: 0.5
   <CountdownToPauseMax>k__BackingField: 3
   <WanderRandomDistanceMax>k__BackingField: 3
+  <CasseroladeEffectRadius>k__BackingField: 5
   _detectionRepeatRate: 0.5
   <DetectionDelay>k__BackingField: 0.5
-  _isPlayerDetectableByPolice: 0
+  _isPlayerDetectableByPolice: 1
   _currentState: 
 --- !u!114 &1815961738702936601
 MonoBehaviour:

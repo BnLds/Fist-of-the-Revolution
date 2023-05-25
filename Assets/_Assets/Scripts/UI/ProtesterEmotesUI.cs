@@ -30,7 +30,6 @@ public class ProtesterEmotesUI : IEmotesUI
         base.PoliceResponseManager_OnFollowed(followedSuspect);
         if(followedSuspect == transform.parent && !_isFollowed)
         {
-            Debug.Log("Showing emote " + followedSuspect);
             ShowEmote(EmoteStates.Followed);
 
             _isFollowed = true;

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Flee : BaseState
@@ -31,6 +30,10 @@ public class Flee : BaseState
         if(Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, PlayerController.Instance.transform.position) < policeFleeingDistance)
         {
             _policeUnitSM.MoveDirectionInput = direction;
+        }
+        else
+        {
+            _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
         }
     }
 

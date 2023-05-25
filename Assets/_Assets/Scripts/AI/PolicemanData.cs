@@ -7,4 +7,5 @@ public class PolicemanData : AIData
     public FlowField CurrentFlowField = null;
     public Vector3 CurrentWatchObjectPosition;
     public Transform CurrentWatchedObject;
+    public bool IsStatic;
 }

@@ -77,27 +77,35 @@ public class FollowProtest : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _countdownToPause -= Time.deltaTime;
-        _countdownToWalk -= Time.deltaTime;
 
-        if(_countdownToWalk <=0)
-        {
-            IsFollowingProtest = true;
-        }
-
-        if(_countdownToPause <= 0)
+        if(_policeUnitSM.PoliceUnitData.IsStatic)
         {
             IsFollowingProtest = false;
         }
-
-        if(IsFollowingProtest)
-        {
-            _countdownToWalk = _policeUnitSM.CountdownToWalkMax;
-        }  
         else
         {
-            _countdownToPause = _policeUnitSM.CountdownToPauseMax;
-        } 
+            _countdownToPause -= Time.deltaTime;
+            _countdownToWalk -= Time.deltaTime;
+
+            if(_countdownToWalk <=0)
+            {
+                IsFollowingProtest = true;
+            }
+
+            if(_countdownToPause <= 0)
+            {
+                IsFollowingProtest = false;
+            }
+
+            if(IsFollowingProtest)
+            {
+                _countdownToWalk = _policeUnitSM.CountdownToWalkMax;
+            }  
+            else
+            {
+                _countdownToPause = _policeUnitSM.CountdownToPauseMax;
+            } 
+        }
     }
 
     public override void Exit()

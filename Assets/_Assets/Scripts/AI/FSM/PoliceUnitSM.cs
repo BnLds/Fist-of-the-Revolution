@@ -14,6 +14,7 @@ public class PoliceUnitSM : StateMachine
         FollowSuspect, 
         Wander, 
         ChasePlayer,
+        Flee,
         PlayerIDed,
         PlayerDodged,
         PlayerUnIDed,
@@ -38,6 +39,7 @@ public class PoliceUnitSM : StateMachine
     [HideInInspector] public FollowSuspect FollowSuspectState;
     [HideInInspector] public Wander WanderState;
     [HideInInspector] public ChasePlayer ChasePlayerState;
+    [HideInInspector] public Flee FleeState;
     [HideInInspector] public List<BaseState> PoliceStates { get; private set; }
 
     [Header("Initialization Parameters")]
@@ -57,6 +59,7 @@ public class PoliceUnitSM : StateMachine
     [field: SerializeField] public float CountdownToWalkMax { get; private set; } = .5f;
     [field: SerializeField] public float CountdownToPauseMax { get; private set; } = 3f;
     [field: SerializeField] public float WanderRandomDistanceMax { get; private set; } = 3f;
+    [field: SerializeField] public float CasseroladeEffectRadius { get; private set; } = 5f;
 
     [Space(5)]
     [Header("Optimization Parameters")]
@@ -67,10 +70,14 @@ public class PoliceUnitSM : StateMachine
     [Header("Dev Tools")]
     [SerializeField] private bool _isPlayerDetectableByPolice = true;
     [SerializeField] private string _currentState;
+
+    private bool isCasserolading;
     #endregion
 
     private void Awake()
     {
+        isCasserolading = false;
+
         //States initialization 
         IdleState = new Idle(this);
         FollowProtestState = new FollowProtest(this);
@@ -78,8 +85,9 @@ public class PoliceUnitSM : StateMachine
         FollowSuspectState = new FollowSuspect(this);
         WanderState = new Wander(this);
         ChasePlayerState = new ChasePlayer(this);
+        FleeState = new Flee(this);
 
-        PoliceStates = new List<BaseState>() { IdleState, FollowProtestState, WatchObjectState, FollowSuspectState, WanderState, ChasePlayerState };
+        PoliceStates = new List<BaseState>() { IdleState, FollowProtestState, WatchObjectState, FollowSuspectState, WanderState, ChasePlayerState, FleeState };
     }
 
     protected override void Start()
@@ -91,6 +99,9 @@ public class PoliceUnitSM : StateMachine
         PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
         PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerNotIDedAnymore);
         PoliceResponseManager.Instance.OnWatchedObjectDestroyed.AddListener(PoliceResponseManager_OnWatchedObjectDestroyed);
+        PlayerController.Instance.OnStartedCasserolade.AddListener(PlayerController_OnStartedCasserolade);
+        PlayerController.Instance.OnStoppedCasserolade.AddListener(PlayerController_OnStoppedCasserolade);
+
 
         foreach (SteeringBehaviour behaviour in _steeringBehaviours)
         {
@@ -111,6 +122,13 @@ public class PoliceUnitSM : StateMachine
         {
             OnFollowProtestEntry?.Invoke();
             EnterFollowProtestState = false;
+        }
+
+        //check if cop should be impacted by casserolade effect
+        bool isWithinCasseroladeDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= CasseroladeEffectRadius;
+        if(isWithinCasseroladeDistance && CurrentState != FleeState && isCasserolading)
+        {
+            ChangeState(FleeState);
         }
     }
 
@@ -174,6 +192,11 @@ public class PoliceUnitSM : StateMachine
             detector.Detect(PoliceUnitData);
         }
 
+        UpdateUnitListOfObjectsToProtect();
+    }
+
+    private void UpdateUnitListOfObjectsToProtect()
+    {
         if (PoliceResponseManager.Instance.GetWatchPointsData() != null && PoliceResponseManager.Instance.GetWatchPointsData().Count != 0)
         {
             foreach (Transform watchPoint in PoliceResponseManager.Instance.GetWatchPointsData().Keys)
@@ -209,6 +232,16 @@ public class PoliceUnitSM : StateMachine
                 }
             }
         }
+    }
+
+    private void PlayerController_OnStartedCasserolade()
+    {
+        isCasserolading = true;
+    }
+
+    private void PlayerController_OnStoppedCasserolade()
+    {
+        isCasserolading = false;
     }
 
     private void PoliceResponseManager_OnPlayerUntracked()

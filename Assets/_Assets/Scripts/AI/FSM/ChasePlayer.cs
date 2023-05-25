@@ -15,6 +15,7 @@ public class ChasePlayer : BaseState
     {
         base.Enter();
         _policeUnitSM.PoliceUnitData.IsChasingTarget = true;
+        _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
 
         _detectionDelay = 0f;
         _catchAttemptDelay = _policeUnitSM.DetectionDelay;

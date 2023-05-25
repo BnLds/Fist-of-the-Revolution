@@ -41,8 +41,6 @@ public class FollowProtest : BaseState
                 _detectionDelay = _policeUnitSM.DetectionDelay;
                 if (Utility.Distance2DBetweenVector3(PlayerController.Instance.transform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange && _policeUnitSM.IsPlayerInLineOfSight()) 
                 {
-                    //assign new target in unit data
-                    _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
                     //follow player
                     _policeUnitSM.ChangeState(_policeUnitSM.ChasePlayerState);
                 }
@@ -60,11 +58,11 @@ public class FollowProtest : BaseState
                     if (PoliceResponseManager.Instance.GetTrackedList()[i].IsTracked == false && Utility.Distance2DBetweenVector3(PoliceResponseManager.Instance.GetTrackedList()[i].SuspectTransform.position, _policeUnitSM.transform.position) <= _policeUnitSM.PlayerDetectionRange)
                     {
                         //set it to tracked in police response data
-                        PoliceResponseManager.Instance.SetTrackedSuspectToFollowed(i);
+                        PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(PoliceResponseManager.Instance.GetTrackedList()[i].SuspectTransform);
                         //assign new target in unit data
                         _policeUnitSM.PoliceUnitData.CurrentTarget = PoliceResponseManager.Instance.GetTrackedList()[i].SuspectTransform;
-
                         _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
+                        break;
                     }
                 }
             }
@@ -74,7 +72,6 @@ public class FollowProtest : BaseState
         {
             _policeUnitSM.ChangeState(_policeUnitSM.WatchObjectState);
         }
-        
     }
 
     public override void UpdatePhysics()

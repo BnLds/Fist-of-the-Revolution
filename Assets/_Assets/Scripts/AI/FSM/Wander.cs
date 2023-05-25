@@ -37,6 +37,8 @@ public class Wander : BaseState
 
         if(_wanderTime <= 0)
         {
+            //do not track player anymore
+            _policeUnitSM.PoliceUnitData.CurrentTarget = null;
             _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
         }
 
@@ -52,13 +54,6 @@ public class Wander : BaseState
                     _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
                     //chase player
                     _policeUnitSM.ChangeState(_policeUnitSM.ChasePlayerState);
-                }
-                else
-                {
-                    //assign new target in unit data
-                    _policeUnitSM.PoliceUnitData.CurrentTarget = PlayerController.Instance.transform;
-                    //follow suspect
-                    _policeUnitSM.ChangeState(_policeUnitSM.FollowSuspectState);
                 }
             }
         }
@@ -98,7 +93,7 @@ public class Wander : BaseState
         }
         else
         {
-            _wanderPoint = new Vector3(PlayerController.Instance.transform.position.x + Random.Range(0f, _wanderRandomDistanceMax), PlayerController.Instance.transform.position.y, PlayerController.Instance.transform.position.z + Random.Range(0f, _wanderRandomDistanceMax));
+            _wanderPoint = new Vector3(_policeUnitSM.PoliceUnitData.CurrentTarget.position.x + Random.Range(0f, _wanderRandomDistanceMax), _policeUnitSM.PoliceUnitData.CurrentTarget.position.y, _policeUnitSM.PoliceUnitData.CurrentTarget.position.z + Random.Range(0f, _wanderRandomDistanceMax));
             while(!IsWanderPointAccessible(_wanderPoint))
             {
                 _wanderPoint = new Vector3(_wanderPoint.x + Random.Range(0f, _wanderRandomDistanceMax), _wanderPoint.y, _wanderPoint.z + Random.Range(0f, _wanderRandomDistanceMax));

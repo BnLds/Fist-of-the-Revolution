@@ -13,6 +13,7 @@ public class PlayerVisual : MonoBehaviour
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private List<SkinSO> _skinSOs;
     [SerializeField] private List<MeshRenderer> _coloredClothes;
+    [SerializeField] private ParticleSystem _rippleEffect;
 
     private SkinSO _currentSkin;
     private Vector3 _targetDirection;
@@ -37,6 +38,8 @@ public class PlayerVisual : MonoBehaviour
         _playerController.OnAttackPerformed.AddListener(PlayerController_OnAttackPerformed);
         _playerController.OnStartedCasserolade.AddListener(PlayerController_OnStartedCasserolade);
         _playerController.OnStoppedCasserolade.AddListener(PlayerController_OnStoppedCasserolade);
+
+        _rippleEffect.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -52,11 +55,13 @@ public class PlayerVisual : MonoBehaviour
     private void PlayerController_OnStartedCasserolade()
     {
         _animator.SetBool(IS_CASSEROLADE, true);
+        _rippleEffect.gameObject.SetActive(true);
     }
 
     private void PlayerController_OnStoppedCasserolade()
     {
         _animator.SetBool(IS_CASSEROLADE, false);
+        _rippleEffect.gameObject.SetActive(false);
     }
 
     private void PlayerController_OnStartedLoadingAttack()

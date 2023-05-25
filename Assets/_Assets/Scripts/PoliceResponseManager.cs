@@ -14,8 +14,6 @@ public class PoliceResponseManager : MonoBehaviour
     [HideInInspector] public UnityEvent<Transform> OnFollowed;
     [HideInInspector] public UnityEvent<Transform> OnSuspectCleared;
     [HideInInspector] public UnityEvent OnPlayerIdentified;
-    [HideInInspector] public UnityEvent<Transform> OnWatchedObjectDestroyed;
-
 
     [Header("Initialization Parameters")]
     [SerializeField] private BreakablesCollectionManager _breakablesCollectionManager;
@@ -113,8 +111,10 @@ public class PoliceResponseManager : MonoBehaviour
 
     private void Breakable_OnDestroyedBreakable(int remainingWatchValue, BreakableController sender)
     {
-        OnWatchedObjectDestroyed?.Invoke(sender.transform);
-        _policeResponseData.WatchPoints.Remove(sender.transform);
+        if(!_policeResponseData.WatchPoints.Keys.Contains(sender.transform))
+        {
+            Breakable_StartWatch(0, sender.transform);
+        }
 
         //remove listeners
         sender.OnDestroyedBreakable.RemoveAllListeners();
@@ -185,6 +185,14 @@ public class PoliceResponseManager : MonoBehaviour
         {
             (int, int) newData = (_policeResponseData.WatchPoints[watchedObject].WatchersLimit, _policeResponseData.WatchPoints[watchedObject].numberOfWatchers - 1);
             _policeResponseData.WatchPoints[watchedObject] = newData;
+        }
+    }
+
+    public void RemoveObjectOnDestruction(Transform destroyedObject)
+    {
+        if(_policeResponseData.WatchPoints.Keys.Contains(destroyedObject))
+        {
+            _policeResponseData.WatchPoints.Remove(destroyedObject.transform);
         }
     }
     

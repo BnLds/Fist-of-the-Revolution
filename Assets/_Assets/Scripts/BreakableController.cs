@@ -7,15 +7,15 @@ public class BreakableController : MonoBehaviour
     [SerializeField] private GameObject _destroyedPrefab;
     [SerializeField] private GameObject _halo;
 
-    public bool IsOnWatchList { get; private set; }
     public bool IsHighPriority { get; private set; }
+    public bool WasDestroyed { get; private set; }
 
     private int _maxHealth;
     private int _health;
     private int _watchValue;
     private int _remainingRewardValue;
     private int _maxReward;
-
+    private bool _isOnWatchList;
 
     [HideInInspector] public UnityEvent<int, BreakableController> OnDestroyedBreakable;
     [HideInInspector] public UnityEvent<int, Transform> OnDamagedBreakable;
@@ -28,7 +28,8 @@ public class BreakableController : MonoBehaviour
         _watchValue = _breakableSO.WatchValue;
         _maxReward = _breakableSO.Reward;
         _remainingRewardValue = _maxReward;
-        IsOnWatchList = false;
+        _isOnWatchList = false;
+        WasDestroyed = false;
     }
 
     private void Start()
@@ -46,16 +47,17 @@ public class BreakableController : MonoBehaviour
             _remainingRewardValue -= rewardGranted;
             OnDamagedBreakable?.Invoke(rewardGranted, transform);
 
-            if(!IsOnWatchList)
+            if(!_isOnWatchList)
             {
-                IsOnWatchList = true;
+                _isOnWatchList = true;
                 StartWatch?.Invoke(_watchValue, transform);
             }   
         } 
         else
         {
-            IsOnWatchList = false;
+            _isOnWatchList = false;
             OnDestroyedBreakable?.Invoke(_remainingRewardValue, this);
+            WasDestroyed = true;
             _halo.SetActive(false);
             ShowDestroyed();
             gameObject.SetActive(false);

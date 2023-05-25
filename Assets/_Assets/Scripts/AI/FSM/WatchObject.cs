@@ -23,8 +23,6 @@ public class WatchObject : BaseState
         _isObjectDestroyed = false;
         _isWatchingObject = false;
 
-        _policeUnitSM.OnObjectDestroyed.AddListener(PoliceUnitSM_OnObjectDestroyed);
-
         //if within reaction range of watched objects, go to protect the closest object
         if (_policeUnitSM.PoliceUnitData.ObjectsToProtect.Count != 0)
         {
@@ -112,7 +110,6 @@ public class WatchObject : BaseState
     public override void Exit()
     {
         base.Exit();
-        _policeUnitSM.OnObjectDestroyed.RemoveListener(PoliceUnitSM_OnObjectDestroyed);
 
         if(_isWatchingObject)
         {
@@ -120,17 +117,11 @@ public class WatchObject : BaseState
         }
     }
 
-    private void PoliceUnitSM_OnObjectDestroyed(Transform objectDestroyed)
-    {
-        if(_policeUnitSM.PoliceUnitData.CurrentWatchedObject == objectDestroyed)
-        {
-            _isObjectDestroyed = true;
-        }
-    }
-
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+
+        _isObjectDestroyed = _policeUnitSM.PoliceUnitData.CurrentWatchedObject.GetComponent<BreakableController>().WasDestroyed;
 
         _detectionDelay -= Time.deltaTime;
 
@@ -160,6 +151,8 @@ public class WatchObject : BaseState
 
         if(_isSuspectsListUpdated && _isObjectDestroyed)
         {
+            PoliceResponseManager.Instance.RemoveObjectOnDestruction(_policeUnitSM.PoliceUnitData.CurrentWatchedObject);
+            _policeUnitSM.PoliceUnitData.ObjectsToProtect.Remove(_policeUnitSM.PoliceUnitData.CurrentWatchedObject);
             _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
         }
     }

@@ -25,7 +25,6 @@ public class PoliceUnitSM : StateMachine
 
     #region Parameters
     [HideInInspector]public UnityEvent<PoliceReactions> OnReact;
-    [HideInInspector] public UnityEvent<Transform> OnObjectDestroyed;
     [HideInInspector] public UnityEvent OnCatchAttempt;
     [HideInInspector] public UnityEvent OnFollowProtestEntry;
 
@@ -98,7 +97,6 @@ public class PoliceUnitSM : StateMachine
         PlayerController.Instance.OnAttackPerformed.AddListener(PlayerController_OnDamageDone);
         PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
         PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerNotIDedAnymore);
-        PoliceResponseManager.Instance.OnWatchedObjectDestroyed.AddListener(PoliceResponseManager_OnWatchedObjectDestroyed);
         PlayerController.Instance.OnStartedCasserolade.AddListener(PlayerController_OnStartedCasserolade);
         PlayerController.Instance.OnStoppedCasserolade.AddListener(PlayerController_OnStoppedCasserolade);
 
@@ -129,16 +127,6 @@ public class PoliceUnitSM : StateMachine
         if(isWithinCasseroladeDistance && CurrentState != FleeState && isCasserolading)
         {
             ChangeState(FleeState);
-        }
-    }
-
-    private void PoliceResponseManager_OnWatchedObjectDestroyed(Transform objectDestroyed)
-    {
-        if(PoliceUnitData.ObjectsToProtect.Count != 0 && PoliceUnitData.ObjectsToProtect.Contains(objectDestroyed))
-        {
-            PoliceUnitData.ObjectsToProtect.Remove(objectDestroyed);
-            //remove object from the policement watch list and inform the policeman AI the object has been destroyed
-            OnObjectDestroyed?.Invoke(objectDestroyed);
         }
     }
 
@@ -201,6 +189,7 @@ public class PoliceUnitSM : StateMachine
         {
             foreach (Transform watchPoint in PoliceResponseManager.Instance.GetWatchPointsData().Keys)
             {
+                Debug.Log(watchPoint.name);
                 if(PoliceUnitData.CurrentWatchedObject == watchPoint) continue; 
 
                 //check if damaged object is already in the cop's list of objects to protect

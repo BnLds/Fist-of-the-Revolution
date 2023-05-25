@@ -74,10 +74,20 @@ public class FollowSuspect : BaseState
     {
         base.UpdatePhysics();
         _detectionDelay -= Time.deltaTime;
-        if(_detectionDelay <= 0)
+
+        float chaseMinDistance = 3f;
+        if(Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, PlayerController.Instance.transform.position) >= chaseMinDistance)
         {
-            _detectionDelay = _policeUnitSM.DetectionDelay;
-            _policeUnitSM.MoveDirectionInput = _policeUnitSM.GetMoveDirectionInput();
+            if(_detectionDelay <= 0)
+            {
+                _detectionDelay = _policeUnitSM.DetectionDelay;
+                _policeUnitSM.MoveDirectionInput = _policeUnitSM.GetMoveDirectionInput();
+            }
+        }
+        else
+        {
+            _policeUnitSM.MoveDirectionInput = Vector3.zero;
+
         }
     }
 }

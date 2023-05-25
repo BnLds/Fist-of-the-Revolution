@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class PlayerVisual : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerVisual : MonoBehaviour
     [SerializeField] private List<SkinSO> _skinSOs;
     [SerializeField] private List<MeshRenderer> _coloredClothes;
     [SerializeField] private ParticleSystem _rippleEffect;
+    [SerializeField] private VisualEffect _splashVFX;
 
     private SkinSO _currentSkin;
     private Vector3 _targetDirection;
@@ -40,6 +42,7 @@ public class PlayerVisual : MonoBehaviour
         _playerController.OnStoppedCasserolade.AddListener(PlayerController_OnStoppedCasserolade);
 
         _rippleEffect.gameObject.SetActive(false);
+        _splashVFX.Stop();
     }
 
     private void Update()
@@ -78,6 +81,7 @@ public class PlayerVisual : MonoBehaviour
     private void PlayerController_OnAttackPerformed(Transform t)
     {
         _animator.SetTrigger(PERFORM_ATTACK);
+        _splashVFX.Play();
     }
 
     private void PlayerController_OnMove(Vector3 direction)

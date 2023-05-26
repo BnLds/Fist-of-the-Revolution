@@ -3486,7 +3486,7 @@ MonoBehaviour:
   <CasseroladeEffectRadius>k__BackingField: 5
   _detectionRepeatRate: 0.5
   <DetectionDelay>k__BackingField: 0.5
-  _isPlayerDetectableByPolice: 1
+  _isPlayerDetectableByPolice: 0
   _currentState: 
 --- !u!114 &1815961738702936601
 MonoBehaviour:

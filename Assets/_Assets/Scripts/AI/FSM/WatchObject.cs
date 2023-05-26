@@ -54,57 +54,59 @@ public class WatchObject : BaseState
                     }
                 }
             }
-            //get the closest HighPriority object or null
-            Transform reactionPoint = reactionList.FirstOrDefault(target => target.GetComponent<BreakableController>().IsHighPriority);
-            if(reactionPoint == null) 
+
+            //Look first for a HighPriority match
+            List<Transform> reactionListHighPriority = reactionList.Where(_=>_.GetComponent<BreakableController>().IsHighPriority).ToList();
+            Transform reactionPoint = GetAvailableReactionPoint(reactionListHighPriority);
+
+            //check if there was no HighPriority match
+            if(reactionPoint == null)
             {
-                //Get the closest watched object if there is no HighPriority
-                reactionPoint = reactionList.FirstOrDefault();
-
-                while(reactionPoint != null)
-                {
-                    //check if the max number of watchers allowed has already been reached
-                    if(_policeUnitSM.CanWatchObject(reactionPoint))
-                    {
-                        //if not, exit the loop and generate flowfield
-                        _policeUnitSM.AddWatcher(reactionPoint);
-                        _isWatchingObject = true;
-                        break;
-                    }
-                    else
-                    {
-                        //if the max number of watchers has been reached, try to find another object to watch
-                        //loop through the list of objects to watch
-                        reactionList.Remove(reactionPoint);
-                        _policeUnitSM.RemoveObjectToProtect(reactionPoint);
-                        reactionPoint = reactionList.FirstOrDefault();
-                    }
-                }
-
-                //check if cop was able to find an object to watch
-                if(reactionPoint == null)
-                {
-                    //change state if there is no object to watch
-                    _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
-                    return;
-                }
-
-                //Generate flowfield to reaction point
-                _policeUnitSM.PoliceUnitData.CurrentFlowField = GridController.Instance.GenerateFlowField(reactionPoint.position);
+                //there was no HighPriority match
+                //Get the closest regular watched object with number of Watchers not maxed out
+                reactionPoint = GetAvailableReactionPoint(reactionList);
             }
-            else
+
+            //check if cop was able to find any object to watch
+            if(reactionPoint == null)
             {
-                //there is a HighPriority object to watch
-                //get the flowfield generated for the entire police force
-                _isWatchingObject = true;
-                _policeUnitSM.PoliceUnitData.CurrentFlowField = PoliceResponseManager.Instance.GetPoliceForceFlowfield(reactionPoint.position);
+                //change state if there is no object to watch
+                _policeUnitSM.ChangeState(_policeUnitSM.FollowProtestState);
+                return;
             }
+
+            //Generate flowfield to reaction point
+            _policeUnitSM.PoliceUnitData.CurrentFlowField = PoliceResponseManager.Instance.GetPoliceForceFlowfield(reactionPoint.position);
             
             _policeUnitSM.PoliceUnitData.CurrentWatchedObject = reactionPoint;
             _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition = new Vector3 (reactionPoint.position.x,reactionPoint.position.y, reactionPoint.position.z);
-
-            _policeUnitSM.CanWatchObject(reactionPoint);
         }
+    }
+
+    private Transform GetAvailableReactionPoint(List<Transform> reactionList)
+    {
+        Transform reactionPoint = reactionList.FirstOrDefault();
+        while (reactionPoint != null)
+        {
+            //check if the max number of watchers allowed has already been reached
+            if (_policeUnitSM.CanWatchObject(reactionPoint))
+            {
+                //if not, exit the loop and generate flowfield
+                _policeUnitSM.AddWatcher(reactionPoint);
+                _isWatchingObject = true;
+                return reactionPoint;
+            }
+            else
+            {
+                //if the max number of watchers has been reached, try to find another object to watch
+                //loop through the list of objects to watch
+                reactionList.Remove(reactionPoint);
+                _policeUnitSM.RemoveObjectToProtect(reactionPoint);
+                reactionPoint = reactionList.FirstOrDefault();
+            }
+        }
+
+        return reactionPoint;
     }
 
     public override void Exit()

@@ -210,6 +210,7 @@ public class PoliceUnitSM : StateMachine
                 //check if object on watchList is HighPriority && number of watcher had not been reached
                 if(watchPoint.GetComponent<BreakableController>().IsHighPriority && PoliceResponseManager.Instance.CanAddWatcherToObject(watchPoint))
                 {
+                    Debug.Log(transform + " going to HP obejct");
                     //add it to watch list 
                     PoliceUnitData.ObjectsToProtect.Add(watchPoint);
                 } 

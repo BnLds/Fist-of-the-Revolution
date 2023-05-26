@@ -62,6 +62,33 @@ MonoBehaviour:
     DirectLightingStrength: 0.25
     Radius: 0.25
     SampleCount: 12
+--- !u!114 &-614214438379484265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27c19097594eaf14683bcb97007ce29c, type: 3}
+  m_Name: Blit
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  settings:
+    Event: 500
+    blitMaterial: {fileID: 2100000, guid: cceebfa043a580147b3b1c608cf729af, type: 2}
+    blitMaterialPassIndex: 0
+    setInverseViewMatrix: 0
+    requireDepthNormals: 0
+    srcType: 0
+    srcTextureId: _CameraColorTexture
+    srcTextureObject: {fileID: 0}
+    dstType: 0
+    dstTextureId: _BlitPassTexture
+    dstTextureObject: {fileID: 0}
+    overrideGraphicsFormat: 0
+    graphicsFormat: 4
 --- !u!114 &-386122886954485892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +149,8 @@ MonoBehaviour:
   - {fileID: -386122886954485892}
   - {fileID: 1703012480938921758}
   - {fileID: -6496374358410777006}
-  m_RendererFeatureMap: adc0de57c6d2eee5e5778fce4af2f4597cf76db34737a4fa1ecf6b16d450a217522ef8b6f03dd8a5
+  - {fileID: -614214438379484265}
+  m_RendererFeatureMap: adc0de57c6d2eee5e5778fce4af2f4597cf76db34737a4fa1ecf6b16d450a217522ef8b6f03dd8a5978b79f838df79f7
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

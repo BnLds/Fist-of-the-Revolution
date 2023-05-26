@@ -15,3 +15,4 @@ MonoBehaviour:
   Health: 2
   WatchValue: 1
   Reward: 1
+  NumberOfCopWatchers: 1

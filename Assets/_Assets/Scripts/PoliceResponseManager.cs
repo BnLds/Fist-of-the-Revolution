@@ -95,7 +95,7 @@ public class PoliceResponseManager : MonoBehaviour
     private void Breakable_StartWatch(int watchValue, Transform sender)
     {
         //add damaged object to list of watched items
-        int watchersLimit = 1;
+        int watchersLimit = sender.GetComponent<BreakableController>().GetWatchersLimit();
         _policeResponseData.WatchPoints[sender] = (watchersLimit, 0);
 
         //increase watch value as soon as object is damaged

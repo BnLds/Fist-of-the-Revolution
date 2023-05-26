@@ -69,4 +69,9 @@ public class BreakableController : MonoBehaviour
         _destroyedPrefab.transform.SetParent(null);
         _destroyedPrefab.SetActive(true);
     }
+
+    public int GetWatchersLimit()
+    {
+        return _breakableSO.NumberOfCopWatchers;
+    }
 }

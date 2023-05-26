@@ -144,8 +144,7 @@ public class WatchObject : BaseState
             }
         }
 
-        float identificationRange = 5f;
-        if(Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition) <= identificationRange && !_isSuspectsListUpdated)
+        if(Utility.Distance2DBetweenVector3(_policeUnitSM.transform.position, _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition) <= _policeUnitSM.SuspectDetectionRange && !_isSuspectsListUpdated)
         {
             _isSuspectsListUpdated = true;
             PoliceResponseManager.Instance.UpdateClosestSuspects(_policeUnitSM.transform, _policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition);
@@ -163,9 +162,8 @@ public class WatchObject : BaseState
     {
         base.UpdatePhysics();
 
-        float reactionPointReachedRange = 2f;
         //check if the policeman is within distance of the object to watch
-        if (Utility.Distance2DBetweenVector3(_policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition, _policeUnitSM.transform.position) < reactionPointReachedRange)
+        if (Utility.Distance2DBetweenVector3(_policeUnitSM.PoliceUnitData.CurrentWatchObjectPosition, _policeUnitSM.transform.position) < _policeUnitSM.ReachedWatchedObjectRange)
         {
             //stop and reset flowfield
             _policeUnitSM.MoveDirectionInput = Vector3.zero;

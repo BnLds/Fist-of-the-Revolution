@@ -50,7 +50,7 @@ public class PoliceUnitSM : StateMachine
 
     [Space(5)]
     [Header("Game Balance Parameters")]
-    [SerializeField] private float _protectionRange = 15f;
+    [SerializeField] private float _watchObjectDetectionRange = 15f;
     [field: SerializeField] public float PlayerDetectionRange { get; private set; } = 20f;
     [field: SerializeField] public float CatchDistance { get; private set; } = 1f;
     [field: SerializeField] public float CatchAttemptDelay { get; private set; } = 1f;
@@ -59,6 +59,9 @@ public class PoliceUnitSM : StateMachine
     [field: SerializeField] public float CountdownToPauseMax { get; private set; } = 3f;
     [field: SerializeField] public float WanderRandomDistanceMax { get; private set; } = 3f;
     [field: SerializeField] public float CasseroladeEffectRadius { get; private set; } = 5f;
+    [field: SerializeField] public float SuspectDetectionRange { get; private set; } = 7f;
+    [field: SerializeField] public float ReachedWatchedObjectRange { get; private set; } = 1.5f;
+
 
     [Space(5)]
     [Header("Optimization Parameters")]
@@ -210,12 +213,11 @@ public class PoliceUnitSM : StateMachine
                 //check if object on watchList is HighPriority && number of watcher had not been reached
                 if(watchPoint.GetComponent<BreakableController>().IsHighPriority && PoliceResponseManager.Instance.CanAddWatcherToObject(watchPoint))
                 {
-                    Debug.Log(transform + " going to HP obejct");
                     //add it to watch list 
                     PoliceUnitData.ObjectsToProtect.Add(watchPoint);
                 } 
-                //check if object is within protectionRange && number of watcher had not been reached
-                else if (Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= _protectionRange && PoliceResponseManager.Instance.CanAddWatcherToObject(watchPoint))
+                //check if object is within protection range && number of watcher had not been reached
+                else if (Utility.Distance2DBetweenVector3(watchPoint.position, transform.position) <= _watchObjectDetectionRange && PoliceResponseManager.Instance.CanAddWatcherToObject(watchPoint))
                 {
                     PoliceUnitData.ObjectsToProtect.Add(watchPoint);
                 }

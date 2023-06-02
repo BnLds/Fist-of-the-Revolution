@@ -83,7 +83,7 @@ public class Wander : BaseState
 
     private void CreateNewWanderPoint()
     {
-        if(!_isFirstWanderPoint)
+        if(!_isFirstWanderPoint && _wanderPoint != null)
         {
             _wanderPoint = new Vector3(_wanderPoint.x + Random.Range(0f, _wanderRandomDistanceMax), _wanderPoint.y, _wanderPoint.z + Random.Range(0f, _wanderRandomDistanceMax));
             while(!IsWanderPointAccessible(_wanderPoint))

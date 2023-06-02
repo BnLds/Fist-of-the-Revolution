@@ -170,7 +170,14 @@ public class PoliceResponseManager : MonoBehaviour
 
     public bool CanAddWatcherToObject(Transform watchedObject)
     {
-        return (_policeResponseData.WatchPoints[watchedObject].numberOfWatchers < _policeResponseData.WatchPoints[watchedObject].WatchersLimit);
+        if(_policeResponseData.WatchPoints.Keys.Contains(watchedObject))
+        {
+            return (_policeResponseData.WatchPoints[watchedObject].numberOfWatchers < _policeResponseData.WatchPoints[watchedObject].WatchersLimit);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void AddWatcherToObject(Transform watchedObject)

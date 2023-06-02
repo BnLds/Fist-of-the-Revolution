@@ -64,7 +64,7 @@ public class SeekBehaviour : SteeringBehaviour
         if(aiData is ProtesterData protesterData)
         {
             //if we don't have a target stop seeking
-            if(protesterData.ReachedEndOfProtest || protesterData.FlowFieldsProtest.Count == 0)
+            if(protesterData.FlowFieldsProtest.Count == 0)
             {
                 return (danger, interest);
             }

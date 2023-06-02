@@ -7,6 +7,5 @@ public class ProtesterData : AIData
     public List<ProtestFlowFieldData> FlowFieldsProtest;
     public int CurrentFlowFieldIndex;
     public Transform EndOfProtest;
-    public bool ReachedEndOfProtest = false;
     public SkinSO Skin;
 }

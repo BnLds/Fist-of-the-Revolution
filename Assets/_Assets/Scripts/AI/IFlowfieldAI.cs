@@ -7,7 +7,6 @@ using System.Linq;
 public class IFlowfieldAI : MonoBehaviour
 {
     protected const string PERFORM_DETECTION = "PerformDetection";
-    [HideInInspector] public UnityEvent OnProtestEndReached;
     [HideInInspector] public UnityEvent<int> OnProtestPointReached;
     [HideInInspector] public UnityEvent<Vector3> OnMoveDirectionInput;
 
@@ -60,7 +59,15 @@ public class IFlowfieldAI : MonoBehaviour
     protected void Update()
     {
         //use the next protest flowfield if the NPC reaches the current meeting point 
-        if(Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
+
+        bool isTargetEndOfProtest = _protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target == _protesterData.EndOfProtest.position;
+        bool hasReachedTarget = Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance;
+        if(isTargetEndOfProtest && hasReachedTarget)
+        {
+            _protesterData.CurrentFlowFieldIndex = 0;
+            OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
+        }
+        if(hasReachedTarget && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
         {
             _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == _protesterData.CurrentFlowFieldIndex + 1));
             OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
@@ -71,17 +78,6 @@ public class IFlowfieldAI : MonoBehaviour
 
     protected IEnumerator FollowProtestPath()
     {
-        //Check if protester reached the end of the protest
-        float destructionDistance = 1f;
-        if(_protesterData.EndOfProtest != null && Vector3.Distance(_protesterData.EndOfProtest.position, transform.position) < destructionDistance)
-        {
-            //Stopping logic
-            _moveDirectionInput = Vector3.zero;
-            _protesterData.ReachedEndOfProtest = true;
-             OnProtestEndReached?.Invoke();
-            yield return null;
-        }
-
         if(_protesterData.FlowFieldsProtest.Count == 0)
         {
             //Stopping logic

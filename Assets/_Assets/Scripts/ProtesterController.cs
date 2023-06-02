@@ -19,12 +19,6 @@ public class ProtesterController : MonoBehaviour
     private void Start()
     {
         _protesterAI.OnMoveDirectionInput.AddListener(protesterAI_OnMoveDirectionInput);
-        _protesterAI.OnProtestEndReached.AddListener(protesterAI_OnProtestEndReached);
-    }
-
-    private void protesterAI_OnProtestEndReached()
-    {
-        //Destroy(gameObject);
     }
 
     private void FixedUpdate()

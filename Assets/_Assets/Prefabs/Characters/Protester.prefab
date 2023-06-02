@@ -47,8 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _protesterData: {fileID: 727319368865638778}
   _safeZoneRadius: 1.5
-  _countdownToLoseIDMax: 2
-  _countdownToUntrackMax: 4
   OnPlayerEnterSafeZone:
     m_PersistentCalls:
       m_Calls: []
@@ -2327,7 +2325,6 @@ MonoBehaviour:
   IsChasingTarget: 0
   CurrentFlowFieldIndex: 0
   EndOfProtest: {fileID: 0}
-  ReachedEndOfProtest: 0
   Skin: {fileID: 0}
 --- !u!114 &3752383236802386957
 MonoBehaviour:
@@ -2341,7 +2338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f6a1d4eaf74f8546b8f13dbecca85dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnProtestEndReached:
+  OnProtestPointReached:
     m_PersistentCalls:
       m_Calls: []
   OnMoveDirectionInput:
@@ -2358,8 +2355,8 @@ MonoBehaviour:
   _meetingPointReachedDistance: 4
   _detectionDelay: 0.1
   _aiUpdateDelay: 0.06
-  _showFlowFieldGizmo: 0
   _moveDirectionInput: {x: 0, y: 0, z: 0}
+  _showFlowFieldGizmo: 0
 --- !u!54 &6212171684923365943
 Rigidbody:
   m_ObjectHideFlags: 0

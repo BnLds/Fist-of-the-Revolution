@@ -5,6 +5,7 @@ using UnityEngine.Localization.Settings;
 
 public class LocalizationManager : MonoBehaviour
 {
+    private const string LOCALIZATION_TABLE = "MyLocalizationTable";
     [HideInInspector] public UnityEvent OnLocalTableLoaded;
 
     private void Start()
@@ -20,7 +21,7 @@ public class LocalizationManager : MonoBehaviour
 
     public string GetLocalizedString(string key)
     {
-        var op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync("LocalizationTable", key);
+        var op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LOCALIZATION_TABLE, key);
         return op.Result;
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,21 +7,33 @@ public class GuidanceUI : MonoBehaviour
 {
     public static GuidanceUI Instance { get; private set; } 
 
-    private const string ATTACK_KEY = "guidance_attack"; // Keys to the localization table
-    private const string HIDE_KEY = "guidance_hide"; 
-    private const string CASSEROLADE_KEY = "guidance_casserolade";
+    public enum Guidance
+    {
+        Attack,
+        Hide,
+        Casserolade,
+        Empty
+    }
+
     private const int MAX_MESSAGE_COUNT = 2; //Number of times any message can be displayed on screen
 
     [SerializeField] private TextMeshProUGUI _guidanceText;
     [SerializeField] private LocalizationManager _localizationManager;
+    [SerializeField] private LocalTableKeySO _guidanceAttackSO;
+    [SerializeField] private LocalTableKeySO _guidanceHideSO;
+    [SerializeField] private LocalTableKeySO _guidanceCasseroladeSO;
 
-    private readonly Dictionary<string, int> _messageCountDict = new Dictionary<string, int>();
-    private string _currentGuidanceDisplayed; // The currently displayed guidance message.
+
+    private readonly Dictionary<Guidance, int> _messageCountDict = new Dictionary<Guidance, int>();
+    private Guidance _currentGuidanceKeyDisplayed; // The currently displayed guidance message.
     private float _guidanceResetTimer = 10f; // Time before resetting the guidance message.
     private bool _isCoroutineRunning;
-    private string _attackMessage = "Hold [E] to attack";
-    private string _hideMessage = "Stay close to hide!";
-    private string _casseroladeMessage = "Hold [C]?";
+    private string _attackKey;
+    private string _hideKey;
+    private string _casseroladeKey;
+    private string _attackMessage;
+    private string _hideMessage;
+    private string _casseroladeMessage;
 
 
     private void Awake()
@@ -36,44 +47,59 @@ public class GuidanceUI : MonoBehaviour
             Instance = this;
         }
 
-        _currentGuidanceDisplayed = null;
+        _currentGuidanceKeyDisplayed = Guidance.Empty;
         _isCoroutineRunning = false;
     }
 
     private void Start()
     {
+        _attackKey = _guidanceAttackSO.LocalizationKey;
+        _hideKey = _guidanceHideSO.LocalizationKey;
+        _casseroladeKey = _guidanceCasseroladeSO.LocalizationKey;
+
         _localizationManager.OnLocalTableLoaded.AddListener(InitializeMessages);
         Hide();
     }
 
     private void InitializeMessages()
     {
-        _attackMessage = _localizationManager.GetLocalizedString(ATTACK_KEY);
-        _hideMessage = _localizationManager.GetLocalizedString(HIDE_KEY);
-        _casseroladeMessage = _localizationManager.GetLocalizedString(CASSEROLADE_KEY);
+        _attackMessage = _localizationManager.GetLocalizedString(_attackKey);
+        _hideMessage = _localizationManager.GetLocalizedString(_hideKey);
+        _casseroladeMessage = _localizationManager.GetLocalizedString(_casseroladeKey);
 
         InitializeMessageDict();
     }
 
     private void InitializeMessageDict()
     {
-        _messageCountDict[_attackMessage] = 0;
-        _messageCountDict[_hideMessage] = 0;
-        _messageCountDict[_casseroladeMessage] = 0;
+        _messageCountDict[Guidance.Attack] = 0;
+        _messageCountDict[Guidance.Hide] = 0;
+        _messageCountDict[Guidance.Casserolade] = 0;
     }
 
-    private void ShowGuidance(string message)
+    private void ShowGuidance(Guidance key)
     {
         // Check if the same message was not previously displayed to avoid spamming the player.
-        bool isMessageCountLessThanMax = _messageCountDict.ContainsKey(message) && _messageCountDict[message] < MAX_MESSAGE_COUNT;
+        bool isMessageCountLessThanMax = _messageCountDict.ContainsKey(key) && _messageCountDict[key] < MAX_MESSAGE_COUNT;
         if (isMessageCountLessThanMax)
         {
-            if(_currentGuidanceDisplayed != message)
+            if(_currentGuidanceKeyDisplayed != key)
             {
                 _guidanceText.gameObject.SetActive(true);
-                _guidanceText.text = message;
-                _currentGuidanceDisplayed = message;
-                _messageCountDict[message]++; // Increment the message count
+                switch(key)
+                {
+                    case(Guidance.Attack):
+                        _guidanceText.text = _attackMessage;
+                        break;
+                    case(Guidance.Hide):
+                        _guidanceText.text = _hideMessage;
+                        break;
+                    case(Guidance.Casserolade):
+                        _guidanceText.text = _casseroladeMessage;
+                        break;
+                }
+                _currentGuidanceKeyDisplayed = key;
+                _messageCountDict[key]++; // Increment the message count
 
 
                 StopCoroutine(ResetMessage());
@@ -90,14 +116,14 @@ public class GuidanceUI : MonoBehaviour
     {
         _isCoroutineRunning = true;
         yield return new WaitForSeconds(_guidanceResetTimer);
-        _currentGuidanceDisplayed = null;
+        _currentGuidanceKeyDisplayed = Guidance.Empty;
         _isCoroutineRunning = false;
         yield break;
     }
 
-    private void HideGuidance(string message)
+    private void HideGuidance(Guidance key)
     {
-        if (_currentGuidanceDisplayed == message)
+        if (_currentGuidanceKeyDisplayed == key)
         {
             _guidanceText.gameObject.SetActive(false);
         }
@@ -110,17 +136,17 @@ public class GuidanceUI : MonoBehaviour
 
     public void ShowGuidanceSafeZone()
     {
-        ShowGuidance(_hideMessage);
+        ShowGuidance(Guidance.Hide);
     }
 
     public void ShowGuidanceAttack()
     {
-        ShowGuidance(_attackMessage);
+        ShowGuidance(Guidance.Attack);
     }
 
     public void ShowGuidanceCasserolade()
     {
-        ShowGuidance(_casseroladeMessage);
+        ShowGuidance(Guidance.Casserolade);
     }
 
     // This method is called by the animation at the end of the Pop animation.

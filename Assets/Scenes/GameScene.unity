@@ -14381,6 +14381,7 @@ GameObject:
   - component: {fileID: 345892290}
   - component: {fileID: 345892289}
   - component: {fileID: 345892291}
+  - component: {fileID: 345892293}
   m_Layer: 5
   m_Name: GuidanceText
   m_TagString: Untagged
@@ -14539,6 +14540,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guidanceUI: {fileID: 2019733852}
+--- !u!114 &345892293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345892287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:e464b0930297e6b4b9f340806656dc24
+    m_TableEntryReference:
+      m_KeyId: 814835879936
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 345892289}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &346479464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34807,6 +34848,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ba9bc312835e3a44a04cb3cf2af1c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnLocalTableLoaded:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &846719476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84339,6 +84383,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _guidanceText: {fileID: 345892289}
   _localizationManager: {fileID: 842383789}
+  _guidanceAttackSO: {fileID: 11400000, guid: 2a8aa8064bdf48e4db05be393aa0e192, type: 2}
+  _guidanceHideSO: {fileID: 11400000, guid: bf1866acb1852f14e87fd9419a54ab13, type: 2}
+  _guidanceCasseroladeSO: {fileID: 11400000, guid: 4d7611c584c77094b817b3ab7ad14470,
+    type: 2}
 --- !u!1001 &2021897600
 PrefabInstance:
   m_ObjectHideFlags: 0

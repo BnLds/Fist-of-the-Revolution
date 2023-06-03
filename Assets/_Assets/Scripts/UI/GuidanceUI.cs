@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -58,16 +59,25 @@ public class GuidanceUI : MonoBehaviour
         _casseroladeKey = _guidanceCasseroladeSO.LocalizationKey;
 
         _localizationManager.OnLocalTableLoaded.AddListener(InitializeMessages);
+        _localizationManager.OnLanguageChanged.AddListener(UpdateMessages);
+
         Hide();
     }
 
     private void InitializeMessages()
     {
-        _attackMessage = _localizationManager.GetLocalizedString(_attackKey);
-        _hideMessage = _localizationManager.GetLocalizedString(_hideKey);
-        _casseroladeMessage = _localizationManager.GetLocalizedString(_casseroladeKey);
+        _attackMessage = _localizationManager.InitializeLocalizedString(_attackKey);
+        _hideMessage = _localizationManager.InitializeLocalizedString(_hideKey);
+        _casseroladeMessage = _localizationManager.InitializeLocalizedString(_casseroladeKey);
 
         InitializeMessageDict();
+    }
+
+    private void UpdateMessages()
+    {
+        _attackMessage = _localizationManager.UpdateLocalizedString(_attackKey);
+        _hideMessage = _localizationManager.UpdateLocalizedString(_hideKey);
+        _casseroladeMessage = _localizationManager.UpdateLocalizedString(_casseroladeKey);
     }
 
     private void InitializeMessageDict()

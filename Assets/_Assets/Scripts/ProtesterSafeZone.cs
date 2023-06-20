@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -54,7 +51,7 @@ public class ProtesterSafeZone : MonoBehaviour
         bool isSameSkinAsPlayer = _protesterData.Skin == PlayerController.Instance.GetComponentInChildren<PlayerVisual>().GetSkinSO();
         bool isPlayerWithinSafeZoneDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= _safeZoneRadius;
 
-        bool playerIsTracked = PoliceResponseManager.Instance.GetTrackedList().FirstOrDefault(_ => _.SuspectTransform == PlayerController.Instance.transform).SuspectTransform != null;
+        bool playerIsTracked = PoliceResponseManager.Instance.GetTrackedList().Contains((PlayerController.Instance.transform, true)) || PoliceResponseManager.Instance.GetTrackedList().Contains((PlayerController.Instance.transform, false));
         if ((PoliceResponseManager.Instance.IsPlayerIdentified() || playerIsTracked) && isSameSkinAsPlayer && isPlayerWithinSafeZoneDistance && !_isPlayerAlreadyInSafeZone)
         {
             //display safe zone if player is within its area and is tracked or IDed

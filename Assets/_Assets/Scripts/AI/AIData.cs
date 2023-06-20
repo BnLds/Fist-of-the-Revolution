@@ -5,7 +5,7 @@ public class AIData : MonoBehaviour
 {
     //target seeking behaviour data 
     public List<Transform> Targets = null;
-    public Collider[] Obstacles = null;
+    public List<Collider> Obstacles = null;
     public Transform CurrentTarget;
     public bool IsChasingTarget = false;
 

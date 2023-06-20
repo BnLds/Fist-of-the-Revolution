@@ -1,28 +1,31 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObstacleDetector : Detector
 {
     [SerializeField] private float _detectionRadius = 2f;
     [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private bool _showGizmos = false;
+    //[SerializeField] private bool _showGizmos = false;
 
-    private List<Collider> _colliders;
+    private static int _maxColliders = 100;
+    private Collider[] _hitColliders = new Collider[_maxColliders];
 
     public override void Detect(AIData aiData)
     {
-        _colliders = new List<Collider>();
-        foreach(Collider collider in Physics.OverlapSphere(transform.position, _detectionRadius, _layerMask))
+        aiData.Obstacles.Clear();
+
+        int numColliders = Physics.OverlapSphereNonAlloc(transform.position, _detectionRadius, _hitColliders, _layerMask);
+
+        for (int i = 0; i < numColliders; i++)
         {
             //make sure the instance doesn't detect itself as collider
-            if (collider.transform.parent != aiData.transform)
+            if (_hitColliders[i].transform.parent != aiData.transform)
             {
-                _colliders.Add(collider);
+                aiData.Obstacles.Add(_hitColliders[i]);
             }
         }
-        aiData.Obstacles = _colliders.ToArray();
     }
 
+    /*
     private void OnDrawGizmos()
     {
         if(!_showGizmos) return;
@@ -34,4 +37,5 @@ public class ObstacleDetector : Detector
             }
         }
     }
+    */
 }

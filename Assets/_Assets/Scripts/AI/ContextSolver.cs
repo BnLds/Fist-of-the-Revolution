@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class ContextSolver : MonoBehaviour
     private float[] _interestGizmo;
     private Vector3 _resultDirection = Vector3.zero;
     private float _rayLength = 1f;
+    private float[] danger = new float[8];
+    private float[] interest = new float[8];
 
     private void Awake()
     {
@@ -17,8 +20,8 @@ public class ContextSolver : MonoBehaviour
 
     public Vector3 GetContextDirection(List<SteeringBehaviour> behaviours, AIData aiData)
     {
-        float[] danger = new float[8];
-        float[] interest = new float[8];
+        Array.Clear(danger, 0, danger.Length);
+        Array.Clear(interest, 0, interest.Length);
 
         if(aiData is ProtesterData || (aiData is PolicemanData policemanData && policemanData.IsChasingTarget == false))
         {

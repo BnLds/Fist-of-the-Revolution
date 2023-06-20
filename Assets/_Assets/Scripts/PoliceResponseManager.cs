@@ -208,9 +208,9 @@ public class PoliceResponseManager : MonoBehaviour
         return _policeResponseData.Suspects.AsReadOnly();
     }
 
-    public ReadOnlyCollection<(Transform SuspectTransform, bool IsTracked)> GetTrackedList()
+    public List<(Transform SuspectTransform, bool IsTracked)> GetTrackedList()
     {
-        return _policeResponseData.TrackedSuspects.AsReadOnly();
+        return _policeResponseData.TrackedSuspects;
     }
 
     public bool IsPlayerIdentified()

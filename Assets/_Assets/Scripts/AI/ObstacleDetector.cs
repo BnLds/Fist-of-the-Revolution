@@ -6,7 +6,7 @@ public class ObstacleDetector : Detector
     [SerializeField] private LayerMask _layerMask;
     //[SerializeField] private bool _showGizmos = false;
 
-    private static int _maxColliders = 100;
+    private static int _maxColliders = 30;
     private Collider[] _hitColliders = new Collider[_maxColliders];
 
     public override void Detect(AIData aiData)

@@ -84,3 +84,7 @@ Fist-of-the-Revolution.git/packed-refs
 Fist-of-the-Revolution.git/info/exclude
 Fist-of-the-Revolution.git/objects/pack/pack-5d0412422fbe4ac33c325b9ddb88889147f55ddb.idx
 Fist-of-the-Revolution.git/objects/pack/pack-5d0412422fbe4ac33c325b9ddb88889147f55ddb.pack
+.vscode/launch.json
+UserSettings/EditorUserSettings.asset
+ProjectSettings/EditorBuildSettings.asset
+ProjectSettings/EditorBuildSettings.asset

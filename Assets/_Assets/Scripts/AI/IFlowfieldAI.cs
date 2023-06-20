@@ -108,7 +108,7 @@ public class IFlowfieldAI : MonoBehaviour
     }
 
     //draw current FlowField info
-    /*
+    
     protected void OnDrawGizmos()
     {
         if(Application.isPlaying && _showFlowFieldGizmo)
@@ -133,10 +133,10 @@ public class IFlowfieldAI : MonoBehaviour
                         //Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeRadius*2 - .1f));
 
                         Gizmos.DrawWireCube(node.WorldPosition, Vector3.one * (nodeRadius*2 - .1f));
-                        UnityEditor.Handles.Label(node.WorldPosition, node.BestCost.ToString());
+                        //UnityEditor.Handles.Label(node.WorldPosition, node.BestCost.ToString());
                     }
                 }
             }
         }
-    }*/
+    }
 }

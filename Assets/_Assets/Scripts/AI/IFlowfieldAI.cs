@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+using System;
 
 public class IFlowfieldAI : MonoBehaviour
 {
@@ -30,10 +31,19 @@ public class IFlowfieldAI : MonoBehaviour
     [ReadOnly] [SerializeField] protected Vector3 _moveDirectionInput = Vector3.zero;
     [SerializeField] private bool _showFlowFieldGizmo = false;
 
+    private bool _isDataInitialized = false;
 
     protected virtual void Start()
     {
-        ProtestFlowFields.Instance.OnFlowFieldsCreated.AddListener(ProtestManager_OnFlowFieldsCreated);
+        _isDataInitialized = false;
+        try
+        {
+            ProtestManager_OnFlowFieldsCreated();
+        }
+        catch(Exception)
+        {
+            ProtestFlowFields.Instance.OnFlowFieldsCreated.AddListener(ProtestManager_OnFlowFieldsCreated);
+        }
     }
 
     protected virtual void OnDisable()
@@ -46,6 +56,8 @@ public class IFlowfieldAI : MonoBehaviour
         _protesterData.FlowFieldsProtest = ProtestFlowFields.Instance.GetFlowFields();
         _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == 0));
         _protesterData.EndOfProtest = ProtestFlowFields.Instance.GetEndOfProtest();
+
+        _isDataInitialized = true;
     }
 
     protected void PerformDetection()
@@ -58,22 +70,25 @@ public class IFlowfieldAI : MonoBehaviour
 
     protected void Update()
     {
-        //use the next protest flowfield if the NPC reaches the current meeting point 
+        if(_isDataInitialized)
+        {
+            //use the next protest flowfield if the NPC reaches the current meeting point 
 
-        bool isTargetEndOfProtest = _protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target == _protesterData.EndOfProtest.position;
-        bool hasReachedTarget = Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance;
-        if(isTargetEndOfProtest && hasReachedTarget)
-        {
-            _protesterData.CurrentFlowFieldIndex = 0;
-            OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
+            bool isTargetEndOfProtest = _protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target == _protesterData.EndOfProtest.position;
+            bool hasReachedTarget = Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance;
+            if(isTargetEndOfProtest && hasReachedTarget)
+            {
+                _protesterData.CurrentFlowFieldIndex = 0;
+                OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
+            }
+            if(hasReachedTarget && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
+            {
+                _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == _protesterData.CurrentFlowFieldIndex + 1));
+                OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
+            }
+            //Moving the agent
+            OnMoveDirectionInput?.Invoke(_moveDirectionInput);
         }
-        if(hasReachedTarget && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
-        {
-            _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == _protesterData.CurrentFlowFieldIndex + 1));
-            OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
-        }
-        //Moving the agent
-        OnMoveDirectionInput?.Invoke(_moveDirectionInput);
     }
 
     protected IEnumerator FollowProtestPath()
@@ -93,6 +108,7 @@ public class IFlowfieldAI : MonoBehaviour
     }
 
     //draw current FlowField info
+    /*
     protected void OnDrawGizmos()
     {
         if(Application.isPlaying && _showFlowFieldGizmo)
@@ -122,5 +138,5 @@ public class IFlowfieldAI : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

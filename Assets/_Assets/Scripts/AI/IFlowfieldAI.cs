@@ -83,7 +83,7 @@ public class IFlowfieldAI : MonoBehaviour
             }
             if(hasReachedTarget && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
             {
-                _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == _protesterData.CurrentFlowFieldIndex + 1));
+                _protesterData.CurrentFlowFieldIndex++;
                 OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
             }
             //Moving the agent

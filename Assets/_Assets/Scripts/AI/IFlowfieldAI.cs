@@ -8,6 +8,8 @@ using System;
 public class IFlowfieldAI : MonoBehaviour
 {
     protected const string PERFORM_DETECTION = "PerformDetection";
+    protected const string FOLLOW_PROTEST_PATH = "FollowProtestPath";
+
     [HideInInspector] public UnityEvent<int> OnProtestPointReached;
     [HideInInspector] public UnityEvent<Vector3> OnMoveDirectionInput;
 
@@ -34,11 +36,14 @@ public class IFlowfieldAI : MonoBehaviour
     private bool _isDataInitialized;
     private bool _isTargetEndOfProtest;
 
-    protected virtual void Start()
+    private void Awake()
     {
         _isDataInitialized = false;
         _isTargetEndOfProtest = false;
+    }
 
+    protected virtual void Start()
+    {
         try
         {
             ProtestManager_OnFlowFieldsCreated();
@@ -96,7 +101,7 @@ public class IFlowfieldAI : MonoBehaviour
         }
     }
 
-    protected IEnumerator FollowProtestPath()
+    protected void FollowProtestPath()
     {
         if(_protesterData.FlowFieldsProtest.Count == 0)
         {
@@ -108,8 +113,6 @@ public class IFlowfieldAI : MonoBehaviour
         {
             _moveDirectionInput = _movementDirectionSolver.GetContextDirection(_steeringBehaviours, _protesterData);
         }
-        yield return new WaitForSeconds(_aiUpdateDelay);
-        StartCoroutine(FollowProtestPath());
     }
 
     //draw current FlowField info

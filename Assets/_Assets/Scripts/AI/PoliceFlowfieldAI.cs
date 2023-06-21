@@ -16,7 +16,7 @@ public class PoliceFlowfieldAI : IFlowfieldAI
         base.ProtestManager_OnFlowFieldsCreated();
 
         InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
-        StartCoroutine(FollowProtestPath());
+        InvokeRepeating(FOLLOW_PROTEST_PATH, 0f, _aiUpdateDelay);
     }
 
     private void PoliceUnitSM_OnFollowProtestEntry()

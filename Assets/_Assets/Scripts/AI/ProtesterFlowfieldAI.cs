@@ -9,6 +9,6 @@ public class ProtesterFlowfieldAI : IFlowfieldAI
     protected override void ProtestManager_OnFlowFieldsCreated()
     {
         base.ProtestManager_OnFlowFieldsCreated();
-        StartCoroutine(FollowProtestPath());
+        InvokeRepeating(FOLLOW_PROTEST_PATH, 0f, _aiUpdateDelay);
     }
 }

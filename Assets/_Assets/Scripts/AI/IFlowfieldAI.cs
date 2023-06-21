@@ -83,6 +83,7 @@ public class IFlowfieldAI : MonoBehaviour
             }
             if(hasReachedTarget && _protesterData.CurrentFlowFieldIndex < _protesterData.FlowFieldsProtest.Count - 1)
             {
+                //flowfield list is ordered from the first meeting point to last, so it is enough to increment currentFlowfieldIndex by 1 to get the current meeting point
                 _protesterData.CurrentFlowFieldIndex++;
                 OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
             }

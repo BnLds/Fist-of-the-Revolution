@@ -31,11 +31,14 @@ public class IFlowfieldAI : MonoBehaviour
     [ReadOnly] [SerializeField] protected Vector3 _moveDirectionInput = Vector3.zero;
     [SerializeField] private bool _showFlowFieldGizmo = false;
 
-    private bool _isDataInitialized = false;
+    private bool _isDataInitialized;
+    private bool _isTargetEndOfProtest;
 
     protected virtual void Start()
     {
         _isDataInitialized = false;
+        _isTargetEndOfProtest = false;
+
         try
         {
             ProtestManager_OnFlowFieldsCreated();
@@ -72,12 +75,12 @@ public class IFlowfieldAI : MonoBehaviour
     {
         if(_isDataInitialized)
         {
-            //use the next protest flowfield if the NPC reaches the current meeting point 
-
-            bool isTargetEndOfProtest = _protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target == _protesterData.EndOfProtest.position;
             bool hasReachedTarget = Vector3.Distance(_protesterData.FlowFieldsProtest[_protesterData.CurrentFlowFieldIndex].Target, transform.position) < _meetingPointReachedDistance;
-            if(isTargetEndOfProtest && hasReachedTarget)
+            
+            //use the next protest flowfield if the NPC reaches the current meeting point 
+            if(_isTargetEndOfProtest && hasReachedTarget)
             {
+                //flowfields loop so go back to 1st one when end is reached
                 _protesterData.CurrentFlowFieldIndex = 0;
                 OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
             }
@@ -85,6 +88,7 @@ public class IFlowfieldAI : MonoBehaviour
             {
                 //flowfield list is ordered from the first meeting point to last, so it is enough to increment currentFlowfieldIndex by 1 to get the current meeting point
                 _protesterData.CurrentFlowFieldIndex++;
+                _isTargetEndOfProtest = _protesterData.CurrentFlowFieldIndex == _protesterData.FlowFieldsProtest.Count-1;
                 OnProtestPointReached?.Invoke(_protesterData.CurrentFlowFieldIndex);
             }
             //Moving the agent

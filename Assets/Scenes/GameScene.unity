@@ -58360,11 +58360,11 @@ MonoBehaviour:
       m_Calls: []
   _breakablesCollectionManager: {fileID: 1448524911}
   _policeWatchUI: {fileID: 801112786}
-  suspectMask:
+  _suspectMask:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 0
   _watchThresholds: 000000000100000003000000070000000c00000014000000
-  suspectDetectionRadius: 10
+  _suspectDetectionRadius: 10
 --- !u!1001 &1462543173
 PrefabInstance:
   m_ObjectHideFlags: 0

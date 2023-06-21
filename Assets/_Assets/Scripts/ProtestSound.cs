@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ProtestSound : MonoBehaviour
@@ -19,11 +17,14 @@ public class ProtestSound : MonoBehaviour
 
     private AudioSource _audioSource;
     private float _volumeDistanceAttenuation;
+    private Collider[] _closestColliders;
+    private int _maxColliders = 150;
 
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        _closestColliders = new Collider[_maxColliders];
     }
 
     private void Start()
@@ -41,17 +42,15 @@ public class ProtestSound : MonoBehaviour
 
     private void UpdateVolumeAttenuation()
     {
-        List<Collider> closestProtesters = Physics.OverlapSphere(_player.position, _maxSoundDistance, _protesterLayer).ToList();
+        int numColliders = Physics.OverlapSphereNonAlloc(_player.position, _maxSoundDistance, _closestColliders, _protesterLayer);
 
         float shortestDistance = Mathf.Infinity;
-        foreach(Collider protester in closestProtesters)
+        for (int i = 0; i < numColliders; i++)
         {
-            shortestDistance = Mathf.Min(shortestDistance, Utility.Distance2DBetweenVector3(_player.position, protester.transform.position));
+            shortestDistance = Mathf.Min(shortestDistance, Utility.Distance2DBetweenVector3(_player.position, _closestColliders[i].transform.position));
         }
 
         float distanceToProtest = shortestDistance;
         _volumeDistanceAttenuation = _minRollOffDistance * (1 / (1 + _volumeRollOffScale * distanceToProtest - 1));
     }
-
-
 }

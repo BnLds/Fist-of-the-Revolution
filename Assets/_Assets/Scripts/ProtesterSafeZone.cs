@@ -48,49 +48,60 @@ public class ProtesterSafeZone : MonoBehaviour
 
     private void Update()
     {
-        bool isSameSkinAsPlayer = _protesterData.Skin == PlayerController.Instance.GetComponentInChildren<PlayerVisual>().GetSkinSO();
-        bool isPlayerWithinSafeZoneDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= _safeZoneRadius;
 
-        bool playerIsTracked = PoliceResponseManager.Instance.GetTrackedList().Contains((PlayerController.Instance.transform, true)) || PoliceResponseManager.Instance.GetTrackedList().Contains((PlayerController.Instance.transform, false));
-        if ((PoliceResponseManager.Instance.IsPlayerIdentified() || playerIsTracked) && isSameSkinAsPlayer && isPlayerWithinSafeZoneDistance && !_isPlayerAlreadyInSafeZone)
+        if(PoliceResponseManager.Instance.IsPlayerTracked())
         {
-            //display safe zone if player is within its area and is tracked or IDed
-            _isPlayerAlreadyInSafeZone = true;
-            OnPlayerEnterSafeZone?.Invoke();
-        }
+            bool isPlayerWithinSafeZoneDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= _safeZoneRadius;
+            if(isPlayerWithinSafeZoneDistance && !_isPlayerAlreadyInSafeZone)
+            {
+                bool isSameSkinAsPlayer = _protesterData.Skin == PlayerController.Instance.GetComponentInChildren<PlayerVisual>().GetSkinSO();
 
-        if(_isPlayerAlreadyInSafeZone && isPlayerWithinSafeZoneDistance)
-        {
-            if (PoliceResponseManager.Instance.IsPlayerIdentified())
-            {
-                _countdownToLoseID -= Time.deltaTime;
-                if (_countdownToLoseID <= 0)
+                if (isSameSkinAsPlayer)
                 {
-                    Debug.Log("PLAYER NOT IDED ANYMORE");
-                    OnPlayerIDedFree?.Invoke(_protesterData.transform);
-                    _countdownToLoseID = PlayerController.Instance.GetLoseIDTime();
-                }
-            }
-            else
-            {
-                //player is tracked
-                _countdownToUntrack -= Time.deltaTime;
-                if (_countdownToUntrack <= 0)
-                {
-                    Debug.Log("PLAYER NOT TRACKED ANYMORE");
-                    OnPlayerTrackedFree?.Invoke();
-                    _countdownToUntrack = PlayerController.Instance.GetUntrackTime();
-                    _isPlayerAlreadyInSafeZone = false;
+                    //display safe zone if player is within its area and is tracked or IDed
+                    _isPlayerAlreadyInSafeZone = true;
+                    OnPlayerEnterSafeZone?.Invoke();
                 }
             }
         }
-        else if(_isPlayerAlreadyInSafeZone && !isPlayerWithinSafeZoneDistance)
+
+        if(_isPlayerAlreadyInSafeZone)
         {
-            //player exited safe zone
-            _countdownToLoseID = PlayerController.Instance.GetLoseIDTime();
-            _countdownToUntrack = PlayerController.Instance.GetUntrackTime();
-            _isPlayerAlreadyInSafeZone = false;
-            OnPlayerExitSafeZone?.Invoke();
+            bool isPlayerWithinSafeZoneDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= _safeZoneRadius;
+
+            if(isPlayerWithinSafeZoneDistance)
+            {
+                if (PoliceResponseManager.Instance.IsPlayerIdentified())
+                {
+                    _countdownToLoseID -= Time.deltaTime;
+                    if (_countdownToLoseID <= 0)
+                    {
+                        Debug.Log("PLAYER NOT IDED ANYMORE");
+                        OnPlayerIDedFree?.Invoke(_protesterData.transform);
+                        _countdownToLoseID += PlayerController.Instance.GetLoseIDTime();
+                    }
+                }
+                else
+                {
+                    //player is tracked
+                    _countdownToUntrack -= Time.deltaTime;
+                    if (_countdownToUntrack <= 0)
+                    {
+                        Debug.Log("PLAYER NOT TRACKED ANYMORE");
+                        OnPlayerTrackedFree?.Invoke();
+                        _countdownToUntrack += PlayerController.Instance.GetUntrackTime();
+                        _isPlayerAlreadyInSafeZone = false;
+                    }
+                }
+            }
+            else if(!isPlayerWithinSafeZoneDistance)
+            {
+                //player exited safe zone
+                _countdownToLoseID = PlayerController.Instance.GetLoseIDTime();
+                _countdownToUntrack = PlayerController.Instance.GetUntrackTime();
+                _isPlayerAlreadyInSafeZone = false;
+                OnPlayerExitSafeZone?.Invoke();
+            }
         }
     }
 

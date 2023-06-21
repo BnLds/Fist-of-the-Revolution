@@ -18,12 +18,12 @@ public class PoliceResponseManager : MonoBehaviour
     [Header("Initialization Parameters")]
     [SerializeField] private BreakablesCollectionManager _breakablesCollectionManager;
     [SerializeField] private PoliceWatchUI _policeWatchUI;
-    [SerializeField] private LayerMask suspectMask;
+    [SerializeField] private LayerMask _suspectMask;
 
     [Space(5)]
     [Header("Game Balance Parameters")]
     [SerializeField] private int[] _watchThresholds = new int[6] {0, 1, 3, 7, 12, 20};
-    [SerializeField] private float suspectDetectionRadius = 10f;
+    [SerializeField] private float _suspectDetectionRadius = 10f;
 
     private List<BreakableController> _breakablesWatched;
     private int _currentWatchValue;
@@ -63,11 +63,12 @@ public class PoliceResponseManager : MonoBehaviour
 
     private void ProtesterCollectionManager_OnPlayerTrackFree()
     {
-        (Transform playerSuspectTransform, bool IsPlayerTracked) playerSuspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);
+        (Transform playerSuspectTransform, bool isPlayerTracked) playerSuspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform = PlayerController.Instance.transform);
         if(playerSuspectData.playerSuspectTransform != null)
         {
             //remove player in tracked suspects list
             _policeResponseData.TrackedSuspects.Remove(playerSuspectData);
+            _policeResponseData.IsPlayerTracked = false;
             OnPlayerUntracked?.Invoke();
         }
     }
@@ -80,8 +81,10 @@ public class PoliceResponseManager : MonoBehaviour
         int followProtesterThreshold = 7;
         if(random >=followProtesterThreshold)
         {
+            //police is confusing player with protester
             Debug.Log("Following protester");
             PoliceResponseManager.Instance.ClearTrackedSuspect(PlayerController.Instance.transform);
+            _policeResponseData.IsPlayerTracked = false;
             PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(protester);
             
             OnPlayerNotIDedAnymore?.Invoke(protester);
@@ -123,7 +126,7 @@ public class PoliceResponseManager : MonoBehaviour
 
     public void UpdateClosestSuspects(Transform sender, Vector3 damagedBreakablePosition)
     {
-        List<Collider> allCollidersDetected = Physics.OverlapSphere(damagedBreakablePosition, suspectDetectionRadius, suspectMask).OrderBy(target => Utility.Distance2DBetweenVector3(sender.position, target.transform.position)).ToList();
+        List<Collider> allCollidersDetected = Physics.OverlapSphere(damagedBreakablePosition, _suspectDetectionRadius, _suspectMask).OrderBy(target => Utility.Distance2DBetweenVector3(sender.position, target.transform.position)).ToList();
 
         int numberOfSuspects = 5;
         for (int i = 0; i < (int)Mathf.Min(numberOfSuspects, allCollidersDetected.Count); i++)
@@ -143,6 +146,12 @@ public class PoliceResponseManager : MonoBehaviour
                     //remove it from list of suspects and add it to list of tracked suspects
                     _policeResponseData.Suspects.Remove(allCollidersDetected[i].transform);
                     _policeResponseData.TrackedSuspects.Add((allCollidersDetected[i].transform, IsTracked: false));
+
+                    //if collider is Player, set IsPlayerTracked to true
+                    if(allCollidersDetected[i].transform == PlayerController.Instance.transform)
+                    {
+                        _policeResponseData.IsPlayerTracked = true;
+                    }
                     
                     OnTracked?.Invoke(allCollidersDetected[i].transform);
                 }
@@ -161,6 +170,7 @@ public class PoliceResponseManager : MonoBehaviour
         _policeResponseData.Suspects = new List<Transform>();
         _policeResponseData.TrackedSuspects = new List<(Transform, bool)>();
         _policeResponseData.IsPlayerIdentified = false;
+        _policeResponseData.IsPlayerTracked = false;
     }
 
     public IReadOnlyDictionary<Transform, (int WatchersLimit, int NumberOfWatchers)> GetWatchPointsData()
@@ -218,9 +228,15 @@ public class PoliceResponseManager : MonoBehaviour
         return _policeResponseData.IsPlayerIdentified;
     }
 
+    public bool IsPlayerTracked()
+    {
+        return _policeResponseData.IsPlayerTracked;
+    }
+
     public void SetPlayerToIdentified()
     {
         _policeResponseData.IsPlayerIdentified = true;
+        _policeResponseData.IsPlayerTracked = true;
         OnPlayerIdentified?.Invoke();
     }
 
@@ -230,12 +246,22 @@ public class PoliceResponseManager : MonoBehaviour
         if(suspectData.transform != null)
         {
             _policeResponseData.TrackedSuspects.Remove(suspectData);
+
+            if(suspectData.transform == PlayerController.Instance.transform)
+            {
+                _policeResponseData.IsPlayerTracked = false;
+            }
         }
         OnSuspectCleared?.Invoke(suspectTransform);
     }
 
     public void AddFollowedTargetToTrackedList(Transform target)
     {
+        if(target == PlayerController.Instance.transform)
+        {
+            _policeResponseData.IsPlayerTracked = true;
+        }
+
         (Transform suspectTransform, bool isTracked) suspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == target);
         //check if suspect is already in tracked list 
         if(suspectData.suspectTransform == null)
@@ -273,8 +299,4 @@ public class PoliceResponseManager : MonoBehaviour
         }
         return _policeResponseData.HighPriorityFlowfield.flowfield;
     }
-
-
-    
-
 }

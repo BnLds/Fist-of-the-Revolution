@@ -17,6 +17,9 @@ public class FlowField
     private Vector3 _worldBottomLeftCorner;
     private Vector3 _worldGridPosition;
     private Node _destinationNode;
+    private List<Node> _currentNeighbours = new();
+    private List<GridDirection> _directions = new();
+    private Dictionary<Vector2Int, int> _directionCosts = new();
 
 
     public FlowField(float _nodeRadius, Vector2 _gridWorldSize, LayerMask _unwalkableMask, LayerMask _encumburedMask)
@@ -96,8 +99,10 @@ public class FlowField
         while(nodesToCheck.Count > 0)
         {
             Node currentNode = nodesToCheck.Dequeue();
-            List<Node> currentNeighbours = GetNeighbourNodes(currentNode.GridIndex, GridDirection.CardinalDirections);
-            foreach(Node currentNeighbour in currentNeighbours)
+            
+            UpdateNeighbourNodes(currentNode.GridIndex, GridDirection.CardinalDirections);
+
+            foreach(Node currentNeighbour in _currentNeighbours)
             {
                 if(currentNeighbour.Cost == byte.MaxValue) continue;
                 if(currentNeighbour.Cost + currentNode.BestCost < currentNeighbour.BestCost)
@@ -113,11 +118,11 @@ public class FlowField
     {
         foreach(Node currentNode in Grid)
         {
-            List<Node> currentNeighbours = GetNeighbourNodes(currentNode.GridIndex, GridDirection.allDirections);
+            UpdateNeighbourNodes(currentNode.GridIndex, GridDirection.allDirections);
 
             int bestCost = currentNode.BestCost;
 
-            foreach(Node currentNeighbour in currentNeighbours)
+            foreach(Node currentNeighbour in _currentNeighbours)
             {
                 if(currentNeighbour.BestCost < bestCost)
                 {
@@ -128,18 +133,17 @@ public class FlowField
         }
     }
 
-    private List<Node> GetNeighbourNodes(Vector2Int nodeIndex, List<GridDirection> directions)
+    private void UpdateNeighbourNodes(Vector2Int nodeIndex, List<GridDirection> directions)
     {
-        List<Node> neighbourNodes = new List<Node>();
+        _currentNeighbours.Clear();
         foreach(Vector2Int direction in directions)
         {
             Node newNeighbour = GetCellAtRelativePosition(nodeIndex, direction);
             if(newNeighbour != null)
             {
-                neighbourNodes.Add(newNeighbour);
+                _currentNeighbours.Add(newNeighbour);
             }
         }
-        return neighbourNodes;
     }
 
     private Node GetCellAtRelativePosition(Vector2Int originalPosition, Vector2Int relativePosition)
@@ -157,30 +161,32 @@ public class FlowField
 
     private Node GetNearestReachablePoint(Node destinationNode)
     {
-        List<GridDirection> directions = GridDirection.CardinalAndIntercardinalDirections;
-        Dictionary<Vector2Int, int> directionCosts = new Dictionary<Vector2Int, int>();
+        _directions.Clear();
+        _directions = GridDirection.CardinalAndIntercardinalDirections;
+        _directionCosts.Clear();
+        _directionCosts = new Dictionary<Vector2Int, int>();
 
         Node bestNode = destinationNode;
         int maxDistance = 10;
         int bestDistance = maxDistance;
-        foreach(Vector2Int direction in directions)
+        foreach(Vector2Int direction in _directions)
         {
-            directionCosts[direction] = 0;
+            _directionCosts[direction] = 0;
             Node newNeighbour = GetCellAtRelativePosition(destinationNode.GridIndex, direction);
-            while(directionCosts[direction] < bestDistance)
+            while(_directionCosts[direction] < bestDistance)
             {
                 if(newNeighbour.Cost != byte.MaxValue)
                 {
-                    if(directionCosts[direction] < bestDistance)
+                    if(_directionCosts[direction] < bestDistance)
                     {
-                        bestDistance = directionCosts[direction];
+                        bestDistance = _directionCosts[direction];
                         bestNode = newNeighbour;
                     }
                     break;
                 }
                 else
                 {
-                    directionCosts[direction]++;
+                    _directionCosts[direction]++;
                     newNeighbour = GetCellAtRelativePosition(newNeighbour.GridIndex, direction);
                 }
             }

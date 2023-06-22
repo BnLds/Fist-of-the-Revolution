@@ -35,7 +35,13 @@ public class FlowField
 
     public void CreateGrid(Vector3 position)
     {
-        Grid = new Node[_gridSizeX, _gridSizeY];
+        //check if Grid exists and is of correct size
+        if(Grid == null || Grid.Length == 0 || Grid.GetLength(0) != _gridSizeX || Grid.GetLength(1) != _gridSizeY)
+        {
+            //create a new array if not
+            Grid = new Node[_gridSizeX, _gridSizeY];
+        }
+
         _worldGridPosition = position;
         _worldBottomLeftCorner = position - Vector3.right * GridWorldSize.x / 2 - Vector3.forward * GridWorldSize.y / 2;
         for (int x = 0; x < _gridSizeX; x++)

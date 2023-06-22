@@ -24,7 +24,14 @@ public class GridDirection
 
     public static GridDirection GetDirectionFromVector2Int(Vector2Int vector)
     {
-        return CardinalAndIntercardinalDirections.DefaultIfEmpty(None).FirstOrDefault(direction => direction == vector);
+        for (int i = 0; i < CardinalAndIntercardinalDirections.Count; i++)
+        {
+            if(CardinalAndIntercardinalDirections[i] == vector)
+            {
+                return CardinalAndIntercardinalDirections[i];
+            }
+        }
+        return None;
     }
 
     public static readonly GridDirection None = new GridDirection(0, 0);

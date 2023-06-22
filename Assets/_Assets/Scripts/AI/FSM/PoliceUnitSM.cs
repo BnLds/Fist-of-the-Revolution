@@ -126,10 +126,13 @@ public class PoliceUnitSM : StateMachine
         }
 
         //check if cop should be impacted by casserolade effect
-        bool isWithinCasseroladeDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= CasseroladeEffectRadius;
-        if(isWithinCasseroladeDistance && CurrentState != FleeState && isCasserolading)
+        if(isCasserolading)
         {
-            ChangeState(FleeState);
+            bool isWithinCasseroladeDistance = Utility.Distance2DBetweenVector3(transform.position, PlayerController.Instance.transform.position) <= CasseroladeEffectRadius;
+            if(isWithinCasseroladeDistance && CurrentState != FleeState)
+            {
+                ChangeState(FleeState);
+            }
         }
     }
 

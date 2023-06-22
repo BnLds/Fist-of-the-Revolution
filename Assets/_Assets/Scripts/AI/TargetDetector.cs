@@ -10,21 +10,22 @@ public class TargetDetector : Detector
     //[SerializeField] private bool _showGizmos = false;
 
     private Vector3 _directionGizmo;
+    private List<Transform> _targets = new();
 
     public override void Detect(AIData aiData)
     {
         if(aiData is PolicemanData policemandData)
         {
             aiData.Targets.Clear();
-
-            var targetColliders = PoliceResponseManager.Instance.GetTrackedList().Select(_ => _.SuspectTransform.GetComponent<Collider>());
+            _targets.Clear();
+            _targets = PoliceResponseManager.Instance.GetTrackedList().Select(_ => _.SuspectTransform).ToList();
             
-            if (targetColliders!=null && targetColliders.Count() != 0)
+            if (_targets!=null && _targets.Count() != 0)
             {
-                foreach (Collider target in targetColliders)
+                for (int i = 0; i < _targets.Count; i++)
                 {
                     //check if it can see the first target
-                    Vector3 direction = (target.transform.position - transform.position).normalized;
+                    Vector3 direction = (_targets[i].position - transform.position).normalized;
 
                     //targets are also on the obstaclesLayerMask
                     bool isPlayerInDetectionRange = Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, _targetDetectionRange, _obstaclesLayerMask);
@@ -33,8 +34,9 @@ public class TargetDetector : Detector
                     if (isPlayerInDetectionRange && _targetsLayerMask.FirstOrDefault(_ => _.value == 1 << hitInfo.collider.gameObject.layer) != 0)
                     {
                         //Debug.DrawRay(transform.position, direction * targetDetectionRange, Color.blue);
-                        aiData.Targets.Add(target.transform);
+                        aiData.Targets.Add(_targets[i]);
                     }
+
                 }
             }
         }

@@ -49,12 +49,10 @@ public class IEmotesUI : MonoBehaviour
         PoliceResponseManager.Instance.OnSuspectCleared.AddListener(PoliceResponseManager_OnSuspectCleared);
         PoliceResponseManager.Instance.OnPlayerIdentified.AddListener(PoliceResponseManager_OnPlayerIdentified);
         PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerNotIDedAnymore);
-        PoliceResponseManager.Instance.OnPlayerUntracked.AddListener(PoliceResponseManager_OnPlayerUntracked);
 
         HideEmote();
     }
 
-    protected virtual void PoliceResponseManager_OnPlayerUntracked() {}
     protected virtual void PoliceResponseManager_OnPlayerNotIDedAnymore(Transform sender) {}
     protected virtual void PoliceResponseManager_OnPlayerIdentified() {}
     protected virtual void PoliceResponseManager_OnSuspectCleared(Transform suspectCleared) {}

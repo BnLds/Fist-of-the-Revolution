@@ -174,6 +174,11 @@ public class FlowField
         {
             _directionCosts[direction] = 0;
             Node newNeighbour = GetCellAtRelativePosition(destinationNode.GridIndex, direction);
+            if(newNeighbour == null)
+            {
+                continue;
+            }
+
             while(_directionCosts[direction] < bestDistance)
             {
                 if(newNeighbour.Cost != byte.MaxValue)

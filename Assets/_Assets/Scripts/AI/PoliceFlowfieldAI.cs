@@ -11,9 +11,9 @@ public class PoliceFlowfieldAI : IFlowfieldAI
         _policeUnitSM.OnFollowProtestEntry.AddListener(PoliceUnitSM_OnFollowProtestEntry);
     }
 
-    protected override void ProtestManager_OnFlowFieldsCreated()
+    protected override void ProtestFlowfield_OnFlowFieldsCreated()
     {
-        base.ProtestManager_OnFlowFieldsCreated();
+        base.ProtestFlowfield_OnFlowFieldsCreated();
 
         InvokeRepeating(PERFORM_DETECTION, 0f, _detectionDelay);
         InvokeRepeating(FOLLOW_PROTEST_PATH, 0f, _aiUpdateDelay);

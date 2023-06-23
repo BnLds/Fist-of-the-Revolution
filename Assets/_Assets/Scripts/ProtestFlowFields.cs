@@ -6,11 +6,10 @@ public class ProtestFlowFields : MonoBehaviour
 {
     public static ProtestFlowFields Instance { get; private set; }
 
-    [SerializeField] private List<Transform> _protestMeetingPoints;
-    [SerializeField] private Transform _endOfProtest;
-
     [HideInInspector] public UnityEvent OnFlowFieldsCreated;
 
+    private List<Transform> _protestMeetingPoints;
+    private Transform _endOfProtest;
     private List<ProtestFlowFieldData> _flowFieldsProtest;
 
     private void Awake()
@@ -29,6 +28,9 @@ public class ProtestFlowFields : MonoBehaviour
 
     private void Start()
     {
+        _protestMeetingPoints = ProtestPath.Instance.GetProtestPath();
+        _endOfProtest = ProtestPath.Instance.GetEndOfProtest();
+        
         CreateProtestFlowFields();
     }
 
@@ -46,10 +48,4 @@ public class ProtestFlowFields : MonoBehaviour
     {
         return _flowFieldsProtest;
     }
-
-    public Transform GetEndOfProtest()
-    {
-        return _endOfProtest;
-    }
-
 }

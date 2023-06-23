@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -46,24 +45,24 @@ public class IFlowfieldAI : MonoBehaviour
     {
         try
         {
-            ProtestManager_OnFlowFieldsCreated();
+            ProtestFlowfield_OnFlowFieldsCreated();
         }
         catch(Exception)
         {
-            ProtestFlowFields.Instance.OnFlowFieldsCreated.AddListener(ProtestManager_OnFlowFieldsCreated);
+            ProtestFlowFields.Instance.OnFlowFieldsCreated.AddListener(ProtestFlowfield_OnFlowFieldsCreated);
         }
     }
 
     protected virtual void OnDisable()
     {
-        ProtestFlowFields.Instance.OnFlowFieldsCreated.RemoveListener(ProtestManager_OnFlowFieldsCreated);
+        ProtestFlowFields.Instance.OnFlowFieldsCreated.RemoveListener(ProtestFlowfield_OnFlowFieldsCreated);
     }
 
-    protected virtual void ProtestManager_OnFlowFieldsCreated()
+    protected virtual void ProtestFlowfield_OnFlowFieldsCreated()
     {
         _protesterData.FlowFieldsProtest = ProtestFlowFields.Instance.GetFlowFields();
         _protesterData.CurrentFlowFieldIndex = _protesterData.FlowFieldsProtest.IndexOf(_protesterData.FlowFieldsProtest.First(flowfield => flowfield.Index == 0));
-        _protesterData.EndOfProtest = ProtestFlowFields.Instance.GetEndOfProtest();
+        _protesterData.EndOfProtest = ProtestPath.Instance.GetEndOfProtest();
 
         _isDataInitialized = true;
     }

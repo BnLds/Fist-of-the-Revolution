@@ -947,13 +947,13 @@ MonoBehaviour:
   _image: {fileID: 9153718201027474312}
   _emotesAllocationCollection:
   - PoliceReaction: 2
-    EmoteSprite: {fileID: 21300000, guid: 71ec858a9a09cf040ad03f98c403cf8e, type: 3}
-    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
-  - PoliceReaction: 3
     EmoteSprite: {fileID: 21300000, guid: 28e3e05d4c1c71346b2a8d498128aa41, type: 3}
     EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
+  - PoliceReaction: 3
+    EmoteSprite: {fileID: 21300000, guid: 71ec858a9a09cf040ad03f98c403cf8e, type: 3}
+    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
   - PoliceReaction: 4
-    EmoteSprite: {fileID: 21300000, guid: 4ec36b27bb978734cba21167749e3104, type: 3}
+    EmoteSprite: {fileID: 21300000, guid: 28e3e05d4c1c71346b2a8d498128aa41, type: 3}
     EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
   - PoliceReaction: 5
     EmoteSprite: {fileID: 21300000, guid: 0f2ba117f6550b14e99dc7bc82a2a95f, type: 3}

@@ -60,6 +60,7 @@ public class PoliceEmotesUI : MonoBehaviour
                 case(PoliceUnitSM.PoliceReactions.FollowSuspect):
                 {
                     SetEmote(PoliceUnitSM.PoliceReactions.FollowSuspect);
+                    DisableAnimatorEvent();
                     break;
                 }
                 case(PoliceUnitSM.PoliceReactions.ChasePlayer):
@@ -71,6 +72,7 @@ public class PoliceEmotesUI : MonoBehaviour
                 case(PoliceUnitSM.PoliceReactions.Wander):
                 {
                     SetEmote(PoliceUnitSM.PoliceReactions.Wander);
+                    DisableAnimatorEvent();
                     break;
                 }
                 case(PoliceUnitSM.PoliceReactions.WatchObject):
@@ -142,7 +144,7 @@ public class PoliceEmotesUI : MonoBehaviour
 
         if(PoliceResponseManager.Instance.IsPlayerIdentified())
         {
-            _image.color = Color.red;
+            _image.color = Color.magenta;
         }
         else
         {

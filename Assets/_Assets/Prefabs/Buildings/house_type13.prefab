@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5839711132170628280}
   - component: {fileID: 5101250118192869425}
   - component: {fileID: 745014025938234986}
+  - component: {fileID: 2448325396449373060}
   m_Layer: 7
   m_Name: house_type13
   m_TagString: Untagged
@@ -100,9 +101,22 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3499999, y: 0.99999994, z: 0.91599995}
-  m_Center: {x: 0, y: 0.49999997, z: 0}
+  m_Size: {x: 1.2539625, y: 0.99999994, z: 0.91600007}
+  m_Center: {x: 0.048019253, y: 0.49999997, z: 2.8091992e-15}
 --- !u!65 &745014025938234986
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335127447459532141}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.41, y: 0.99999994, z: 1.01}
+  m_Center: {x: 0, y: 0.49999997, z: 0}
+--- !u!65 &2448325396449373060
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,5 +127,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.41, y: 0.99999994, z: 1.01}
-  m_Center: {x: 0, y: 0.49999997, z: 0}
+  m_Size: {x: 0.09425791, y: 0.99999994, z: 0.2027735}
+  m_Center: {x: -0.6294849, y: 0.49999997, z: -0.002159079}

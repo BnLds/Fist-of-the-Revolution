@@ -25,28 +25,38 @@ public class PoliceEmotesUI : MonoBehaviour
     [SerializeField] private Image _image;
     [SerializeField] private List<EmoteAllocation> _emotesAllocationCollection;
     [SerializeField] private Sprite _defaultSprite;
-    private Color _defaultColor = Color.black;
+    [SerializeField] private Color _defaultColor = Color.blue;
+
+    private Animator _animator;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
         _policeUnitSM.OnReact.AddListener(PoliceUnitSM_OnReact);
 
-        Hide();
+        ShowDefaultEmote();
     }
 
     private void PoliceUnitSM_OnReact(PoliceUnitSM.PoliceReactions reaction)
     {
+        EnableAnimator();
+        EnableAnimatorEvent();
+
         if(reaction == PoliceUnitSM.PoliceReactions.NoReaction) return;
 
         try
         {
             switch(reaction)
             {
-                case(PoliceUnitSM.PoliceReactions.FollowProtest):
+                /*case(PoliceUnitSM.PoliceReactions.FollowProtest):
                 {
                     SetEmote(PoliceUnitSM.PoliceReactions.FollowProtest);
                     break;
-                }
+                }*/
                 case(PoliceUnitSM.PoliceReactions.FollowSuspect):
                 {
                     SetEmote(PoliceUnitSM.PoliceReactions.FollowSuspect);
@@ -55,6 +65,7 @@ public class PoliceEmotesUI : MonoBehaviour
                 case(PoliceUnitSM.PoliceReactions.ChasePlayer):
                 {
                     SetEmote(PoliceUnitSM.PoliceReactions.ChasePlayer);
+                    DisableAnimatorEvent();
                     break;
                 }
                 case(PoliceUnitSM.PoliceReactions.Wander):
@@ -93,11 +104,8 @@ public class PoliceEmotesUI : MonoBehaviour
         }
         catch(Exception)
         {
-            _image.sprite = _defaultSprite;
-            _image.color = _defaultColor;
+            ShowDefaultEmote();
         }
-
-        Show();
     }
 
     private void SetEmote(PoliceUnitSM.PoliceReactions reaction)
@@ -107,14 +115,40 @@ public class PoliceEmotesUI : MonoBehaviour
         _image.color = allocation.EmoteColor;
     }
 
-    private void Show()
+    private void EnableAnimatorEvent()
     {
-        gameObject.SetActive(true);
+        _animator.fireEvents = true;
+    }
+
+    private void DisableAnimatorEvent()
+    {
+        _animator.fireEvents = false;
+    }
+
+    private void EnableAnimator()
+    {
+        _animator.enabled = true;
+    }
+
+    private void DisableAnimator()
+    {
+        _animator.enabled = false;
     }
 
     //this method is called by the animation at the end of the Pop animation
-    private void Hide()
+    private void ShowDefaultEmote()
     {
-        gameObject.SetActive(false);
+        _image.sprite = _defaultSprite;
+
+        if(PoliceResponseManager.Instance.IsPlayerIdentified())
+        {
+            _image.color = Color.red;
+        }
+        else
+        {
+            _image.color = _defaultColor;
+        }
+
+        DisableAnimator();
     }
 }

@@ -297,7 +297,6 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 5760
-  _showGizmos: 0
 --- !u!1 &1133907360866534213
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,11 +897,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5678286213604102400}
+  - component: {fileID: 1051428433800045093}
+  - component: {fileID: 7158924623286766361}
   - component: {fileID: 7383291819905612555}
   - component: {fileID: 1366176705011726326}
   - component: {fileID: 4701896001235983232}
-  - component: {fileID: 7158924623286766361}
-  - component: {fileID: 1051428433800045093}
   - component: {fileID: 2688455559580850657}
   m_Layer: 12
   m_Name: PoliceEmotesUI
@@ -932,6 +931,63 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1051428433800045093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2397674075804722291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eea18ca5b1f79a45be6d9fbb265ccd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _policeUnitSM: {fileID: 6316234633344160984}
+  _image: {fileID: 9153718201027474312}
+  _emotesAllocationCollection:
+  - PoliceReaction: 2
+    EmoteSprite: {fileID: 21300000, guid: 71ec858a9a09cf040ad03f98c403cf8e, type: 3}
+    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
+  - PoliceReaction: 3
+    EmoteSprite: {fileID: 21300000, guid: 28e3e05d4c1c71346b2a8d498128aa41, type: 3}
+    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
+  - PoliceReaction: 4
+    EmoteSprite: {fileID: 21300000, guid: 4ec36b27bb978734cba21167749e3104, type: 3}
+    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
+  - PoliceReaction: 5
+    EmoteSprite: {fileID: 21300000, guid: 0f2ba117f6550b14e99dc7bc82a2a95f, type: 3}
+    EmoteColor: {r: 1, g: 0, b: 0.029988289, a: 1}
+  - PoliceReaction: 6
+    EmoteSprite: {fileID: 21300000, guid: 4ec36b27bb978734cba21167749e3104, type: 3}
+    EmoteColor: {r: 1, g: 0, b: 0.029988289, a: 1}
+  - PoliceReaction: 7
+    EmoteSprite: {fileID: 21300000, guid: 52c3310db667a4d4ead07adc0024a1fc, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  - PoliceReaction: 8
+    EmoteSprite: {fileID: 21300000, guid: 7d72d9b60e0a98741856155723a3e9ea, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  - PoliceReaction: 9
+    EmoteSprite: {fileID: 21300000, guid: 4581d70b5c90ecf4e84da295e4f44943, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  - PoliceReaction: 1
+    EmoteSprite: {fileID: 21300000, guid: 6ee29030cdccbe64f864764dcac31a6e, type: 3}
+    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
+  _defaultSprite: {fileID: 21300000, guid: 6f9849b0d13e66149b7970b2dde79e22, type: 3}
+  _defaultColor: {r: 0.25, g: 0.7824135, b: 1, a: 1}
+--- !u!114 &7158924623286766361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2397674075804722291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300bfb2fff70d32409d109aeb723e8f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
 --- !u!223 &7383291819905612555
 Canvas:
   m_ObjectHideFlags: 0
@@ -993,62 +1049,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7158924623286766361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2397674075804722291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 300bfb2fff70d32409d109aeb723e8f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 0
---- !u!114 &1051428433800045093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2397674075804722291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eea18ca5b1f79a45be6d9fbb265ccd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _policeUnitSM: {fileID: 6316234633344160984}
-  _image: {fileID: 9153718201027474312}
-  _emotesAllocationCollection:
-  - PoliceReaction: 2
-    EmoteSprite: {fileID: 21300000, guid: 71ec858a9a09cf040ad03f98c403cf8e, type: 3}
-    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
-  - PoliceReaction: 3
-    EmoteSprite: {fileID: 21300000, guid: 28e3e05d4c1c71346b2a8d498128aa41, type: 3}
-    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
-  - PoliceReaction: 4
-    EmoteSprite: {fileID: 21300000, guid: 4ec36b27bb978734cba21167749e3104, type: 3}
-    EmoteColor: {r: 1, g: 0.78170204, b: 0, a: 1}
-  - PoliceReaction: 5
-    EmoteSprite: {fileID: 21300000, guid: 0f2ba117f6550b14e99dc7bc82a2a95f, type: 3}
-    EmoteColor: {r: 1, g: 0, b: 0.029988289, a: 1}
-  - PoliceReaction: 6
-    EmoteSprite: {fileID: 21300000, guid: 4ec36b27bb978734cba21167749e3104, type: 3}
-    EmoteColor: {r: 1, g: 0, b: 0.029988289, a: 1}
-  - PoliceReaction: 7
-    EmoteSprite: {fileID: 21300000, guid: 52c3310db667a4d4ead07adc0024a1fc, type: 3}
-    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
-  - PoliceReaction: 8
-    EmoteSprite: {fileID: 21300000, guid: 7d72d9b60e0a98741856155723a3e9ea, type: 3}
-    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
-  - PoliceReaction: 9
-    EmoteSprite: {fileID: 21300000, guid: 4581d70b5c90ecf4e84da295e4f44943, type: 3}
-    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
-  - PoliceReaction: 1
-    EmoteSprite: {fileID: 21300000, guid: 6ee29030cdccbe64f864764dcac31a6e, type: 3}
-    EmoteColor: {r: 0.07039702, g: 1, b: 0, a: 1}
-  _defaultSprite: {fileID: 21300000, guid: 6820e50a72696664cb1a9b5484ecee33, type: 3}
 --- !u!95 &2688455559580850657
 Animator:
   serializedVersion: 5
@@ -2307,7 +2307,6 @@ MonoBehaviour:
     m_Bits: 1024
   - serializedVersion: 2
     m_Bits: 2048
-  _showGizmos: 0
 --- !u!1 &5297023797141945275
 GameObject:
   m_ObjectHideFlags: 0
@@ -3500,9 +3499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99f7a1f36b29e1499cae9b40c0b9901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnProtestEndReached:
-    m_PersistentCalls:
-      m_Calls: []
   OnProtestPointReached:
     m_PersistentCalls:
       m_Calls: []
@@ -3541,7 +3537,6 @@ MonoBehaviour:
   IsChasingTarget: 0
   CurrentFlowFieldIndex: 0
   EndOfProtest: {fileID: 0}
-  ReachedEndOfProtest: 0
   Skin: {fileID: 0}
 --- !u!54 &6212171684923365943
 Rigidbody:

@@ -9,6 +9,7 @@ public class PolicemanVisual : MonoBehaviour
 
     [SerializeField] private PolicemanController _policemanController;
     [SerializeField] private PoliceUnitSM _policeUnitSM;
+    [SerializeField] private ParticleSystem _dustParticles;
 
     private Animator _animator;
     private Vector3 _targetDirection;
@@ -47,12 +48,24 @@ public class PolicemanVisual : MonoBehaviour
             _animator.SetBool(IS_WALKING, true);
             //skin has a 180° rotation to forward vector
             _targetDirection = -direction;
+            CreateDust();
         }
         else
         {
             _animator.SetBool(IS_WALKING, false);
             //skin has a 180° rotation to forward vector
             _targetDirection = -(PlayerController.Instance.transform.position - transform.position);
+            StopDust();
         }
+    }
+
+    private void CreateDust()
+    {
+        if(!_dustParticles.isPlaying) _dustParticles.Play();
+    }
+
+    private void StopDust()
+    {
+        if(_dustParticles.isPlaying) _dustParticles.Stop();
     }
 }

@@ -633,7 +633,7 @@ MonoBehaviour:
   - {fileID: 4265305427495827107}
   _rippleEffect: {fileID: 1318337663937345707}
   _splashVFX: {fileID: 7035826474418059078}
-  _moveParticles: {fileID: 658397125928669296}
+  _dustParticles: {fileID: 658397125928669296}
 --- !u!95 &8589718552876791886
 Animator:
   serializedVersion: 5

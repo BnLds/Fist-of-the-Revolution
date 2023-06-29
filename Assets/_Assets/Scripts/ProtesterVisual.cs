@@ -13,6 +13,7 @@ public class ProtesterVisual : MonoBehaviour
     [SerializeField] private List<MeshRenderer> _coloredClothes;
     [SerializeField] private List<Transform> _visualComponents;
     [SerializeField] private List<Transform> _attributes;
+    [SerializeField] private ParticleSystem _dustParticles;
 
     private Vector3 _targetDirection;
     private Animator _animator;
@@ -85,10 +86,12 @@ public class ProtesterVisual : MonoBehaviour
             //character visual has a 180° rotation to forward vector
             _targetDirection = -direction;
             _animator.SetBool(IS_WALKING, true);
+            CreateDust();
         }
         else
         {
             _animator.SetBool(IS_WALKING, false);
+            StopDust();
         }
     }
 
@@ -106,5 +109,15 @@ public class ProtesterVisual : MonoBehaviour
         {
             component.gameObject.SetActive(false);
         }
+    }
+
+    private void CreateDust()
+    {
+        if(!_dustParticles.isPlaying) _dustParticles.Play();
+    }
+
+    private void StopDust()
+    {
+        if(_dustParticles.isPlaying) _dustParticles.Stop();
     }
 }

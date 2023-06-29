@@ -16,7 +16,7 @@ public class PlayerVisual : MonoBehaviour
     [SerializeField] private List<MeshRenderer> _coloredClothes;
     [SerializeField] private ParticleSystem _rippleEffect;
     [SerializeField] private VisualEffect _splashVFX;
-    [SerializeField] private ParticleSystem _moveParticles;
+    [SerializeField] private ParticleSystem _dustParticles;
 
     private SkinSO _currentSkin;
     private Vector3 _targetDirection;
@@ -104,12 +104,12 @@ public class PlayerVisual : MonoBehaviour
 
     private void CreateDust()
     {
-        if(!_moveParticles.isPlaying) _moveParticles.Play();
+        if(!_dustParticles.isPlaying) _dustParticles.Play();
     }
 
     private void StopDust()
     {
-        if(_moveParticles.isPlaying) _moveParticles.Stop();
+        if(_dustParticles.isPlaying) _dustParticles.Stop();
     }
 
     public SkinSO GetSkinSO()

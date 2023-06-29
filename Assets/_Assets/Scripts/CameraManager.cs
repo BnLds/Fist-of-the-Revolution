@@ -15,7 +15,7 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        _waitTimeCamAttack = new WaitForSecondsRealtime(.2f);
+        _waitTimeCamAttack = new WaitForSecondsRealtime(.7f);
         _waitTimeCamIDed = new WaitForSecondsRealtime(2f);
 
     }
@@ -46,12 +46,15 @@ public class CameraManager : MonoBehaviour
             yield break;
         }
 
+        Time.timeScale = .5f;
         _vcamAttack.gameObject.SetActive(true);
         _vcamMain.gameObject.SetActive(false);
 
         yield return _waitTimeCamAttack;
         
         _vcamAttack.gameObject.SetActive(false);
+
+        Time.timeScale = 1f;
 
         if(!_isIded)
         {

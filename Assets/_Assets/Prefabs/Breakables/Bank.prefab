@@ -52,6 +52,7 @@ MonoBehaviour:
   _breakableSO: {fileID: 11400000, guid: 9947d9bfc9ae06e40a85becf2abeb618, type: 2}
   _destroyedPrefab: {fileID: 3568842347604249558}
   _halo: {fileID: 8937087505335285691}
+  _explosion: {fileID: 0}
   OnDestroyedBreakable:
     m_PersistentCalls:
       m_Calls: []

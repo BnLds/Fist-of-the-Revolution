@@ -7,7 +7,7 @@ public class DestroyedBreakable : MonoBehaviour
 
     [SerializeField] private List<Transform> _fallingBlocks;
     [SerializeField] private List<Material> _fallingMaterials;
-
+    [SerializeField] private List<GameObject> _explosions;
 
     private float _timeElapsed;
     private bool _isVisible = true;
@@ -20,6 +20,8 @@ public class DestroyedBreakable : MonoBehaviour
             newColor.a = 1;
             material.color = newColor;
         }
+
+        PlayExplosion();
 
         _timeElapsed = 0f;
 
@@ -66,5 +68,16 @@ public class DestroyedBreakable : MonoBehaviour
             }
         }
         _isVisible = !_isVisible;
+    }
+
+    private void PlayExplosion()
+    {
+        if(_explosions.Count != 0)
+        {
+            for (int i = 0; i < -_explosions.Count; i++)
+            {
+                _explosions[i].SetActive(true);
+            }
+        }
     }
 }

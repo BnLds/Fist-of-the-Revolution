@@ -35,7 +35,6 @@ public class BreakableController : MonoBehaviour
     private void Start()
     {
         IsHighPriority = _maxReward >= BreakablesCollectionManager.Instance.HighValueObjectThreshold;
-
     }
 
     public void Damage(int damageValue)

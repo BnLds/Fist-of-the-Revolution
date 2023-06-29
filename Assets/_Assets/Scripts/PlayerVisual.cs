@@ -82,7 +82,6 @@ public class PlayerVisual : MonoBehaviour
     private void PlayerController_OnAttackPerformed(Transform t)
     {
         _animator.SetTrigger(PERFORM_ATTACK);
-        _splashVFX.Play();
     }
 
     private void PlayerController_OnMove(Vector3 direction)
@@ -99,7 +98,6 @@ public class PlayerVisual : MonoBehaviour
             _animator.SetBool(IS_WALKING, false);
             StopDust();
         }
-
     }
 
     private void CreateDust()
@@ -115,5 +113,11 @@ public class PlayerVisual : MonoBehaviour
     public SkinSO GetSkinSO()
     {
         return _currentSkin;
+    }
+
+    //method called directly by the animator
+    private void PlaySplashEffect()
+    {
+        _splashVFX.Play();
     }
 }

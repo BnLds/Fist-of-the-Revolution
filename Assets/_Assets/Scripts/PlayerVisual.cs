@@ -16,6 +16,7 @@ public class PlayerVisual : MonoBehaviour
     [SerializeField] private List<MeshRenderer> _coloredClothes;
     [SerializeField] private ParticleSystem _rippleEffect;
     [SerializeField] private VisualEffect _splashVFX;
+    [SerializeField] private ParticleSystem _moveParticles;
 
     private SkinSO _currentSkin;
     private Vector3 _targetDirection;
@@ -91,11 +92,24 @@ public class PlayerVisual : MonoBehaviour
             //character visual has a 180° rotation to forward vector
             _targetDirection = -direction;
             _animator.SetBool(IS_WALKING, true);
+            CreateDust();
         }
         else
         {
             _animator.SetBool(IS_WALKING, false);
+            StopDust();
         }
+
+    }
+
+    private void CreateDust()
+    {
+        if(!_moveParticles.isPlaying) _moveParticles.Play();
+    }
+
+    private void StopDust()
+    {
+        if(_moveParticles.isPlaying) _moveParticles.Stop();
     }
 
     public SkinSO GetSkinSO()

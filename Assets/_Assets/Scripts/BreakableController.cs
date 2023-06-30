@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class BreakableController : MonoBehaviour
 {
     [SerializeField] private BreakableSO _breakableSO;
     [SerializeField] private GameObject _destroyedPrefab;
     [SerializeField] private GameObject _halo;
+    [SerializeField] private AdsSO _adsSO;
+    [SerializeField] private Image _image;
 
     public bool IsHighPriority { get; private set; }
     public bool WasDestroyed { get; private set; }
@@ -34,7 +37,18 @@ public class BreakableController : MonoBehaviour
 
     private void Start()
     {
+        SelectRandomAd();
         IsHighPriority = _maxReward >= BreakablesCollectionManager.Instance.HighValueObjectThreshold;
+    }
+
+    private void SelectRandomAd()
+    {
+        if(_adsSO == null) return;
+
+        int adsCount = _adsSO._adsList.Count;
+        int adNumber = Random.Range(0, adsCount-1);
+
+        _image.sprite = _adsSO._adsList[adNumber];
     }
 
     public void Damage(int damageValue)

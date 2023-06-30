@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private Collider _playerCollider;
     private float _attackLoadingProgress;
     private bool _isLoadingAttack;
+    private bool _isPerformingCasserolade;
     private EquipmentManager _equipmentManager;
 
     private void Awake()
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
         _playerCollider = GetComponent<CapsuleCollider>();
         _equipmentManager = GetComponent<EquipmentManager>();
         _isLoadingAttack = false;
+        _isPerformingCasserolade = false;
     }
 
     private void Start()
@@ -75,21 +77,27 @@ public class PlayerController : MonoBehaviour
             GuidanceUI.Instance.ShowGuidanceAttack();
         }
 
-        if(_isLoadingAttack)
+        if (_isLoadingAttack && !_isPerformingCasserolade)
         {
-            _attackLoadingProgress += Time.deltaTime;
-            float progressNormalized = (float)_attackLoadingProgress / (float)_attackLoadingTotalTime;
-            OnAttackProgressChange?.Invoke(progressNormalized);
+            LoadAttack();
+        }
 
-            if(_attackLoadingProgress >= _attackLoadingTotalTime)
+    }
+
+    private void LoadAttack()
+    {
+        _attackLoadingProgress += Time.deltaTime;
+        float progressNormalized = (float)_attackLoadingProgress / (float)_attackLoadingTotalTime;
+        OnAttackProgressChange?.Invoke(progressNormalized);
+
+        if(_attackLoadingProgress >= _attackLoadingTotalTime)
+        {
+            Collider[] breakableColliders = Physics.OverlapSphere(transform.position, _attackRadius, _breakableMask);
+            foreach(Collider collider in breakableColliders)
             {
-                Collider[] breakableColliders = Physics.OverlapSphere(transform.position, _attackRadius, _breakableMask);
-                foreach(Collider collider in breakableColliders)
-                {
-                    collider.GetComponent<BreakableController>().Damage(_playerDamage);
-                    OnAttackPerformed?.Invoke(transform);
-                    StopLoadingAttack();
-                }
+                collider.GetComponent<BreakableController>().Damage(_playerDamage);
+                OnAttackPerformed?.Invoke(transform);
+                StopLoadingAttack();
             }
         }
     }
@@ -101,19 +109,25 @@ public class PlayerController : MonoBehaviour
             if(item.gameObject.activeSelf == false) return;
         }
 
+        _isPerformingCasserolade = true;
+        StopLoadingAttack();
         OnStartedCasserolade?.Invoke();
     }
 
     private void EndCasserolade()
     {
+        _isPerformingCasserolade = false;
         OnStoppedCasserolade?.Invoke();
     }
 
     private void StartLoadingAttack()
     {
-        OnStartedLoadingAttack?.Invoke();
-        _attackLoadingProgress = 0f;
-        _isLoadingAttack = true;
+        if(!_isPerformingCasserolade)
+        {
+            OnStartedLoadingAttack?.Invoke();
+            _attackLoadingProgress = 0f;
+            _isLoadingAttack = true;
+        }
     }
 
     private void StopLoadingAttack()

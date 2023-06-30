@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -24,18 +25,26 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public UnityEvent<Transform> OnAttackPerformed;
     [HideInInspector] public UnityEvent<Vector3> OnMove;
     [HideInInspector] public UnityEvent<float> OnAttackProgressChange;
+    [HideInInspector] public UnityEvent<float> OnCasseroladeCooldownChange;
+    [HideInInspector] public UnityEvent<float> OnCasseroladeProgressChange;
     [HideInInspector] public UnityEvent OnStartedLoadingAttack;
     [HideInInspector] public UnityEvent OnStoppedLoadingAttack;
     [HideInInspector] public UnityEvent OnHideTimesChange;
     [HideInInspector] public UnityEvent OnStartedCasserolade;
     [HideInInspector] public UnityEvent OnStoppedCasserolade;
+    [HideInInspector] public UnityEvent OnCasseroladeCdOver;
 
     private Rigidbody _playerRigidbody;
     private Collider _playerCollider;
     private float _attackLoadingProgress;
     private bool _isLoadingAttack;
     private bool _isPerformingCasserolade;
+    private bool _isCasseroladeOnCd;
     private EquipmentManager _equipmentManager;
+    private float _cooldownCasseroladeTime = 5f;
+    private float _casseroladeMaxTime = 5f;
+    private IEnumerator _casseroladeCdCoroutine;
+    private IEnumerator _progressCasseroladeCoroutine;
 
     private void Awake()
     {
@@ -53,6 +62,7 @@ public class PlayerController : MonoBehaviour
         _equipmentManager = GetComponent<EquipmentManager>();
         _isLoadingAttack = false;
         _isPerformingCasserolade = false;
+        _isCasseroladeOnCd = false;
     }
 
     private void Start()
@@ -104,6 +114,8 @@ public class PlayerController : MonoBehaviour
 
     private void PerformCasserolade()
     {
+        if(_isCasseroladeOnCd) return;
+
         foreach(Transform item in _itemsCasserolade)
         {
             if(item.gameObject.activeSelf == false) return;
@@ -111,13 +123,79 @@ public class PlayerController : MonoBehaviour
 
         _isPerformingCasserolade = true;
         StopLoadingAttack();
+        TimeCasserolade();
         OnStartedCasserolade?.Invoke();
     }
 
     private void EndCasserolade()
     {
+        if(!_isPerformingCasserolade) return;
+
         _isPerformingCasserolade = false;
         OnStoppedCasserolade?.Invoke();
+        ReloadCasserolade();
+        StopTimerCasserolade();
+    }
+
+    private void TimeCasserolade()
+    {
+        if(_progressCasseroladeCoroutine != null)
+        {
+            StopCoroutine(_progressCasseroladeCoroutine);
+        }
+
+        _progressCasseroladeCoroutine = ProgressTimerCasserolade();
+        StartCoroutine(_progressCasseroladeCoroutine);
+    }
+
+    private void StopTimerCasserolade()
+    {
+        StopCoroutine(_progressCasseroladeCoroutine);
+    }
+
+    private IEnumerator ProgressTimerCasserolade()
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime <= _casseroladeMaxTime)
+        {
+            float percent = elapsedTime / _casseroladeMaxTime;
+            elapsedTime += Time.deltaTime;
+            OnCasseroladeProgressChange?.Invoke(percent);
+
+            yield return null;
+        }
+
+        EndCasserolade();
+        yield return null;
+    }
+
+    private void ReloadCasserolade()
+    {
+        if(_casseroladeCdCoroutine != null)
+        {
+            StopCoroutine(_casseroladeCdCoroutine);
+        }
+
+        _casseroladeCdCoroutine = CooldownCasserolade();
+        StartCoroutine(_casseroladeCdCoroutine);
+    }
+
+    private IEnumerator CooldownCasserolade()
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime <= _cooldownCasseroladeTime)
+        {
+            float percent = elapsedTime / _cooldownCasseroladeTime;
+            _isCasseroladeOnCd = true;
+            elapsedTime += Time.deltaTime;
+            OnCasseroladeCooldownChange?.Invoke(percent);
+
+            yield return null;
+        }
+
+        _isCasseroladeOnCd = false;
+        OnCasseroladeCdOver?.Invoke();
+        yield return null;
     }
 
     private void StartLoadingAttack()

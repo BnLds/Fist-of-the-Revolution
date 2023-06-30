@@ -22735,6 +22735,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Policeman
       objectReference: {fileID: 0}
+    - target: {fileID: 7723722718084810004, guid: ba80c5b9d758a6b40bf56832417a8a4b,
+        type: 3}
+      propertyPath: IsStatic
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba80c5b9d758a6b40bf56832417a8a4b, type: 3}
 --- !u!4 &624605906 stripped

@@ -247,13 +247,13 @@ public class PoliceUnitSM : StateMachine
         }
     }
     
-    private void PoliceResponseManager_OnPlayerNotIDedAnymore(Transform protester)
+    private void PoliceResponseManager_OnPlayerNotIDedAnymore(Transform target)
     {
         OnReact?.Invoke(PoliceReactions.PlayerUnIDed);
 
-        if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && protester != null)
+        if(PoliceUnitData.CurrentTarget == PlayerController.Instance.transform && target != null)
         {
-            PoliceUnitData.CurrentTarget = protester;
+            PoliceUnitData.CurrentTarget = target;
         }
     }
 

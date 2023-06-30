@@ -79,13 +79,17 @@ public class PoliceResponseManager : MonoBehaviour
         
         int random = Random.Range(0, 9);
         int followProtesterThreshold = 7;
+
+         //Stop following player
+        _policeResponseData.IsPlayerTracked = false;
+        SetTrackedSuspectToUnfollowed(PlayerController.Instance.transform);
+
         if(random >=followProtesterThreshold)
         {
-            //police is confusing player with protester
+            //police is confusing player with protester and starts following protester
             Debug.Log("Following protester");
-            PoliceResponseManager.Instance.ClearTrackedSuspect(PlayerController.Instance.transform);
-            _policeResponseData.IsPlayerTracked = false;
-            PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(protester);
+            ClearTrackedSuspect(PlayerController.Instance.transform);
+            AddFollowedTargetToTrackedList(protester);
             
             OnPlayerNotIDedAnymore?.Invoke(protester);
         }

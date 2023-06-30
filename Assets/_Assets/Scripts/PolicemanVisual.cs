@@ -54,8 +54,13 @@ public class PolicemanVisual : MonoBehaviour
         {
             _animator.SetBool(IS_WALKING, false);
             //skin has a 180° rotation to forward vector
-            _targetDirection = -(PlayerController.Instance.transform.position - transform.position);
             StopDust();
+            
+            //look at player only if not following protest
+            if(_policeUnitSM.CurrentState != _policeUnitSM.FollowProtestState)
+            {
+                _targetDirection = -(PlayerController.Instance.transform.position - transform.position);
+            }
         }
     }
 

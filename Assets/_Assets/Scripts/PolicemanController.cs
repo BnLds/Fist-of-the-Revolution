@@ -39,22 +39,19 @@ public class PolicemanController : MonoBehaviour
             {
                 //follow the protest path
                 _policemanRB.velocity = _moveDirectionFollowProtest * _moveSpeed;
-                OnMovement?.Invoke(_moveDirectionFollowProtest);
             }
             else
             {
                 //await 
                 _policemanRB.velocity = Vector3.zero;
             }
-            
         }
         else
         {
             //apply policeman move logic
             _policemanRB.velocity =  _policeUnitSM.MoveDirectionInput * _moveSpeed;
-            OnMovement?.Invoke(_policeUnitSM.MoveDirectionInput);
-
         }
+            OnMovement?.Invoke(_policemanRB.velocity);
     }
 
     private void protesterAI_OnMoveDirectionInput(Vector3 direction)

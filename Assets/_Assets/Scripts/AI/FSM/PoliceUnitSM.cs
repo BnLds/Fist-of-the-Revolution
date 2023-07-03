@@ -266,8 +266,6 @@ public class PoliceUnitSM : StateMachine
             {
                 OnReact?.Invoke(PoliceReactions.PlayerIDed);
                 PoliceResponseManager.Instance.SetPlayerToIdentified();
-
-                PoliceResponseManager.Instance.AddFollowedTargetToTrackedList(PlayerController.Instance.transform);
             }
         }
     }

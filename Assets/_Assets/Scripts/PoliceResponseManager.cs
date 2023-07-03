@@ -89,8 +89,8 @@ public class PoliceResponseManager : MonoBehaviour
             //police is confusing player with protester and starts following protester
             Debug.Log("Following protester");
             ClearTrackedSuspect(PlayerController.Instance.transform);
-            AddFollowedTargetToTrackedList(protester);
-            
+            AddTargetToTrackedList(protester);
+
             OnPlayerNotIDedAnymore?.Invoke(protester);
         }
         else
@@ -241,6 +241,7 @@ public class PoliceResponseManager : MonoBehaviour
     {
         _policeResponseData.IsPlayerIdentified = true;
         _policeResponseData.IsPlayerTracked = true;
+        AddFollowedTargetToTrackedList(PlayerController.Instance.transform);
         OnPlayerIdentified?.Invoke();
     }
 
@@ -287,11 +288,41 @@ public class PoliceResponseManager : MonoBehaviour
         }
     }
 
+    private void AddTargetToTrackedList(Transform target)
+    {
+        (Transform suspectTransform, bool isTracked) suspectData = _policeResponseData.TrackedSuspects.FirstOrDefault(_ => _.SuspectTransform == target);
+        //check if suspect is already in tracked list 
+        if(suspectData.suspectTransform != null)
+        {
+            return;
+        }
+        else 
+        {
+            //add suspect in tracked suspects list if not already in
+            (Transform targetTransform, bool) newTargetData = (target, false) ;
+            _policeResponseData.TrackedSuspects.Add(newTargetData);
+
+            OnTracked?.Invoke(newTargetData.targetTransform);
+        }
+    }
+
     public void SetTrackedSuspectToUnfollowed(Transform target)
     {
-        int targetIndex = PoliceResponseManager.Instance.GetTrackedList().IndexOf((target, true));
-        (Transform targetTransform, bool) newTargetData = (_policeResponseData.TrackedSuspects[targetIndex].SuspectTransform, false);
-        _policeResponseData.TrackedSuspects[targetIndex] = newTargetData;
+        foreach(var element in GetTrackedList())
+        {
+            Debug.Log(element.SuspectTransform + " : " + element.IsTracked);
+        }
+
+        int targetIndex = GetTrackedList().IndexOf((target, true));
+        if( targetIndex < _policeResponseData.TrackedSuspects.Count)
+        {
+            (Transform targetTransform, bool) newTargetData = (_policeResponseData.TrackedSuspects[targetIndex].SuspectTransform, false);
+            _policeResponseData.TrackedSuspects[targetIndex] = newTargetData;
+        }
+        else
+        {
+            Debug.LogWarning("Trying to access a tracked suspect which does not exist in the Tracked list");
+        }
     }
 
     public FlowField GetPoliceForceFlowfield(Vector3 targetPosition)

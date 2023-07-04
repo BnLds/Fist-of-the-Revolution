@@ -1,9 +1,26 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Localizer : MonoBehaviour
 {
+    public static Localizer Instance {get; private set;}
+
+    [HideInInspector] public UnityEvent LocalizationLoaded;
+
     [SerializeField] private LocalizationManager _localizationManager;
     [SerializeField] private LocalTablesListSO _localTablesSO;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -17,6 +34,8 @@ public class Localizer : MonoBehaviour
         {
             _localTablesSO._localTablesList[i].Message = _localizationManager.InitializeLocalizedString(_localTablesSO._localTablesList[i].LocalizationKey);
         }
+
+        LocalizationLoaded?.Invoke();
     }
 
     private void UpdateMessages()
@@ -25,6 +44,8 @@ public class Localizer : MonoBehaviour
         {
             _localTablesSO._localTablesList[i].Message = _localizationManager.UpdateLocalizedString(_localTablesSO._localTablesList[i].LocalizationKey);
         }
+
+        LocalizationLoaded?.Invoke();
     }
 
     public string GetMessage(string key)

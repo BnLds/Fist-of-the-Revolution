@@ -21,7 +21,6 @@ public class GuidanceUI : MonoBehaviour
     private const string GUIDANCE_CASSEROLADE_KEY = "guidance_casserolade";
 
     [SerializeField] private TextMeshProUGUI _guidanceText;
-    [SerializeField] private Localizer _localizer;
 
     private readonly Dictionary<Guidance, int> _messageCountDict = new Dictionary<Guidance, int>();
     private Guidance _currentGuidanceKeyDisplayed; // The currently displayed guidance message.
@@ -68,13 +67,13 @@ public class GuidanceUI : MonoBehaviour
                 switch(key)
                 {
                     case(Guidance.Attack):
-                        _guidanceText.text = _localizer.GetMessage(GUIDANCE_ATTACK_KEY);
+                        _guidanceText.text = Localizer.Instance.GetMessage(GUIDANCE_ATTACK_KEY);
                         break;
                     case(Guidance.Hide):
-                        _guidanceText.text = _localizer.GetMessage(GUIDANCE_HIDE_KEY);
+                        _guidanceText.text = Localizer.Instance.GetMessage(GUIDANCE_HIDE_KEY);
                         break;
                     case(Guidance.Casserolade):
-                        _guidanceText.text = _localizer.GetMessage(GUIDANCE_CASSEROLADE_KEY);
+                        _guidanceText.text = Localizer.Instance.GetMessage(GUIDANCE_CASSEROLADE_KEY);
                         break;
                 }
                 _currentGuidanceKeyDisplayed = key;

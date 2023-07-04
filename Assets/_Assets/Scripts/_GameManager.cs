@@ -3,12 +3,26 @@ using UnityEngine.Events;
 
 public class _GameManager : MonoBehaviour
 {
+    public static _GameManager Instance { get; private set; }
+
     [HideInInspector] public UnityEvent OnGamePaused;
     [HideInInspector] public UnityEvent OnGameUnpaused;
 
     [SerializeField] private GameInput _gameInput;
 
     private bool _isGamePaused = false;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -20,7 +34,7 @@ public class _GameManager : MonoBehaviour
         TogglePauseGame();
     }
 
-    private void TogglePauseGame()
+    public void TogglePauseGame()
     {
         _isGamePaused = !_isGamePaused;
 

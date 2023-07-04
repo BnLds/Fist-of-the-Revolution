@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,25 +16,17 @@ public class GuidanceUI : MonoBehaviour
     }
 
     private const int MAX_MESSAGE_COUNT = 2; //Number of times any message can be displayed on screen
+    private const string GUIDANCE_ATTACK_KEY = "guidance_attack";
+    private const string GUIDANCE_HIDE_KEY = "guidance_hide";
+    private const string GUIDANCE_CASSEROLADE_KEY = "guidance_casserolade";
 
     [SerializeField] private TextMeshProUGUI _guidanceText;
-    [SerializeField] private LocalizationManager _localizationManager;
-    [SerializeField] private LocalTableKeySO _guidanceAttackSO;
-    [SerializeField] private LocalTableKeySO _guidanceHideSO;
-    [SerializeField] private LocalTableKeySO _guidanceCasseroladeSO;
-
+    [SerializeField] private Localizer _localizer;
 
     private readonly Dictionary<Guidance, int> _messageCountDict = new Dictionary<Guidance, int>();
     private Guidance _currentGuidanceKeyDisplayed; // The currently displayed guidance message.
     private float _guidanceResetTimer = 10f; // Time before resetting the guidance message.
     private bool _isCoroutineRunning;
-    private string _attackKey;
-    private string _hideKey;
-    private string _casseroladeKey;
-    private string _attackMessage;
-    private string _hideMessage;
-    private string _casseroladeMessage;
-
 
     private void Awake()
     {
@@ -54,30 +45,8 @@ public class GuidanceUI : MonoBehaviour
 
     private void Start()
     {
-        _attackKey = _guidanceAttackSO.LocalizationKey;
-        _hideKey = _guidanceHideSO.LocalizationKey;
-        _casseroladeKey = _guidanceCasseroladeSO.LocalizationKey;
-
-        _localizationManager.OnLocalTableLoaded.AddListener(InitializeMessages);
-        _localizationManager.OnLanguageChanged.AddListener(UpdateMessages);
-
-        Hide();
-    }
-
-    private void InitializeMessages()
-    {
-        _attackMessage = _localizationManager.InitializeLocalizedString(_attackKey);
-        _hideMessage = _localizationManager.InitializeLocalizedString(_hideKey);
-        _casseroladeMessage = _localizationManager.InitializeLocalizedString(_casseroladeKey);
-
         InitializeMessageDict();
-    }
-
-    private void UpdateMessages()
-    {
-        _attackMessage = _localizationManager.UpdateLocalizedString(_attackKey);
-        _hideMessage = _localizationManager.UpdateLocalizedString(_hideKey);
-        _casseroladeMessage = _localizationManager.UpdateLocalizedString(_casseroladeKey);
+        Hide();
     }
 
     private void InitializeMessageDict()
@@ -99,13 +68,13 @@ public class GuidanceUI : MonoBehaviour
                 switch(key)
                 {
                     case(Guidance.Attack):
-                        _guidanceText.text = _attackMessage;
+                        _guidanceText.text = _localizer.GetMessage(GUIDANCE_ATTACK_KEY);
                         break;
                     case(Guidance.Hide):
-                        _guidanceText.text = _hideMessage;
+                        _guidanceText.text = _localizer.GetMessage(GUIDANCE_HIDE_KEY);
                         break;
                     case(Guidance.Casserolade):
-                        _guidanceText.text = _casseroladeMessage;
+                        _guidanceText.text = _localizer.GetMessage(GUIDANCE_CASSEROLADE_KEY);
                         break;
                 }
                 _currentGuidanceKeyDisplayed = key;

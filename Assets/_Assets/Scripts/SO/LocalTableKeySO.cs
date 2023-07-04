@@ -3,6 +3,6 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class LocalTableKeySO : ScriptableObject
 {
-    public string Reference;
+    public string Message;
     public string LocalizationKey;
 }

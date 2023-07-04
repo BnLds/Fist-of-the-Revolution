@@ -10,7 +10,6 @@ public class LocalizationManager : MonoBehaviour
     [HideInInspector] public UnityEvent OnLocalTableLoaded;
     [HideInInspector] public UnityEvent OnLanguageChanged;
 
-
     private void Start()
     {
         StartCoroutine(Initialization());
@@ -42,10 +41,14 @@ public class LocalizationManager : MonoBehaviour
 
     public void ChangeLanguage(int languageIndex)
     {
+        LoadPlayerLanguagePref(languageIndex);
+        OnLanguageChanged?.Invoke();
+    }
+
+    private void LoadPlayerLanguagePref(int languageIndex)
+    {
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[languageIndex];
         PlayerPrefs.SetInt(PLAYER_PREF_LANGUAGE_KEY, languageIndex);
         PlayerPrefs.Save();
-
-        OnLanguageChanged?.Invoke();
     }
 }

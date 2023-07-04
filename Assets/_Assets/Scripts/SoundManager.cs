@@ -21,8 +21,8 @@ public class SoundManager : MonoBehaviour
             Instance = this;
         }
 
-        float defaultVolume = 1f;
-        _volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, defaultVolume);
+        float volumeMultiplier= 1f;
+        _volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, volumeMultiplier * _volume);
     }
 
     public void ChangeVolume()
@@ -37,5 +37,9 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public float GetVolume()
+    {
+        return _volume;
+    }
 
 }

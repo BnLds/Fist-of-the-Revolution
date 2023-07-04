@@ -30,14 +30,14 @@ public class ProtestSound : MonoBehaviour
     private void Start()
     {
         UpdateVolumeAttenuation();
-        _audioSource.volume =_maxVolume * _volumeDistanceAttenuation;
+        _audioSource.volume =_maxVolume * _volumeDistanceAttenuation * SoundManager.Instance.GetVolume();
     }
 
     private void Update()
     {
         UpdateVolumeAttenuation();
         float currentVolume = _audioSource.volume;
-        _audioSource.volume = _maxVolume * _volumeDistanceAttenuation;
+        _audioSource.volume = _maxVolume * _volumeDistanceAttenuation * SoundManager.Instance.GetVolume();
     }
 
     private void UpdateVolumeAttenuation()

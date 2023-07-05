@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -39,11 +38,11 @@ public class GameInput : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerInputActions.Player.Interact.performed += OnInteractStarted;
-        _playerInputActions.Player.Interact.canceled += OnInteractCanceled;
-        _playerInputActions.Player.Casserolade.performed += OnCasseroladeStarted;
-        _playerInputActions.Player.Casserolade.canceled += OnCasseroladeCanceled;
-        _playerInputActions.Player.Pause.performed += OnPausePerformed;
+        _playerInputActions.Player.Interact.performed -= OnInteractStarted;
+        _playerInputActions.Player.Interact.canceled -= OnInteractCanceled;
+        _playerInputActions.Player.Casserolade.performed -= OnCasseroladeStarted;
+        _playerInputActions.Player.Casserolade.canceled -= OnCasseroladeCanceled;
+        _playerInputActions.Player.Pause.performed -= OnPausePerformed;
 
         _playerInputActions.Dispose();
     }

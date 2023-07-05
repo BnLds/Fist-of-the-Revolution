@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class _GameManager : MonoBehaviour
 {
@@ -8,9 +9,8 @@ public class _GameManager : MonoBehaviour
     [HideInInspector] public UnityEvent OnGamePaused;
     [HideInInspector] public UnityEvent OnGameUnpaused;
 
-    [SerializeField] private GameInput _gameInput;
-
     private bool _isGamePaused = false;
+    private Scene _currentScene;
 
     private void Awake()
     {
@@ -26,7 +26,8 @@ public class _GameManager : MonoBehaviour
 
     private void Start()
     {
-        _gameInput.OnPauseAction.AddListener(GameInput_OnPauseAction);
+        _currentScene = SceneManager.GetActiveScene();
+        GameInput.Instance.OnPauseAction.AddListener(GameInput_OnPauseAction);
     }
 
     private void GameInput_OnPauseAction()
@@ -36,17 +37,24 @@ public class _GameManager : MonoBehaviour
 
     public void TogglePauseGame()
     {
-        _isGamePaused = !_isGamePaused;
-
-        if(_isGamePaused)
+        if(_currentScene.name == "MainMenuScene")
         {
-            Time.timeScale = 0f;
-            OnGamePaused?.Invoke();
+            OnGameUnpaused?.Invoke();
         }
         else
         {
-            OnGameUnpaused?.Invoke();
-            Time.timeScale = 1f;
+            _isGamePaused = !_isGamePaused;
+
+            if(_isGamePaused)
+            {
+                Time.timeScale = 0f;
+                OnGamePaused?.Invoke();
+            }
+            else
+            {
+                OnGameUnpaused?.Invoke();
+                Time.timeScale = 1f;
+            }
         }
     }
 }

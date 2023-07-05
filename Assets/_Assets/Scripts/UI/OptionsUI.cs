@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class OptionsUI : MonoBehaviour
 {
-    
-
     [SerializeField] private LocalizationManager _localizationManager;
     [SerializeField] private Button _soundEffectsButton;
     [SerializeField] private Button _musicButton;
@@ -32,19 +30,21 @@ public class OptionsUI : MonoBehaviour
             {(int)LocalizationManager.Languages.Spanish, LocalizationKeys.SPANISH_KEY}
         };
         
+        _soundEffectsButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.ChangeVolume();
+            UpdateVisual();
+        });
 
-            _soundEffectsButton.onClick.AddListener(() =>
-            {
-                SoundManager.Instance.ChangeVolume();
-                UpdateVisual();
-            });
         _musicButton.onClick.AddListener(()=>{
             MusicManager.Instance.ChangeVolume();
             UpdateVisual();
         });
+
         _closeButton.onClick.AddListener(() => {
             Hide();
         });
+
         _languageButton.onClick.AddListener(() =>
         {
             _localizationManager.SelectNextLanguage();

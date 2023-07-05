@@ -297,17 +297,8 @@ public class PoliceUnitSM : StateMachine
 
     public void AttemptCatchPlayer()
     {
-        float attemptValue = Random.Range(0f, 100f);
-        float catchThreshold = 80f;
-        if(attemptValue <= catchThreshold)
-        {
-            Debug.Log("Player Caught!");
-            OnCatchAttempt?.Invoke();
-        }
-        else
-        {
-            Debug.Log("Player Dodged!");
-        }
+        OnCatchAttempt?.Invoke();
+        PoliceResponseManager.Instance.AttemptCatchPlayer();
     }
 
     public void WaitForEndOfframe()

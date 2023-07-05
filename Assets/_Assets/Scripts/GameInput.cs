@@ -36,6 +36,14 @@ public class GameInput : MonoBehaviour
         _playerInputActions.Player.Pause.performed += OnPausePerformed;
     }
 
+    private void Start()
+    {
+        PoliceResponseManager.Instance.OnPlayerCaught.AddListener(() =>
+        {
+            _playerInputActions.Player.Disable();
+        });
+    }
+
     private void OnDestroy()
     {
         _playerInputActions.Player.Interact.performed -= OnInteractStarted;

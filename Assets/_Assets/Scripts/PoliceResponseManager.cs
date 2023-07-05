@@ -14,6 +14,8 @@ public class PoliceResponseManager : MonoBehaviour
     [HideInInspector] public UnityEvent<Transform> OnFollowed;
     [HideInInspector] public UnityEvent<Transform> OnSuspectCleared;
     [HideInInspector] public UnityEvent OnPlayerIdentified;
+    [HideInInspector] public UnityEvent OnPlayerCaught;
+
 
     [Header("Initialization Parameters")]
     [SerializeField] private BreakablesCollectionManager _breakablesCollectionManager;
@@ -333,5 +335,20 @@ public class PoliceResponseManager : MonoBehaviour
             _policeResponseData.HighPriorityFlowfield.flowfield = GridController.Instance.GenerateFlowField(targetPosition);
         }
         return _policeResponseData.HighPriorityFlowfield.flowfield;
+    }
+
+    public void AttemptCatchPlayer()
+    {
+        float attemptValue = Random.Range(0f, 100f);
+        float catchThreshold = 80f;
+        if(attemptValue <= catchThreshold)
+        {
+            Debug.Log("Player Caught!");
+            OnPlayerCaught?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Player Dodged!");
+        }
     }
 }

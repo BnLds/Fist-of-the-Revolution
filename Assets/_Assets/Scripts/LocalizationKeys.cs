@@ -18,6 +18,9 @@ public class LocalizationKeys
     public const string JAPANESE_KEY = "ui_japanese";
     public const string KOREAN_KEY = "ui_korean";
     public const string SPANISH_KEY = "ui_spanish";
+    public const string LOST_KEY = "ui_lose";
+    public const string RETRY_KEY = "ui_retry";
+
 
 
 }

@@ -16,10 +16,7 @@ public class GuidanceUI : MonoBehaviour
     }
 
     private const int MAX_MESSAGE_COUNT = 2; //Number of times any message can be displayed on screen
-    private const string GUIDANCE_ATTACK_KEY = "guidance_attack";
-    private const string GUIDANCE_HIDE_KEY = "guidance_hide";
-    private const string GUIDANCE_CASSEROLADE_KEY = "guidance_casserolade";
-
+    
     [SerializeField] private TextMeshProUGUI _guidanceText;
 
     private readonly Dictionary<Guidance, int> _messageCountDict = new Dictionary<Guidance, int>();
@@ -67,13 +64,13 @@ public class GuidanceUI : MonoBehaviour
                 switch(key)
                 {
                     case(Guidance.Attack):
-                        _guidanceText.text = Localizer.Instance.GetMessage(GUIDANCE_ATTACK_KEY);
+                        _guidanceText.text = Localizer.Instance.GetMessage(LocalizationKeys.GUIDANCE_ATTACK_KEY);
                         break;
                     case(Guidance.Hide):
-                        _guidanceText.text = Localizer.Instance.GetMessage(GUIDANCE_HIDE_KEY);
+                        _guidanceText.text = Localizer.Instance.GetMessage(LocalizationKeys.GUIDANCE_HIDE_KEY);
                         break;
                     case(Guidance.Casserolade):
-                        _guidanceText.text = Localizer.Instance.GetMessage(GUIDANCE_CASSEROLADE_KEY);
+                        _guidanceText.text = Localizer.Instance.GetMessage(LocalizationKeys.GUIDANCE_CASSEROLADE_KEY);
                         break;
                 }
                 _currentGuidanceKeyDisplayed = key;

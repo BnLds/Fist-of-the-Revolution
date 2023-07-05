@@ -5,11 +5,6 @@ using System;
 
 public class GamePauseUI : MonoBehaviour
 {
-    private const string MAIN_MENU_KEY = "ui_mainMenu";
-    private const string RESUME_KEY = "ui_resume";
-    private const string PAUSED_KEY = "ui_paused";
-    private const string OPTIONS_KEY = "ui_options";
-
     [SerializeField] private Button _resumeButton;
     [SerializeField] private Button _mainMenuButton;
     [SerializeField] private Button _optionsButton;
@@ -44,10 +39,10 @@ public class GamePauseUI : MonoBehaviour
 
     private void SetStrings()
     {
-        _resumeText.text = Localizer.Instance.GetMessage(RESUME_KEY);
-        _mainMenuText.text = Localizer.Instance.GetMessage(MAIN_MENU_KEY);
-        _pauseText.text = Localizer.Instance.GetMessage(PAUSED_KEY);
-        _optionsText.text = Localizer.Instance.GetMessage(OPTIONS_KEY);
+        _resumeText.text = Localizer.Instance.GetMessage(LocalizationKeys.RESUME_KEY);
+        _mainMenuText.text = Localizer.Instance.GetMessage(LocalizationKeys.MAIN_MENU_KEY);
+        _pauseText.text = Localizer.Instance.GetMessage(LocalizationKeys.PAUSED_KEY);
+        _optionsText.text = Localizer.Instance.GetMessage(LocalizationKeys.OPTIONS_KEY);
     }
 
     private void Show()

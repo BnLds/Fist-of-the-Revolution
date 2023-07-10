@@ -12747,6 +12747,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8092548695155217263}
   - component: {fileID: 2481392565971890025}
+  - component: {fileID: 3884491102368694290}
   - component: {fileID: 4730921884135526718}
   - component: {fileID: 8092548695155217172}
   - component: {fileID: 8092548695155217259}
@@ -12837,6 +12838,24 @@ MonoBehaviour:
   OnCasseroladeCdOver:
     m_PersistentCalls:
       m_Calls: []
+  OnItemEquipped:
+    m_PersistentCalls:
+      m_Calls: []
+  OnWeaponEquipped:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3884491102368694290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092548695155217262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa2bc61fb669db429fc8c3096d8f0d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4730921884135526718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12891,7 +12910,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8092548695155217262}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &8268783727895136641
 GameObject:
   m_ObjectHideFlags: 0

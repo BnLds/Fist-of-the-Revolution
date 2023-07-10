@@ -12,10 +12,14 @@ public class LostGameUI : MonoBehaviour
 
     private void Awake()
     {
-        _retryButton.onClick.AddListener(() => {
+        _retryButton.onClick.AddListener(() => 
+        {
+            SoundManager.Instance.PlayButtonClickSound();
             Loader.Load(Loader.Scene.GameScene);
         });
-        _mainMenuButton.onClick.AddListener(()=> {
+        _mainMenuButton.onClick.AddListener(()=> 
+        {
+            SoundManager.Instance.PlayButtonClickSound();
             Loader.Load(Loader.Scene.MainMenuScene);
         });
     }

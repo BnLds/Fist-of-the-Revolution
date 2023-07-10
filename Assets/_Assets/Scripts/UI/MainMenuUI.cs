@@ -12,17 +12,20 @@ public class MainMenuUI : MonoBehaviour
     {
         _playButton.onClick.AddListener(() => 
         {
+            SoundManager.Instance.PlayButtonClickSound();
             Loader.Load(Loader.Scene.GameScene);
         });
 
         _quitButton.onClick.AddListener(() => 
         {
+            SoundManager.Instance.PlayButtonClickSound();
             Application.Quit();
 
         });
 
         _optionsButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayButtonClickSound();
             _optionsUI.Show();
         });
 

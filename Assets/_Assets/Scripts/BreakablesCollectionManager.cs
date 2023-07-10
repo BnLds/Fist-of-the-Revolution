@@ -7,6 +7,7 @@ public class BreakablesCollectionManager : MonoBehaviour
 {
     public static BreakablesCollectionManager Instance { get; private set;}
 
+    [HideInInspector] public UnityEvent OnDestroyedObject;
     [SerializeField] private List<BreakableController> _breakablesList;
     public int HighValueObjectThreshold { get; private set; } = 5;
 
@@ -38,7 +39,7 @@ public class BreakablesCollectionManager : MonoBehaviour
     private void Breakable_OnDestroyedBreakable(int reward, BreakableController sender)
     {
         OnScoreChange?.Invoke(reward);
-
+        OnDestroyedObject?.Invoke();
         _breakablesList.Remove(sender);
         sender.OnDamagedBreakable.RemoveAllListeners();
         sender.OnDestroyedBreakable.RemoveAllListeners();

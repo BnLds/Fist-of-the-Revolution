@@ -33,20 +33,26 @@ public class OptionsUI : MonoBehaviour
         _soundEffectsButton.onClick.AddListener(() =>
         {
             SoundManager.Instance.ChangeVolume();
+            SoundManager.Instance.PlayButtonClickSound();
             UpdateVisual();
         });
 
-        _musicButton.onClick.AddListener(()=>{
+        _musicButton.onClick.AddListener(()=>
+        {
             MusicManager.Instance.ChangeVolume();
+            SoundManager.Instance.PlayButtonClickSound();
             UpdateVisual();
         });
 
-        _closeButton.onClick.AddListener(() => {
+        _closeButton.onClick.AddListener(() => 
+        {
+            SoundManager.Instance.PlayButtonClickSound();
             Hide();
         });
 
         _languageButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayButtonClickSound();
             _localizationManager.SelectNextLanguage();
             UpdateVisual();
         });

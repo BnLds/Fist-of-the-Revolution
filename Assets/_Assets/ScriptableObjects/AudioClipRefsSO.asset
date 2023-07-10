@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b2701aaaf5ae341a0dc76403169114, type: 3}
+  m_Name: AudioClipRefsSO
+  m_EditorClassIdentifier: 
+  AttackUnarmed:
+  - {fileID: 8300000, guid: 3f8769ba6ecf06e41b15892908906e71, type: 3}
+  - {fileID: 8300000, guid: bffa3e5f4cd70f942a70f97c45fcfd7a, type: 3}
+  AttackArmed:
+  - {fileID: 8300000, guid: cdbbb2772ebe3c543a71ee500f477215, type: 3}
+  - {fileID: 8300000, guid: 6c8d5c60804f8f04784328200a6c1bb8, type: 3}
+  - {fileID: 8300000, guid: 801cb25298299cc4aa625e3437f4aded, type: 3}
+  Casserolade: []
+  Warning: []
+  ObjectPickUp:
+  - {fileID: 8300000, guid: 693a110bf15ed9a4883d3664a094557c, type: 3}
+  Footstep:
+  - {fileID: 8300000, guid: c828e05391b13af41b9345aee89269de, type: 3}
+  - {fileID: 8300000, guid: b608d5bfa351b3341988b9d1b1d30862, type: 3}
+  - {fileID: 8300000, guid: a54fd8c17282ce343a5ce003b0fda537, type: 3}
+  - {fileID: 8300000, guid: 7e6c86cc144e96a41bea42b958719b42, type: 3}
+  DestroyedBillboard:
+  - {fileID: 8300000, guid: c540abbba00e84544b78b2385eb35de0, type: 3}
+  ButtonClick:
+  - {fileID: 8300000, guid: 7bd57c809b4544a4585dfe8b8a497a2d, type: 3}

@@ -16,13 +16,19 @@ public class GamePauseUI : MonoBehaviour
 
     private void Awake()
     {
-        _resumeButton.onClick.AddListener(() => {
+        _resumeButton.onClick.AddListener(() => 
+        {
+            SoundManager.Instance.PlayButtonClickSound();
             _GameManager.Instance.TogglePauseGame();
         });
-        _mainMenuButton.onClick.AddListener(()=> {
+        _mainMenuButton.onClick.AddListener(()=> 
+        {
+            SoundManager.Instance.PlayButtonClickSound();
             Loader.Load(Loader.Scene.MainMenuScene);
         });
-        _optionsButton.onClick.AddListener(() => {
+        _optionsButton.onClick.AddListener(() => 
+        {
+            SoundManager.Instance.PlayButtonClickSound();
             _optionsUI.Show();
         });
     }

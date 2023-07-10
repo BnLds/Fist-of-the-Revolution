@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public UnityEvent OnStartedCasserolade;
     [HideInInspector] public UnityEvent OnStoppedCasserolade;
     [HideInInspector] public UnityEvent OnCasseroladeCdOver;
+    [HideInInspector] public UnityEvent OnItemEquipped;
+    [HideInInspector] public UnityEvent OnWeaponEquipped;
 
     private Rigidbody _playerRigidbody;
     private Collider _playerCollider;
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private bool _isLoadingAttack;
     private bool _isPerformingCasserolade;
     private bool _isCasseroladeOnCd;
+    private bool _isWalking = false;
     private EquipmentManager _equipmentManager;
     private float _cooldownCasseroladeTime = 5f;
     private float _casseroladeMaxTime = 5f;
@@ -77,6 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveInput = new Vector3(GameInput.Instance.GetMovementVectorNormalized().x, 0,GameInput.Instance.GetMovementVectorNormalized().y);
         OnMove?.Invoke(moveInput);
+        _isWalking = moveInput != Vector3.zero;
         _playerRigidbody.velocity = moveInput * _moveSpeed;
     }
 
@@ -229,6 +233,7 @@ public class PlayerController : MonoBehaviour
         if(1<< collider.gameObject.layer == _equipmentLayer.value)
         {
             _equipmentManager.Equip(collider.transform);
+            OnItemEquipped?.Invoke();
             ShowCasseroladeGuidance(collider.GetComponent<EquipmentData>().GetEquipmentSO().EquipmentName);
 
             Destroy(collider.gameObject);
@@ -243,6 +248,7 @@ public class PlayerController : MonoBehaviour
             if (item.gameObject.activeSelf)
             {
                 canCasserolade = true;
+                OnWeaponEquipped?.Invoke();
             }
             else
             {
@@ -300,5 +306,10 @@ public class PlayerController : MonoBehaviour
         _timeToUntrack *= 1 - percentHideTime;
 
         OnHideTimesChange?.Invoke();
+    }
+
+    public bool IsWalking()
+    {
+        return _isWalking;
     }
 }

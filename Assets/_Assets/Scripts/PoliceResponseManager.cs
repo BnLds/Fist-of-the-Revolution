@@ -310,11 +310,6 @@ public class PoliceResponseManager : MonoBehaviour
 
     public void SetTrackedSuspectToUnfollowed(Transform target)
     {
-        foreach(var element in GetTrackedList())
-        {
-            Debug.Log(element.SuspectTransform + " : " + element.IsTracked);
-        }
-
         int targetIndex = GetTrackedList().IndexOf((target, true));
         if( targetIndex < _policeResponseData.TrackedSuspects.Count)
         {

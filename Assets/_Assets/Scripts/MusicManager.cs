@@ -95,7 +95,7 @@ public class MusicManager : MonoBehaviour
         {
             if(_musicDatabaseSO.MusicDatabase[i].Tag == tag)
             {
-                int clipIndex = UnityEngine.Random.Range((int)0, (int)_musicDatabaseSO.MusicDatabase[i].Clips.Length - 1);
+                int clipIndex = UnityEngine.Random.Range((int)0, (int)_musicDatabaseSO.MusicDatabase[i].Clips.Length);
                 _audioSource.clip = _musicDatabaseSO.MusicDatabase[i].Clips[clipIndex];
             }    
         }

@@ -52,12 +52,24 @@ public class MusicManager : MonoBehaviour
     {
         PlayerController.Instance?.OnAttackPerformed.AddListener((Transform arg0) => 
         { 
-            PlayMusic(MusicTag.Casseur);
+            if(PoliceResponseManager.Instance.IsPlayerIdentified())
+            {
+                PlayMusic(MusicTag.BlackHat);
+            }
+            else
+            {
+                PlayMusic(MusicTag.Casseur);
+            }
         });
 
         PoliceResponseManager.Instance?.OnPlayerIdentified.AddListener(() => 
         {
             PlayMusic(MusicTag.BlackHat);
+        });
+
+        PoliceResponseManager.Instance?.OnPlayerNotIDedAnymore.AddListener((Transform arg0) => 
+        {
+            PlayMusic(MusicTag.Casseur);
         });
     }
 
@@ -65,6 +77,7 @@ public class MusicManager : MonoBehaviour
     {
         PlayerController.Instance?.OnAttackPerformed.RemoveAllListeners();
         PoliceResponseManager.Instance?.OnPlayerIdentified.RemoveAllListeners();
+        PoliceResponseManager.Instance?.OnPlayerNotIDedAnymore.RemoveAllListeners();
     }
 
     public void PlayMusic(MusicTag tag)

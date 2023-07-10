@@ -311,7 +311,7 @@ public class PoliceResponseManager : MonoBehaviour
     public void SetTrackedSuspectToUnfollowed(Transform target)
     {
         int targetIndex = GetTrackedList().IndexOf((target, true));
-        if( targetIndex < _policeResponseData.TrackedSuspects.Count)
+        if(GetTrackedList().Contains((target, true)) && targetIndex < _policeResponseData.TrackedSuspects.Count)
         {
             (Transform targetTransform, bool) newTargetData = (_policeResponseData.TrackedSuspects[targetIndex].SuspectTransform, false);
             _policeResponseData.TrackedSuspects[targetIndex] = newTargetData;

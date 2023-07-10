@@ -19,7 +19,7 @@ public class MusicManager : MonoBehaviour
     public struct MusicData
     {
         public MusicManager.MusicTag Tag;
-        public List<AudioClip> Clips;
+        public AudioClip[] Clips;
     }
 
     private const string PLAYER_PREFS_MUSIC_VOLUME = "MusicVolume";
@@ -91,11 +91,11 @@ public class MusicManager : MonoBehaviour
             _currentClipTag = tag;
         } 
 
-        for (int i = 0; i < _musicDatabaseSO.MusicDatabase.Count; i++)
+        for (int i = 0; i < _musicDatabaseSO.MusicDatabase.Length; i++)
         {
             if(_musicDatabaseSO.MusicDatabase[i].Tag == tag)
             {
-                int clipIndex = UnityEngine.Random.Range((int)0, (int)_musicDatabaseSO.MusicDatabase[i].Clips.Count - 1);
+                int clipIndex = UnityEngine.Random.Range((int)0, (int)_musicDatabaseSO.MusicDatabase[i].Clips.Length - 1);
                 _audioSource.clip = _musicDatabaseSO.MusicDatabase[i].Clips[clipIndex];
             }    
         }

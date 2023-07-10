@@ -30,6 +30,14 @@ public class RenderFeatureToggler : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        foreach (RenderFeatureToggle toggleObj in renderFeatures)
+        {
+            toggleObj.feature.SetActive(false);
+        }
+    }
+
     private void PoliceResponseManager_OnPlayerIdentified()
     {
         foreach (RenderFeatureToggle toggleObj in renderFeatures)

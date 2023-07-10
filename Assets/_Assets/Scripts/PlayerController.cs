@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
             {
                 collider.GetComponent<BreakableController>().Damage(_playerDamage);
                 OnAttackPerformed?.Invoke(transform);
+                MusicManager.Instance.PlayMusic(MusicManager.MusicTag.Casseur);
                 StopLoadingAttack();
             }
         }

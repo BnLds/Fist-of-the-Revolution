@@ -26,8 +26,14 @@ public class _GameManager : MonoBehaviour
 
     private void Start()
     {
-        _currentScene = SceneManager.GetActiveScene();
         GameInput.Instance.OnPauseAction.AddListener(GameInput_OnPauseAction);
+
+        _currentScene = SceneManager.GetActiveScene();
+
+        if(_currentScene.name == "MainMenuScene" || _currentScene.name == "GameScene")
+        {
+            MusicManager.Instance.PlayMusic(MusicManager.MusicTag.MainMenu);
+        }
     }
 
     private void GameInput_OnPauseAction()

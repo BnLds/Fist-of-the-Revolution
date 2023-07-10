@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameInput : MonoBehaviour
 {
@@ -38,10 +39,13 @@ public class GameInput : MonoBehaviour
 
     private void Start()
     {
-        PoliceResponseManager.Instance.OnPlayerCaught.AddListener(() =>
+        if(SceneManager.GetActiveScene().name == "GameScene")
         {
-            _playerInputActions.Player.Disable();
-        });
+            PoliceResponseManager.Instance.OnPlayerCaught.AddListener(() =>
+            {
+                _playerInputActions.Player.Disable();
+            });
+        }
     }
 
     private void OnDestroy()

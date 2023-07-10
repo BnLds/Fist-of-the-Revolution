@@ -30,9 +30,15 @@ public class _GameManager : MonoBehaviour
 
         _currentScene = SceneManager.GetActiveScene();
 
-        if(_currentScene.name == "MainMenuScene" || _currentScene.name == "GameScene")
+        if(_currentScene.name == "MainMenuScene")
         {
-            MusicManager.Instance.PlayMusic(MusicManager.MusicTag.MainMenu);
+                MusicManager.Instance.PlayMusic(MusicManager.MusicTag.MainMenu);
+
+        }
+        else if (_currentScene.name == "GameScene")
+        {
+                MusicManager.Instance.PlayMusic(MusicManager.MusicTag.NewProtester);
+
         }
     }
 

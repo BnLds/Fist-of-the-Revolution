@@ -241,7 +241,6 @@ public class PoliceResponseManager : MonoBehaviour
 
     public void SetPlayerToIdentified()
     {
-        MusicManager.Instance.PlayMusic(MusicManager.MusicTag.BlackHat);
         _policeResponseData.IsPlayerIdentified = true;
         _policeResponseData.IsPlayerTracked = true;
         AddFollowedTargetToTrackedList(PlayerController.Instance.transform);

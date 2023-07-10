@@ -11,7 +11,8 @@ public class MusicManager : MonoBehaviour
         MainMenu,
         NewProtester,
         Casseur,
-        BlackHat
+        BlackHat, 
+        None
     }
 
     [Serializable]
@@ -27,6 +28,7 @@ public class MusicManager : MonoBehaviour
 
     private float _volume = .3f;
     private AudioSource _audioSource;
+    private MusicTag _currentClipTag;
 
     private void Awake()
     {
@@ -43,10 +45,39 @@ public class MusicManager : MonoBehaviour
 
         _volume = PlayerPrefs.GetFloat(PLAYER_PREFS_MUSIC_VOLUME, _volume);
         _audioSource.volume = _volume;
+        _currentClipTag = MusicTag.None;
+    }
+
+    private void Start()
+    {
+        PlayerController.Instance?.OnAttackPerformed.AddListener((Transform arg0) => 
+        { 
+            PlayMusic(MusicTag.Casseur);
+        });
+
+        PoliceResponseManager.Instance?.OnPlayerIdentified.AddListener(() => 
+        {
+            PlayMusic(MusicTag.BlackHat);
+        });
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.Instance?.OnAttackPerformed.RemoveAllListeners();
+        PoliceResponseManager.Instance?.OnPlayerIdentified.RemoveAllListeners();
     }
 
     public void PlayMusic(MusicTag tag)
     {
+        if(_currentClipTag == tag)
+        {
+            return;  
+        }
+        else
+        {
+            _currentClipTag = tag;
+        } 
+
         for (int i = 0; i < _musicDatabaseSO.MusicDatabase.Count; i++)
         {
             if(_musicDatabaseSO.MusicDatabase[i].Tag == tag)

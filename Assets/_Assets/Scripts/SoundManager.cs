@@ -67,20 +67,19 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayFootstepsSound()
+    public void PlayFootstepsSound(float volumeScale = 1f)
     {
-        PlaySound(_audioClipRefsSO.Footstep);
-
+        PlaySound(_audioClipRefsSO.Footstep, volumeScale);
     }
 
-    private void PlaySound(AudioClip[] audioClipArray)
+    private void PlaySound(AudioClip[] audioClipArray, float volumeScale = 1f)
     {
-        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)]);
+        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], volumeScale);
     }
 
-    private void PlaySound(AudioClip audioClip)
+    private void PlaySound(AudioClip audioClip, float volumeScale = 1f)
     {
-        _camAudioSource.PlayOneShot(audioClip, _volume);
+        _camAudioSource.PlayOneShot(audioClip, _volume * volumeScale);
     }
 
     public void PlayButtonClickSound()

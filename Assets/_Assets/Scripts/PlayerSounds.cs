@@ -3,9 +3,9 @@ using UnityEngine;
 public class PlayerSounds : MonoBehaviour
 {
     private float _footstepTimer;
-    private float _footstepTimerMax = .1f;
+    private float _footstepTimerMax = .15f;
 
-    private void Udpate()
+    private void Update()
     {
         _footstepTimer -= Time.deltaTime;
         if(_footstepTimer < 0f)
@@ -14,7 +14,7 @@ public class PlayerSounds : MonoBehaviour
 
             if(PlayerController.Instance.IsWalking())
             {
-                SoundManager.Instance.PlayFootstepsSound();
+                SoundManager.Instance.PlayFootstepsSound(.5f);
             }
         }
     }

@@ -21,8 +21,8 @@ public class RenderFeatureToggler : MonoBehaviour
     private void Start()
     {
 
-        PoliceResponseManager.Instance.OnPlayerIdentified.AddListener(PoliceResponseManager_OnPlayerIdentified);
-        PoliceResponseManager.Instance.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerNotIDedAnymore);
+        PoliceResponseManager.Instance?.OnPlayerIdentified.AddListener(PoliceResponseManager_OnPlayerIdentified);
+        PoliceResponseManager.Instance?.OnPlayerNotIDedAnymore.AddListener(PoliceResponseManager_OnPlayerNotIDedAnymore);
 
         foreach (RenderFeatureToggle toggleObj in renderFeatures)
         {

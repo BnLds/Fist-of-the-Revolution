@@ -23,8 +23,10 @@ public class LocalizationKeys
     public const string FOOTSTEPS_KEY = "ui_footsteps";
     public const string ON_KEY = "ui_on";
     public const string OFF_KEY = "ui_off";
-
-
-
-
+    public const string GO_KEY = "ui_go";
+    public const string ENTER_NAME_KEY = "ui_enterName";
+    public const string HIGHSCORES_KEY = "ui_highscores";
+    public const string RANK_KEY = "ui_rank";
+    public const string SCORE_KEY = "ui_score";
+    public const string NAME_KEY = "ui_name";
 }

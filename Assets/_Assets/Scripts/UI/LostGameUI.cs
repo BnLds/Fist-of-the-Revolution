@@ -9,6 +9,7 @@ public class LostGameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _retryText;
     [SerializeField] private TextMeshProUGUI _mainMenuText;
     [SerializeField] private TextMeshProUGUI _lostText;
+    [SerializeField] private InputFieldUI _inputFieldUI;
 
     private void Awake()
     {
@@ -30,7 +31,6 @@ public class LostGameUI : MonoBehaviour
         {
             Show();
         });
-        Localizer.Instance.LocalizationLoaded.AddListener(SetStrings);
 
         Hide();
     }
@@ -44,6 +44,8 @@ public class LostGameUI : MonoBehaviour
 
     private void Show()
     {
+        SetStrings();
+        _inputFieldUI.Show();
         gameObject.SetActive(true);
     }
 

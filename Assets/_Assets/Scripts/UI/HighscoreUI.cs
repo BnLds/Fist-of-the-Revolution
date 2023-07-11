@@ -4,20 +4,60 @@ using TMPro;
 public class HighscoreUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _leaderboardText;
-    [SerializeField] private TextMeshProUGUI _rankText;
-    [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private Transform _columnsContainer;
+    [SerializeField] private LeaderboardColumnTemplateUI _columnTemplateUI;
+    [SerializeField] private HighscoreEntryTemplateUI _highscoreEntryTemplateUI;
+
+    private int _leaderboardEntriesCount;
+    private LeaderboardColumnTemplateUI _column2;
 
     private void Awake()
     {
         Hide();
     }
 
+    private void Start()
+    {
+        foreach(Transform child in _columnsContainer)
+        {
+            if(child != _columnTemplateUI.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    private void AddNewPlayerData(string playerName)
+    {
+        Leaderboard.Record(playerName, ScoreManager.Instance.GetCurrentScore());
+        _leaderboardEntriesCount = Leaderboard.GetEntriesCount();
+
+        if(_leaderboardEntriesCount > 10)
+        {
+            _column2 = Instantiate(_columnTemplateUI.transform, _columnsContainer).GetComponent<LeaderboardColumnTemplateUI>();
+            _column2.transform.SetAsLastSibling();
+        }
+
+        Leaderboard.ScoreEntry entry;
+        for (int i = 0; i < _leaderboardEntriesCount; i++)
+        {
+            entry = Leaderboard.GetEntry(i);
+            if (i < 10)
+            {
+                _columnTemplateUI.CreateNewEntry(i+1, entry.Score, entry.Name);
+            }
+            else
+            {
+                _column2.CreateNewEntry(i+1, entry.Score, entry.Name);
+            }
+        }
+    }
+
     public void Show(string playerName)
     {
-        SetStrings();
+        LocalizeTexts();
+        AddNewPlayerData(playerName);
         gameObject.SetActive(true);
-        Debug.Log(playerName);
     }
 
     public void Hide()
@@ -25,11 +65,8 @@ public class HighscoreUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void SetStrings()
+    private void LocalizeTexts()
     {
         _leaderboardText.text = Localizer.Instance.GetMessage(LocalizationKeys.HIGHSCORES_KEY);
-        _rankText.text = Localizer.Instance.GetMessage(LocalizationKeys.RANK_KEY);
-        _scoreText.text = Localizer.Instance.GetMessage(LocalizationKeys.SCORE_KEY);
-        _nameText.text = Localizer.Instance.GetMessage(LocalizationKeys.NAME_KEY);
     }
 }

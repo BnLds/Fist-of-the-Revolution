@@ -1,30 +1,18 @@
-using System;
 using TMPro;
 using UnityEngine;
 
 public class ScoreUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private BreakablesCollectionManager _breakablesCollectionManager;
 
-    private int _scoreDisplayed;
-
-    private void Awake()
+    private void Start()
     {
-        _breakablesCollectionManager.OnScoreChange.AddListener(UpdateScore);
-
-        _scoreDisplayed = 0;
-        UpdateUI();
+        ScoreManager.Instance.OnNewScore.AddListener(UpdateUI);
+        UpdateUI(ScoreManager.Instance.GetCurrentScore());
     }
 
-    private void UpdateScore(int scoreChange)
+    private void UpdateUI(int score)
     {
-        _scoreDisplayed += scoreChange;
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-        _scoreText.text = "Score: " + _scoreDisplayed.ToString();
+        _scoreText.text = Localizer.Instance.GetMessage(LocalizationKeys.SCORE_KEY) + ": " + score.ToString();
     }
 }

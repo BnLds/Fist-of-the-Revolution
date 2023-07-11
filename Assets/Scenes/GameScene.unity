@@ -3868,9 +3868,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _leaderboardText: {fileID: 1407282558}
-  _rankText: {fileID: 1532475821}
-  _scoreText: {fileID: 1356797879}
-  _nameText: {fileID: 1020865002}
+  _columnsContainer: {fileID: 1601727421}
+  _columnTemplateUI: {fileID: 2032940630}
+  _highscoreEntryTemplateUI: {fileID: 137368014}
 --- !u!1001 &95110712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6281,8 +6281,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 137368013}
+  - component: {fileID: 137368014}
   m_Layer: 5
-  m_Name: HighscoreEntryTemplate
+  m_Name: HighscoreEntryTemplateUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6311,6 +6312,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &137368014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137368012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30862f24797a576479109818f0e86d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rankText: {fileID: 1589290804}
+  _scoreText: {fileID: 1597401991}
+  _nameText: {fileID: 1861960920}
 --- !u!1001 &137582302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11764,6 +11780,53 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 244279411}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &246421769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246421770}
+  - component: {fileID: 246421771}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &246421770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246421769}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1125444341}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &246421771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246421769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac9117b3718d694e8c35fa5630785cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnNewScore:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &247996257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19749,7 +19812,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441622365}
-  m_LocalRotation: {x: 0.5491168, y: -0.00000004490202, z: 0.000000029502342, w: 0.83574563}
+  m_LocalRotation: {x: 0.54911685, y: -3.8584918e-16, z: 5.021952e-15, w: 0.83574563}
   m_LocalPosition: {x: 0.4006443, y: 18.635656, z: -13.463562}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35203,7 +35266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 860672736}
-  _breakablesCollectionManager: {fileID: 1448524911}
 --- !u!1001 &790049527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52647,6 +52709,7 @@ Transform:
   m_Children:
   - {fileID: 401837516}
   - {fileID: 1075481536}
+  - {fileID: 246421770}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72137,7 +72200,7 @@ GameObject:
   - component: {fileID: 1532475822}
   - component: {fileID: 1532475821}
   m_Layer: 5
-  m_Name: positionTitle
+  m_Name: rankTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75116,7 +75179,7 @@ GameObject:
   - component: {fileID: 1589290805}
   - component: {fileID: 1589290804}
   m_Layer: 5
-  m_Name: positionText
+  m_Name: rankText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86455,7 +86518,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852997886}
-  m_LocalRotation: {x: 0.42864057, y: -0.000000021984706, z: 0.000000010430322, w: 0.9034751}
+  m_LocalRotation: {x: 0.42864057, y: 0.000000021984711, z: -0.000000010430326, w: 0.9034751}
   m_LocalPosition: {x: 0.4006443, y: 10.640326, z: -13.463562}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -87130,7 +87193,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868153550}
-  m_LocalRotation: {x: 0.5491168, y: -0.00000004490202, z: 0.000000029502342, w: 0.83574563}
+  m_LocalRotation: {x: 0.54911685, y: -3.8584918e-16, z: 5.021952e-15, w: 0.83574563}
   m_LocalPosition: {x: -27.06, y: 17.49533, z: -55.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -95216,6 +95279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2032940629}
+  - component: {fileID: 2032940630}
   m_Layer: 5
   m_Name: ColumnTemplate
   m_TagString: Untagged
@@ -95247,6 +95311,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2032940630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032940628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ddafe8508bd64b42a44121c9c0bc2db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rankTitleText: {fileID: 1532475821}
+  _scoreTitleText: {fileID: 1356797879}
+  _nameTitleText: {fileID: 1020865002}
+  _entryTemplateUI: {fileID: 137368014}
+  _entriesContainer: {fileID: 1912470129}
 --- !u!1001 &2033503819
 PrefabInstance:
   m_ObjectHideFlags: 0

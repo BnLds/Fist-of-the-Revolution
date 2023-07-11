@@ -20,6 +20,10 @@ public class LocalizationKeys
     public const string SPANISH_KEY = "ui_spanish";
     public const string LOST_KEY = "ui_lose";
     public const string RETRY_KEY = "ui_retry";
+    public const string FOOTSTEPS_KEY = "ui_footsteps";
+    public const string ON_KEY = "ui_on";
+    public const string OFF_KEY = "ui_off";
+
 
 
 

@@ -2,9 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class OptionsUI : MonoBehaviour
 {
+    private const string PLAYER_PREFS_FOOTSTEPS_SOUND = "FootstepsSound";
+
+    [HideInInspector] public UnityEvent OnToggleFootstepsSound;
+
     [SerializeField] private LocalizationManager _localizationManager;
     [SerializeField] private Button _soundEffectsButton;
     [SerializeField] private Button _musicButton;
@@ -15,11 +20,19 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _languageText;
     [SerializeField] private TextMeshProUGUI _musicText;
     [SerializeField] private TextMeshProUGUI _optionsText;
+    [SerializeField] private Button _footstepsButton;
+    [SerializeField] private TextMeshProUGUI _footstepsText;
 
     private Dictionary<int, string> _languagesDict;
+    private bool _isFootstepsOn = true;
 
     private void Awake()
     {
+        if(PlayerPrefs.HasKey(PLAYER_PREFS_FOOTSTEPS_SOUND))
+        {
+            _isFootstepsOn = (PlayerPrefs.GetInt(PLAYER_PREFS_FOOTSTEPS_SOUND) != 0);
+        }
+
         _languagesDict = new() {
             {(int)LocalizationManager.Languages.Chinese, LocalizationKeys.CHINESE_KEY},
             {(int)LocalizationManager.Languages.English, LocalizationKeys.ENGLISH_KEY},
@@ -56,6 +69,15 @@ public class OptionsUI : MonoBehaviour
             _localizationManager.SelectNextLanguage();
             UpdateVisual();
         });
+
+        _footstepsButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonClickSound();
+            _isFootstepsOn = !_isFootstepsOn;
+            UpdateVisual();
+            OnToggleFootstepsSound?.Invoke();
+            PlayerPrefs.SetInt(PLAYER_PREFS_FOOTSTEPS_SOUND, _isFootstepsOn ? 1 : 0);
+        });
     }
 
     private void Start()
@@ -80,6 +102,15 @@ public class OptionsUI : MonoBehaviour
         _soundEffectsText.text = Localizer.Instance.GetMessage(LocalizationKeys.SOUND_EFFECTS_KEY) + ": " + Mathf.Round(SoundManager.Instance.GetVolume()* 10f);
         _musicText.text = Localizer.Instance.GetMessage(LocalizationKeys.MUSIC_KEY) + ": " + Mathf.Round(MusicManager.Instance.GetVolume()* 10f);
         _languageText.text = Localizer.Instance.GetMessage(LocalizationKeys.LANGUAGE_KEY) + ": " + Localizer.Instance.GetMessage(_languagesDict[_localizationManager.GetCurrentLanguageIndex()]);
+        
+        if(_isFootstepsOn)
+        {
+            _footstepsText.text = Localizer.Instance.GetMessage(LocalizationKeys.FOOTSTEPS_KEY) + " " + Localizer.Instance.GetMessage(LocalizationKeys.ON_KEY);
+        }
+        else
+        {
+            _footstepsText.text = Localizer.Instance.GetMessage(LocalizationKeys.FOOTSTEPS_KEY) + " " + Localizer.Instance.GetMessage(LocalizationKeys.OFF_KEY);
+        }
     }
 
     private void SetStrings()
@@ -96,5 +127,10 @@ public class OptionsUI : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public bool IsFootstepsOn()
+    {
+        return _isFootstepsOn;
     }
 }

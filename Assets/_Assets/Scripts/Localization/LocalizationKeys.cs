@@ -29,4 +29,9 @@ public class LocalizationKeys
     public const string RANK_KEY = "ui_rank";
     public const string SCORE_KEY = "ui_score";
     public const string NAME_KEY = "ui_name";
+    public const string CREDITS_KEY = "ui_credits";
+    public const string CITY_KEY = "ui_city";
+    public const string CHARACTERS_KEY = "ui_characters";
+    public const string PLAY_KEY = "ui_play";
+    public const string QUIT_KEY = "ui_quit";
 }

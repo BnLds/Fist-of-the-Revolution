@@ -9,6 +9,8 @@ public class OptionsUI : MonoBehaviour
     private const string PLAYER_PREFS_FOOTSTEPS_SOUND = "FootstepsSound";
 
     [HideInInspector] public UnityEvent OnToggleFootstepsSound;
+    [HideInInspector] public UnityEvent OnReturnToMainMenu;
+
 
     [SerializeField] private LocalizationManager _localizationManager;
     [SerializeField] private Button _soundEffectsButton;
@@ -85,7 +87,7 @@ public class OptionsUI : MonoBehaviour
         _GameManager.Instance.OnGameUnpaused.AddListener(GameManager_OnGameUnpaused);
 
         Localizer.Instance.LocalizationLoaded.AddListener(() => {
-            SetStrings();
+            LocalizeStrings();
             UpdateVisual();
         });
 
@@ -113,7 +115,7 @@ public class OptionsUI : MonoBehaviour
         }
     }
 
-    private void SetStrings()
+    private void LocalizeStrings()
     {
         _optionsText.text = Localizer.Instance.GetMessage(LocalizationKeys.OPTIONS_KEY);
         _closeText.text = Localizer.Instance.GetMessage(LocalizationKeys.CLOSE_KEY);
@@ -126,6 +128,7 @@ public class OptionsUI : MonoBehaviour
 
     public void Hide()
     {
+        OnReturnToMainMenu?.Invoke();
         gameObject.SetActive(false);
     }
 

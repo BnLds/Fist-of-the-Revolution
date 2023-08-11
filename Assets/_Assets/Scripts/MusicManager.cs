@@ -27,6 +27,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private MusicDatabaseSO _musicDatabaseSO;
 
     private float _volume = .3f;
+    private float _volumeModifier = .7f;
     private AudioSource _audioSource;
     private MusicTag _currentClipTag;
 
@@ -44,7 +45,7 @@ public class MusicManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _volume = PlayerPrefs.GetFloat(PLAYER_PREFS_MUSIC_VOLUME, _volume);
-        _audioSource.volume = _volume;
+        _audioSource.volume = _volume * _volumeModifier;
         _currentClipTag = MusicTag.None;
     }
 

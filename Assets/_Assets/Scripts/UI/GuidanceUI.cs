@@ -12,6 +12,8 @@ public class GuidanceUI : MonoBehaviour
         Attack,
         Hide,
         Casserolade,
+        Hidden,
+        Spotted,
         Empty
     }
 
@@ -21,7 +23,7 @@ public class GuidanceUI : MonoBehaviour
 
     private readonly Dictionary<Guidance, int> _messageCountDict = new Dictionary<Guidance, int>();
     private Guidance _currentGuidanceKeyDisplayed; // The currently displayed guidance message.
-    private float _guidanceResetTimer = 10f; // Time before resetting the guidance message.
+    private float _guidanceResetTimer = 5f; // Time before resetting the guidance message.
     private bool _isCoroutineRunning;
 
     private void Awake()
@@ -50,6 +52,8 @@ public class GuidanceUI : MonoBehaviour
         _messageCountDict[Guidance.Attack] = 0;
         _messageCountDict[Guidance.Hide] = 0;
         _messageCountDict[Guidance.Casserolade] = 0;
+        _messageCountDict[Guidance.Spotted] = 0;
+        _messageCountDict[Guidance.Hidden] = 0;
     }
 
     private void ShowGuidance(Guidance key)
@@ -58,7 +62,7 @@ public class GuidanceUI : MonoBehaviour
         bool isMessageCountLessThanMax = _messageCountDict.ContainsKey(key) && _messageCountDict[key] < MAX_MESSAGE_COUNT;
         if (isMessageCountLessThanMax)
         {
-            if(_currentGuidanceKeyDisplayed != key)
+            if(_currentGuidanceKeyDisplayed != key && _currentGuidanceKeyDisplayed != Guidance.Spotted)
             {
                 _guidanceText.gameObject.SetActive(true);
                 switch(key)
@@ -72,9 +76,18 @@ public class GuidanceUI : MonoBehaviour
                     case(Guidance.Casserolade):
                         _guidanceText.text = Localizer.Instance.GetMessage(LocalizationKeys.GUIDANCE_CASSEROLADE_KEY);
                         break;
+                    case(Guidance.Spotted):
+                        _guidanceText.text = Localizer.Instance.GetMessage(LocalizationKeys.GUIDANCE_SPOTTED_KEY);
+                        break;
+                    case(Guidance.Hidden):
+                        _guidanceText.text = Localizer.Instance.GetMessage(LocalizationKeys.GUIDANCE_HIDDEN_KEY);
+                        break;
                 }
                 _currentGuidanceKeyDisplayed = key;
-                _messageCountDict[key]++; // Increment the message count
+                if(key != Guidance.Hidden && key != Guidance.Spotted)
+                {
+                    _messageCountDict[key]++; // Increment the message count
+                }
 
 
                 StopCoroutine(ResetMessage());
@@ -122,6 +135,16 @@ public class GuidanceUI : MonoBehaviour
     public void ShowGuidanceCasserolade()
     {
         ShowGuidance(Guidance.Casserolade);
+    }
+
+    public void ShowGuidanceSpotted()
+    {
+        ShowGuidance(Guidance.Spotted);
+    }
+
+    public void ShowGuidanceHidden()
+    {
+        ShowGuidance(Guidance.Hidden);
     }
 
     // This method is called by the animation at the end of the Pop animation.

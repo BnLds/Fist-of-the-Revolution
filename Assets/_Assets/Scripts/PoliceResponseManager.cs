@@ -244,6 +244,7 @@ public class PoliceResponseManager : MonoBehaviour
         _policeResponseData.IsPlayerIdentified = true;
         _policeResponseData.IsPlayerTracked = true;
         AddFollowedTargetToTrackedList(PlayerController.Instance.transform);
+        GuidanceUI.Instance.ShowGuidanceSpotted();
         OnPlayerIdentified?.Invoke();
     }
 

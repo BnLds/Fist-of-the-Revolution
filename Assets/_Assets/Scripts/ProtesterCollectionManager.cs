@@ -59,6 +59,7 @@ public class ProtesterCollectionManager : MonoBehaviour
 
     private void ProtesterSafeZone_OnPlayerIDedFree(Transform sender)
     {
+        GuidanceUI.Instance.ShowGuidanceHidden();
         OnPlayerIDFree?.Invoke(sender);
     }
 

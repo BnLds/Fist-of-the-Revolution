@@ -34,4 +34,6 @@ public class LocalizationKeys
     public const string CHARACTERS_KEY = "ui_characters";
     public const string PLAY_KEY = "ui_play";
     public const string QUIT_KEY = "ui_quit";
+    public const string GUIDANCE_SPOTTED_KEY = "guidance_spotted";
+    public const string GUIDANCE_HIDDEN_KEY = "guidance_hidden";
 }

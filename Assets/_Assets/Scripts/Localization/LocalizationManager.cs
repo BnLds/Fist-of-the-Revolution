@@ -40,6 +40,12 @@ public class LocalizationManager : MonoBehaviour
         OnLocalTableLoaded?.Invoke();
     }
 
+    private IEnumerator InitNewTable()
+    {
+        yield return LocalizationSettings.InitializationOperation;
+        OnLanguageChanged?.Invoke();
+    }
+
     public string InitializeLocalizedString(string key)
     {
         var op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LOCALIZATION_TABLE, key);
@@ -48,15 +54,14 @@ public class LocalizationManager : MonoBehaviour
 
     public string UpdateLocalizedString(string key)
     {
-        var op = LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE, key, LocalizationSettings.SelectedLocale);
-        return op;
+        var op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LOCALIZATION_TABLE, key);
+        return op.Result;
     }
 
     private void ChangeLanguage(int languageIndex)
     {
         LoadPlayerLanguagePref(languageIndex);
         _currentLanguageIndex = languageIndex;
-        OnLanguageChanged?.Invoke();
     }
 
     private void LoadPlayerLanguagePref(int languageIndex)
@@ -64,6 +69,7 @@ public class LocalizationManager : MonoBehaviour
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[languageIndex];
         PlayerPrefs.SetInt(PLAYER_PREF_LANGUAGE_KEY, languageIndex);
         PlayerPrefs.Save();
+        StartCoroutine(InitNewTable());
     }
 
     public void SelectNextLanguage()

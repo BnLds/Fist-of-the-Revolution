@@ -89,7 +89,6 @@ public class PoliceResponseManager : MonoBehaviour
         if(random >=followProtesterThreshold)
         {
             //police is confusing player with protester and starts following protester
-            Debug.Log("Following protester");
             ClearTrackedSuspect(PlayerController.Instance.transform);
             AddTargetToTrackedList(protester);
 
@@ -339,12 +338,7 @@ public class PoliceResponseManager : MonoBehaviour
         float catchThreshold = 80f;
         if(attemptValue <= catchThreshold)
         {
-            Debug.Log("Player Caught!");
             OnPlayerCaught?.Invoke();
-        }
-        else
-        {
-            Debug.Log("Player Dodged!");
         }
     }
 }

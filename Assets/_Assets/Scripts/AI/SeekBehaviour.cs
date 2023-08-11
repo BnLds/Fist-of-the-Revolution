@@ -24,8 +24,6 @@ public class SeekBehaviour : SteeringBehaviour
             if(aiData.Targets == null || aiData.Targets.Count <= 0)
             {
                 //aiData.CurrentTarget = null;
-                Debug.Log("Target lost, starting to wander...");
-
                 OnTargetLost?.Invoke();
                 return (danger, interest);
             }

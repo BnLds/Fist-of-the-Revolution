@@ -76,7 +76,6 @@ public class ProtesterSafeZone : MonoBehaviour
                     _countdownToLoseID -= Time.deltaTime;
                     if (_countdownToLoseID <= 0)
                     {
-                        Debug.Log("PLAYER NOT IDED ANYMORE");
                         OnPlayerIDedFree?.Invoke(_protesterData.transform);
                         _countdownToLoseID += PlayerController.Instance.GetLoseIDTime();
                     }
@@ -87,7 +86,6 @@ public class ProtesterSafeZone : MonoBehaviour
                     _countdownToUntrack -= Time.deltaTime;
                     if (_countdownToUntrack <= 0)
                     {
-                        Debug.Log("PLAYER NOT TRACKED ANYMORE");
                         OnPlayerTrackedFree?.Invoke();
                         _countdownToUntrack += PlayerController.Instance.GetUntrackTime();
                         _isPlayerAlreadyInSafeZone = false;

@@ -105,7 +105,6 @@ public class IFlowfieldAI : MonoBehaviour
         if(_protesterData.FlowFieldsProtest.Count == 0)
         {
             //Stopping logic
-            Debug.Log("Stopping, no more protest meeting point");
             _moveDirectionInput = Vector3.zero;
         }
         else

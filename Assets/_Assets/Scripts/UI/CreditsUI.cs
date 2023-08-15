@@ -12,6 +12,8 @@ public class CreditsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _charactersText;
     [SerializeField] private TextMeshProUGUI _soundsText;
 
+    private Localizer _localizer;
+
     private void Awake()
     {
         _closeButton.onClick.AddListener(() =>
@@ -23,6 +25,7 @@ public class CreditsUI : MonoBehaviour
 
     private void Start()
     {
+        _localizer = Localizer.Instance;
         _GameManager.Instance.OnGameUnpaused.AddListener(GameManager_OnGameUnpaused);
         Hide();
     }
@@ -45,12 +48,12 @@ public class CreditsUI : MonoBehaviour
 
     private void LocalizeStrings()
     {
-        _closeText.text = Localizer.Instance.GetMessage(LocalizationKeys.CLOSE_KEY);
-        _titleText.text = Localizer.Instance.GetMessage(LocalizationKeys.CREDITS_KEY);
-        _musicText.text = Localizer.Instance.GetMessage(LocalizationKeys.MUSIC_KEY) + ": Kyubz";
-        _cityText.text = Localizer.Instance.GetMessage(LocalizationKeys.CITY_KEY) + ": Kenney";
-        _charactersText.text = Localizer.Instance.GetMessage(LocalizationKeys.CHARACTERS_KEY) + ": Bit Gamey";
-        _soundsText.text = Localizer.Instance.GetMessage(LocalizationKeys.SOUND_EFFECTS_KEY) + ": 3maze/Gamemaster Audio/Glitchedtones/West Wolf";
+        _closeText.text = _localizer.GetMessage(LocalizationKeys.CLOSE_KEY);
+        _titleText.text = _localizer.GetMessage(LocalizationKeys.CREDITS_KEY);
+        _musicText.text = _localizer.GetMessage(LocalizationKeys.MUSIC_KEY) + ": Kyubz";
+        _cityText.text = _localizer.GetMessage(LocalizationKeys.CITY_KEY) + ": Kenney";
+        _charactersText.text = _localizer.GetMessage(LocalizationKeys.CHARACTERS_KEY) + ": Bit Gamey";
+        _soundsText.text = _localizer.GetMessage(LocalizationKeys.SOUND_EFFECTS_KEY) + ": 3maze/Gamemaster Audio/Glitchedtones/West Wolf";
     }
     
 }

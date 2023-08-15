@@ -27,6 +27,7 @@ public class OptionsUI : MonoBehaviour
 
     private Dictionary<int, string> _languagesDict;
     private bool _isFootstepsOn = true;
+    private Localizer _localizer;
 
     private void Awake()
     {
@@ -69,7 +70,6 @@ public class OptionsUI : MonoBehaviour
         {
             SoundManager.Instance.PlayButtonClickSound();
             _localizationManager.SelectNextLanguage();
-            UpdateVisual();
         });
 
         _footstepsButton.onClick.AddListener(() =>
@@ -84,9 +84,10 @@ public class OptionsUI : MonoBehaviour
 
     private void Start()
     {
+        _localizer = Localizer.Instance;
         _GameManager.Instance.OnGameUnpaused.AddListener(GameManager_OnGameUnpaused);
 
-        Localizer.Instance.LocalizationLoaded.AddListener(() => {
+        _localizer.LocalizationLoaded.AddListener(() => {
             LocalizeStrings();
             UpdateVisual();
         });
@@ -101,24 +102,24 @@ public class OptionsUI : MonoBehaviour
 
     private void UpdateVisual()
     {
-        _soundEffectsText.text = Localizer.Instance.GetMessage(LocalizationKeys.SOUND_EFFECTS_KEY) + ": " + Mathf.Round(SoundManager.Instance.GetVolume()* 10f);
-        _musicText.text = Localizer.Instance.GetMessage(LocalizationKeys.MUSIC_KEY) + ": " + Mathf.Round(MusicManager.Instance.GetVolume()* 10f);
-        _languageText.text = Localizer.Instance.GetMessage(LocalizationKeys.LANGUAGE_KEY) + ": " + Localizer.Instance.GetMessage(_languagesDict[_localizationManager.GetCurrentLanguageIndex()]);
+        _soundEffectsText.text = _localizer.GetMessage(LocalizationKeys.SOUND_EFFECTS_KEY) + ": " + Mathf.Round(SoundManager.Instance.GetVolume()* 10f);
+        _musicText.text = _localizer.GetMessage(LocalizationKeys.MUSIC_KEY) + ": " + Mathf.Round(MusicManager.Instance.GetVolume()* 10f);
+        _languageText.text = _localizer.GetMessage(LocalizationKeys.LANGUAGE_KEY) + ": " + _localizer.GetMessage(_languagesDict[_localizationManager.GetCurrentLanguageIndex()]);
         
         if(_isFootstepsOn)
         {
-            _footstepsText.text = Localizer.Instance.GetMessage(LocalizationKeys.FOOTSTEPS_KEY) + " " + Localizer.Instance.GetMessage(LocalizationKeys.ON_KEY);
+            _footstepsText.text = _localizer.GetMessage(LocalizationKeys.FOOTSTEPS_KEY) + " " + _localizer.GetMessage(LocalizationKeys.ON_KEY);
         }
         else
         {
-            _footstepsText.text = Localizer.Instance.GetMessage(LocalizationKeys.FOOTSTEPS_KEY) + " " + Localizer.Instance.GetMessage(LocalizationKeys.OFF_KEY);
+            _footstepsText.text = _localizer.GetMessage(LocalizationKeys.FOOTSTEPS_KEY) + " " + _localizer.GetMessage(LocalizationKeys.OFF_KEY);
         }
     }
 
     private void LocalizeStrings()
     {
-        _optionsText.text = Localizer.Instance.GetMessage(LocalizationKeys.OPTIONS_KEY);
-        _closeText.text = Localizer.Instance.GetMessage(LocalizationKeys.CLOSE_KEY);
+        _optionsText.text = _localizer.GetMessage(LocalizationKeys.OPTIONS_KEY);
+        _closeText.text = _localizer.GetMessage(LocalizationKeys.CLOSE_KEY);
     }
 
     public void Show()

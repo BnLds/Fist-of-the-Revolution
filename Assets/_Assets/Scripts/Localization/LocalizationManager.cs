@@ -22,6 +22,7 @@ public class LocalizationManager : MonoBehaviour
     [HideInInspector] public UnityEvent OnLanguageChanged;
 
     private int _currentLanguageIndex = 0;
+    private LocalizationSettings _localizationSettings;
 
     private void Start()
     {
@@ -31,51 +32,45 @@ public class LocalizationManager : MonoBehaviour
     private IEnumerator Initialization()
     {
         yield return LocalizationSettings.InitializationOperation;
+        _localizationSettings = LocalizationSettings.Instance;
         if(PlayerPrefs.HasKey(PLAYER_PREF_LANGUAGE_KEY))
         {
             int languageIndex = PlayerPrefs.GetInt(PLAYER_PREF_LANGUAGE_KEY);
-            ChangeLanguage(languageIndex);
+            SetPlayerLanguagePref(languageIndex);
         }
-
-        OnLocalTableLoaded?.Invoke();
+        else
+        {
+            SetPlayerLanguagePref(_currentLanguageIndex);
+        }
     }
 
-    private IEnumerator InitNewTable()
+    private IEnumerator InitLocaleTable()
     {
         yield return LocalizationSettings.InitializationOperation;
-        OnLanguageChanged?.Invoke();
-    }
-
-    public string InitializeLocalizedString(string key)
-    {
-        var op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LOCALIZATION_TABLE, key);
-        return op.Result;
+        _localizationSettings = LocalizationSettings.Instance;
+        OnLanguageChanged.Invoke();
     }
 
     public string UpdateLocalizedString(string key)
     {
-        var op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LOCALIZATION_TABLE, key);
+        var op = _localizationSettings.GetStringDatabase().GetLocalizedStringAsync(LOCALIZATION_TABLE, key);
         return op.Result;
     }
 
-    private void ChangeLanguage(int languageIndex)
+    private void SetPlayerLanguagePref(int languageIndex)
     {
-        LoadPlayerLanguagePref(languageIndex);
         _currentLanguageIndex = languageIndex;
-    }
 
-    private void LoadPlayerLanguagePref(int languageIndex)
-    {
-        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[languageIndex];
+        _localizationSettings.SetSelectedLocale(LocalizationSettings.AvailableLocales.Locales[languageIndex]);
         PlayerPrefs.SetInt(PLAYER_PREF_LANGUAGE_KEY, languageIndex);
         PlayerPrefs.Save();
-        StartCoroutine(InitNewTable());
+        StartCoroutine(InitLocaleTable());
     }
 
     public void SelectNextLanguage()
     {
         int newIndex = (_currentLanguageIndex+1) % LocalizationSettings.AvailableLocales.Locales.Count;
-        ChangeLanguage(newIndex);
+        SetPlayerLanguagePref(newIndex);
     }
 
     public int GetCurrentLanguageIndex()

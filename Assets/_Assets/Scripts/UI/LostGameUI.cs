@@ -11,6 +11,8 @@ public class LostGameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _lostText;
     [SerializeField] private InputFieldUI _inputFieldUI;
 
+    private Localizer _localizer;
+
     private void Awake()
     {
         _retryButton.onClick.AddListener(() => 
@@ -27,6 +29,8 @@ public class LostGameUI : MonoBehaviour
 
     private void Start()
     {
+        _localizer = Localizer.Instance;
+
         PoliceResponseManager.Instance.OnPlayerCaught.AddListener(() =>
         {
             Show();
@@ -37,9 +41,9 @@ public class LostGameUI : MonoBehaviour
 
     private void SetStrings()
     {
-        _retryText.text = Localizer.Instance.GetMessage(LocalizationKeys.RETRY_KEY);
-        _mainMenuText.text = Localizer.Instance.GetMessage(LocalizationKeys.MAIN_MENU_KEY);
-        _lostText.text = Localizer.Instance.GetMessage(LocalizationKeys.LOST_KEY);
+        _retryText.text = _localizer.GetMessage(LocalizationKeys.RETRY_KEY);
+        _mainMenuText.text = _localizer.GetMessage(LocalizationKeys.MAIN_MENU_KEY);
+        _lostText.text = _localizer.GetMessage(LocalizationKeys.LOST_KEY);
     }
 
     private void Show()

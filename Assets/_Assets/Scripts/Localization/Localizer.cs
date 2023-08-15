@@ -24,18 +24,7 @@ public class Localizer : MonoBehaviour
 
     private void Start()
     {
-        _localizationManager.OnLocalTableLoaded.AddListener(InitializeMessages);
         _localizationManager.OnLanguageChanged.AddListener(UpdateMessages);
-    }
-
-    private void InitializeMessages()
-    {
-        for (int i = 0; i < _localTablesSO._localTablesList.Count; i++)
-        {
-            _localTablesSO._localTablesList[i].Message = _localizationManager.InitializeLocalizedString(_localTablesSO._localTablesList[i].LocalizationKey);
-        }
-
-        LocalizationLoaded?.Invoke();
     }
 
     private void UpdateMessages()

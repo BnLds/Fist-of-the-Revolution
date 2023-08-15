@@ -10,6 +10,8 @@ public class HighscoreUI : MonoBehaviour
 
     private int _leaderboardEntriesCount;
     private LeaderboardColumnTemplateUI _column2;
+    private Localizer _localizer;
+
 
     private void Awake()
     {
@@ -18,6 +20,8 @@ public class HighscoreUI : MonoBehaviour
 
     private void Start()
     {
+        _localizer = Localizer.Instance;
+
         foreach(Transform child in _columnsContainer)
         {
             if(child != _columnTemplateUI.transform)
@@ -67,6 +71,6 @@ public class HighscoreUI : MonoBehaviour
 
     private void LocalizeTexts()
     {
-        _leaderboardText.text = Localizer.Instance.GetMessage(LocalizationKeys.HIGHSCORES_KEY);
+        _leaderboardText.text = _localizer.GetMessage(LocalizationKeys.HIGHSCORES_KEY);
     }
 }

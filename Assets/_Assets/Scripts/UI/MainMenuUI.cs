@@ -15,6 +15,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private OptionsUI _optionsUI;
     [SerializeField] private CreditsUI _creditsUI;
 
+    private Localizer _localizer;
+
     private void Awake()
     {
         _playButton.onClick.AddListener(() => 
@@ -47,7 +49,9 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
-        Localizer.Instance.LocalizationLoaded.AddListener(() => {
+        _localizer = Localizer.Instance;
+
+        _localizer.LocalizationLoaded.AddListener(() => {
             LocalizeStrings();
         });
 
@@ -64,9 +68,9 @@ public class MainMenuUI : MonoBehaviour
 
     private void LocalizeStrings()
     {
-        _optionsText.text = Localizer.Instance.GetMessage(LocalizationKeys.OPTIONS_KEY);
-        _quitText.text = Localizer.Instance.GetMessage(LocalizationKeys.QUIT_KEY);
-        _playText.text = Localizer.Instance.GetMessage(LocalizationKeys.PLAY_KEY);
-        _creditsText.text = Localizer.Instance.GetMessage(LocalizationKeys.CREDITS_KEY);
+        _optionsText.text = _localizer.GetMessage(LocalizationKeys.OPTIONS_KEY);
+        _quitText.text = _localizer.GetMessage(LocalizationKeys.QUIT_KEY);
+        _playText.text = _localizer.GetMessage(LocalizationKeys.PLAY_KEY);
+        _creditsText.text = _localizer.GetMessage(LocalizationKeys.CREDITS_KEY);
     }
 }

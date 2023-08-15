@@ -38,8 +38,6 @@ public class FollowSuspect : BaseState
         //check if current target in within line of site and is not the attacker
         if(hasTarget && canDetectTarget && suspectIsNotAttacker)
         {
-            //clear the target from suspicion
-            Debug.Log("suspect no longer suspected: " + _policeUnitSM.PoliceUnitData.CurrentTarget);
             //remove current tracked suspect from suspects list
             PoliceResponseManager.Instance.ClearTrackedSuspect(_policeUnitSM.PoliceUnitData.CurrentTarget);
             _policeUnitSM.PoliceUnitData.CurrentTarget = null;
